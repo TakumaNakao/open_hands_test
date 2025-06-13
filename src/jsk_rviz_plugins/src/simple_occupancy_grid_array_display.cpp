@@ -44,12 +44,12 @@ namespace jsk_rviz_plugins
 {
   SimpleOccupancyGridArrayDisplay::SimpleOccupancyGridArrayDisplay()
   {
-    auto_color_property_ = new rviz::BoolProperty(
+    auto_color_property_ = new rviz_common::properties::BoolProperty(
       "Auto Color", true,
       "Auto coloring",
       this, SLOT(updateAutoColor()));
     
-    alpha_property_ = new rviz::FloatProperty(
+    alpha_property_ = new rviz_common::properties::FloatProperty(
       "Alpha", 1.0,
       "Amount of transparency to apply to the polygon.",
       this, SLOT(updateAlpha()));

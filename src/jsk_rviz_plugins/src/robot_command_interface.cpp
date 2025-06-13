@@ -1,12 +1,12 @@
 #include <stdio.h>
 
-#include "rviz/config.h"
+#include <rviz_common/config.hpp>
 #include "robot_command_interface.h"
-#include "ros/time.h"
-#include <ros/package.h>
+#include <rclcpp/rclcpp.hpp>
+#include <ament_index_cpp/get_package_share_directory.hpp>
 #include <boost/format.hpp>
 #include <exception>
-#include <std_srvs/Empty.h>
+#include <std_srvs/srv/empty.hpp>
 
 namespace jsk_rviz_plugins
 {
@@ -19,7 +19,7 @@ namespace jsk_rviz_plugins
   };
 
   RobotCommandInterfaceAction::RobotCommandInterfaceAction( QWidget* parent )
-    : rviz::Panel( parent )
+    : rviz_common::Panel( parent )
   {
     resource_retriever::Retriever r;
     signal_mapper_ = new QSignalMapper(this);

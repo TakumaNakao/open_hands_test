@@ -1,12 +1,11 @@
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreSceneManager.h>
 
-#include <tf/transform_listener.h>
+#include <tf2_ros/transform_listener.h>
 
-#include <rviz/visualization_manager.h>
-#include <rviz/properties/property.h>
-#include <rviz/properties/property_manager.h>
-#include <rviz/frame_manager.h>
+#include <rviz_common/visualization_manager.hpp>
+#include <rviz_common/properties/property.hpp>
+#include <rviz_common/frame_manager_iface.hpp>
 
 #include "ambient_sound_visual.h"
 
@@ -19,7 +18,7 @@ namespace jsk_rviz_plugins
     // The constructor must have no arguments, so we can't give the
     // constructor the parameters it needs to fully initialize.
     AmbientSoundDisplay::AmbientSoundDisplay()/*{{{*/
-        : Display()
+        : rviz_common::MessageFilterDisplay()
           , scene_node_( NULL )
           , messages_received_( 0 )
           , color_( .8, .2, .8 )       // Default color is bright purple.

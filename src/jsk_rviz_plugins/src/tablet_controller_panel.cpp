@@ -39,7 +39,7 @@
 #include <Eigen/Geometry>
 namespace jsk_rviz_plugins
 {
-  TabletCmdVelArea::TabletCmdVelArea(QWidget* parent, ros::Publisher& pub_cmd_vel):
+  TabletCmdVelArea::TabletCmdVelArea(QWidget* parent, rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_cmd_vel):
     QWidget(parent), mouse_x_(-1), mouse_y_(-1), pub_cmd_vel_(pub_cmd_vel)
   {
     setBackgroundRole(QPalette::Base);
