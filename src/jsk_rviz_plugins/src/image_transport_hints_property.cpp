@@ -4,9 +4,9 @@ namespace jsk_rviz_plugins {
 
 ImageTransportHintsProperty::ImageTransportHintsProperty(const char* name,
                                                          const char* description,
-                                                         rviz::Property* parent,
+                                                         rviz_common::properties::Property* parent,
                                                          const char* changed_slot)
-    : rviz::EditableEnumProperty(name, "raw", description, parent, changed_slot) {
+    : rviz_common::properties::EditableEnumProperty(name, "raw", description, parent, changed_slot) {
   addOptionStd("raw");
   addOptionStd("compressed");
   addOptionStd("theora");
@@ -14,8 +14,8 @@ ImageTransportHintsProperty::ImageTransportHintsProperty(const char* name,
 
 ImageTransportHintsProperty::~ImageTransportHintsProperty() {}
 
-image_transport::TransportHints ImageTransportHintsProperty::getTransportHints() {
-  return image_transport::TransportHints(getStdString());
+std::string ImageTransportHintsProperty::getTransportHints() {
+  return getStdString();
 }
 
 }

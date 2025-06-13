@@ -5,15 +5,15 @@
 #include <QTabWidget>
 #include <QCheckBox>
 #include <QLabel>
-#include <ros/package.h>
+#include <ament_index_cpp/get_package_share_directory.hpp>
 
 #include "object_fit_operator.h"
 
-using namespace rviz;
+using namespace rviz_common;
 namespace jsk_rviz_plugins
 {
   ObjectFitOperatorAction::ObjectFitOperatorAction( QWidget* parent )
-    : rviz::Panel( parent )
+    : rviz_common::Panel( parent )
   {
     layout = new QVBoxLayout;
 
@@ -22,9 +22,11 @@ namespace jsk_rviz_plugins
 
     //Button to send cancel topic
     std::string fit_button_name, reverse_fit_button_name, near_button_name, other_button_name;
-    nh_.param<std::string>("/object_fit_icon", fit_button_name, ros::package::getPath("jsk_rviz_plugins")+std::string("/icons/fit.jpg"));
-    nh_.param<std::string>("/object_near_icon", near_button_name, ros::package::getPath("jsk_rviz_plugins")+std::string("/icons/near.jpg"));
-    nh_.param<std::string>("/object_other_icon", other_button_name, ros::package::getPath("jsk_rviz_plugins")+std::string("/icons/other.jpg"));
+    // ROS2: Use ament_index to get package path
+    std::string package_path = ament_index_cpp::get_package_share_directory("jsk_rviz_plugins");
+    fit_button_name = package_path + "/icons/fit.jpg";
+    near_button_name = package_path + "/icons/near.jpg";
+    other_button_name = package_path + "/icons/other.jpg";
 
     QSize iconSize(150, 150);
     fit_button_ = new QToolButton();

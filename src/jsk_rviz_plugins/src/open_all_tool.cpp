@@ -33,19 +33,19 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-#include <ros/ros.h>
-#include <rviz/tool_manager.h>
-#include <rviz/display_context.h>
-#include <rviz/view_manager.h>
-#include <rviz/display_group.h>
-#include <rviz/display.h>
+#include <rclcpp/rclcpp.hpp>
+#include <rviz_common/tool_manager.hpp>
+#include <rviz_common/display_context.hpp>
+#include <rviz_common/view_manager.hpp>
+#include <rviz_common/display_group.hpp>
+#include <rviz_common/display.hpp>
 #include "open_all_tool.h"
 
 
 namespace jsk_rviz_plugins
 {
   OpenAllTool::OpenAllTool()
-    : rviz::Tool()
+    : rviz_common::Tool()
   {
 
   }
@@ -60,7 +60,7 @@ namespace jsk_rviz_plugins
   }
 
   void OpenAllTool::openProperty(
-    rviz::Property* property)
+    rviz_common::properties::Property* property)
   {
     property->expand();
     if (property->numChildren() > 0) {
@@ -73,9 +73,9 @@ namespace jsk_rviz_plugins
   
   void OpenAllTool::activate()
   {
-    rviz::DisplayGroup* display_group = context_->getRootDisplayGroup();
+    rviz_common::DisplayGroup* display_group = context_->getRootDisplayGroup();
     openProperty(display_group);
-    rviz::ToolManager* tool_manager = context_->getToolManager();
+    rviz_common::ToolManager* tool_manager = context_->getToolManager();
     tool_manager->setCurrentTool(tool_manager->getTool(0));
   }
 
@@ -86,5 +86,5 @@ namespace jsk_rviz_plugins
 
 }
 
-#include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::OpenAllTool, rviz::Tool )
+#include <pluginlib/class_list_macros.hpp>
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::OpenAllTool, rviz_common::Tool )
