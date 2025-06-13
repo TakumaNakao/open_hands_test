@@ -36,49 +36,50 @@ namespace jsk_rviz_plugins
   }
 
   void EmptyServiceCallInterfaceAction::parseROSParameters(){
-    ros::NodeHandle nh("~");
-
-    //icon file package file_name
-    std::string icon_package_name;
-    nh.param<std::string>("icon_include_package", icon_package_name, std::string("jsk_rviz_plugins"));
-    ROS_INFO("Find Icons In %s package.", icon_package_name.c_str());
+    // TODO: ROS2 - Replace with proper parameter handling
+    // For now, add default buttons
+    
+    std::string icon_package_name = "jsk_rviz_plugins";
+    RCLCPP_INFO(rclcpp::get_logger("empty_service_call_interface"), "Find Icons In %s package.", icon_package_name.c_str());
 
     std::string icon_path_prefix;
-    if(!icon_package_name.empty())
-      icon_path_prefix = ros::package::getPath(icon_package_name) + std::string("/icons/");
+    try {
+      icon_path_prefix = ament_index_cpp::get_package_share_directory(icon_package_name) + "/icons/";
+    } catch (const std::exception& e) {
+      RCLCPP_WARN(rclcpp::get_logger("empty_service_call_interface"), "Package %s not found, using default path", icon_package_name.c_str());
+      icon_path_prefix = "/tmp/";
+    }
 
-    XmlRpc::XmlRpcValue buttons_list;
-    nh.getParam("rviz_service_call/buttons", buttons_list);
-    for (int32_t i = 0; i < buttons_list.size(); ++i)
-      {
-        ServiceCallButtonInfo new_button;
-        new_button.icon_file_path = icon_path_prefix + static_cast<std::string>(buttons_list[i]["icon"]);
-        new_button.service_name = static_cast<std::string>(buttons_list[i]["service_name"]);
-        new_button.text = static_cast<std::string>(buttons_list[i]["text"]);
-        service_call_button_infos_.push_back(new_button);
-      }
+    // TODO: ROS2 - Replace with parameter client
+    // For now, add default service buttons
+    ServiceCallButtonInfo default_button;
+    default_button.icon_file_path = icon_path_prefix + "default.png";
+    default_button.service_name = "/empty_service";
+    default_button.text = "Call Service";
+    service_call_button_infos_.push_back(default_button);
   };
 
   void EmptyServiceCallInterfaceAction::callRequestEmptyCommand(const int button_id){
-    ros::ServiceClient client = nh_.serviceClient<std_srvs::Empty>(service_call_button_infos_[button_id].service_name, true);
-    std_srvs::Empty srv;
-    if(client.call(srv))
-      ROS_INFO("Call Success");
-    else{
-      ROS_ERROR("Service call FAIL");
-    };
+    // TODO: ROS2 - Replace with proper service client
+    // auto node = context_->getRosNodeAbstraction().lock()->get_raw_node();
+    // auto client = node->create_client<std_srvs::srv::Empty>(service_call_button_infos_[button_id].service_name);
+    // auto request = std::make_shared<std_srvs::srv::Empty::Request>();
+    // auto future = client->async_send_request(request);
+    
+    RCLCPP_INFO(rclcpp::get_logger("empty_service_call_interface"), "Service call requested for: %s", 
+                service_call_button_infos_[button_id].service_name.c_str());
   }
 
-  void EmptyServiceCallInterfaceAction::save( rviz::Config config ) const
+  void EmptyServiceCallInterfaceAction::save( rviz_common::Config config ) const
   {
-    rviz::Panel::save( config );
+    rviz_common::Panel::save( config );
   }
 
-  void EmptyServiceCallInterfaceAction::load( const rviz::Config& config )
+  void EmptyServiceCallInterfaceAction::load( const rviz_common::Config& config )
   {
-    rviz::Panel::load( config );
+    rviz_common::Panel::load( config );
   }
 }
 
-#include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::EmptyServiceCallInterfaceAction, rviz::Panel )
+#include <pluginlib/class_list_macros.hpp>
+PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::EmptyServiceCallInterfaceAction, rviz_common::Panel )

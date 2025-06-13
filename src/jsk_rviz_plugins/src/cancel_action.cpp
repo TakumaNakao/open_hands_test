@@ -50,21 +50,26 @@ namespace jsk_rviz_plugins
 
   void CancelAction::initComboBox(){
     add_topic_box_->addItem("");
-    ros::master::V_TopicInfo topics;
-    ros::master::getTopics (topics);
-    ros::master::V_TopicInfo::iterator it = topics.begin();
-    while( it != topics.end()){
-      if(it->datatype == "actionlib_msgs/GoalID"){
-	std::string action_name = it->name;
-	std::string delete_string = "/cancel";
-	std::string::size_type index = action_name.find_last_of(delete_string);
-	if(index != std::string::npos){
-	  action_name.erase(index - delete_string.length() + 1);
-	  add_topic_box_->addItem(action_name.c_str());
-	}
+    
+    // TODO: ROS2 - Replace with proper action discovery
+    // In ROS2, actions use different topic structure
+    // For now, add common action names manually
+    add_topic_box_->addItem("/move_base");
+    add_topic_box_->addItem("/navigation");
+    add_topic_box_->addItem("/manipulation");
+    
+    /* ROS2 topic discovery would look like:
+    auto node = context_->getRosNodeAbstraction().lock()->get_raw_node();
+    auto topic_names_and_types = node->get_topic_names_and_types();
+    for (const auto& topic_info : topic_names_and_types) {
+      // Look for action topics ending with /_action/cancel_goal
+      if (topic_info.first.find("/_action/cancel_goal") != std::string::npos) {
+        std::string action_name = topic_info.first;
+        action_name = action_name.substr(0, action_name.find("/_action/cancel_goal"));
+        add_topic_box_->addItem(action_name.c_str());
       }
-      it ++;
     }
+    */
   }
 
 
@@ -130,17 +135,17 @@ namespace jsk_rviz_plugins
   void CancelAction::sendTopic(){
     std::vector<topicListLayout>::iterator it = topic_list_layouts_.begin();
     while( it != topic_list_layouts_.end()){
-      actionlib_msgs::GoalID msg;
+      action_msgs::msg::GoalInfo msg;
       it->publisher_.publish(msg);
       it++;
     }
   }
 
-  void CancelAction::save( rviz::Config config ) const
+  void CancelAction::save( rviz_common::Config config ) const
   {
-    rviz::Panel::save( config );
+    rviz_common::Panel::save( config );
 
-    rviz::Config topic_list_config = config.mapMakeChild( "topics" );
+    rviz_common::Config topic_list_config = config.mapMakeChild( "topics" );
 
     std::vector<topicListLayout>::const_iterator it = topic_list_layouts_.begin();
     while( it != topic_list_layouts_.end()){
@@ -151,10 +156,10 @@ namespace jsk_rviz_plugins
   }
 
   // Load all configuration data for this panel from the given Config object.
-  void CancelAction::load( const rviz::Config& config )
+  void CancelAction::load( const rviz_common::Config& config )
   {
-    rviz::Panel::load( config );
-    rviz::Config topic_list_config = config.mapGetChild( "topics" );
+    rviz_common::Panel::load( config );
+    rviz_common::Config topic_list_config = config.mapGetChild( "topics" );
     int num_topics = topic_list_config.listLength();
 
     for( int i = 0; i < num_topics; i++ ) {
@@ -165,4 +170,4 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::CancelAction, rviz::Panel )
+PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::CancelAction, rviz_common::Panel )

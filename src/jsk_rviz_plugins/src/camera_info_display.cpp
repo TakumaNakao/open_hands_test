@@ -109,34 +109,34 @@ namespace jsk_rviz_plugins
     ////////////////////////////////////////////////////////
     // initialize properties
     ////////////////////////////////////////////////////////
-    far_clip_distance_property_ = new rviz::FloatProperty(
+    far_clip_distance_property_ = new rviz_common::properties::FloatProperty(
       "far clip",
       1.0,
       "far clip distance from the origin of camera info",
       this, SLOT(updateFarClipDistance()));
-    show_edges_property_ = new rviz::BoolProperty(
+    show_edges_property_ = new rviz_common::properties::BoolProperty(
       "show edges",
       true,
       "show edges of the region of the camera info",
       this, SLOT(updateShowEdges()));
-    show_polygons_property_ = new rviz::BoolProperty(
+    show_polygons_property_ = new rviz_common::properties::BoolProperty(
       "show polygons",
       true,
       "show polygons of the region of the camera info",
       this, SLOT(updateShowPolygons()));
-    not_show_side_polygons_property_ = new rviz::BoolProperty(
+    not_show_side_polygons_property_ = new rviz_common::properties::BoolProperty(
       "not show side polygons",
       true,
       "do not show polygons of the region of the camera info",
       this, SLOT(updateNotShowSidePolygons()));
-    use_image_property_ = new rviz::BoolProperty(
+    use_image_property_ = new rviz_common::properties::BoolProperty(
       "use image",
       false,
       "use image as texture",
       this, SLOT(updateUseImage()));
-    image_topic_property_ = new rviz::RosTopicProperty(
+    image_topic_property_ = new rviz_common::properties::RosTopicProperty(
       "Image Topic", "",
-      ros::message_traits::datatype<sensor_msgs::Image>(),
+      QString::fromStdString(rosidl_generator_traits::data_type<sensor_msgs::msg::Image>()),
       "sensor_msgs::Image topic to subscribe to.",
       this, SLOT( updateImageTopic() ));
     image_topic_property_->hide();
@@ -202,7 +202,7 @@ namespace jsk_rviz_plugins
   }
 
   void CameraInfoDisplay::processMessage(
-    const sensor_msgs::CameraInfo::ConstPtr& msg)
+    const sensor_msgs::msg::CameraInfo::ConstSharedPtr& msg)
   {
     if (!isSameCameraInfo(msg)) {
       createCameraInfoShapes(msg);
@@ -229,7 +229,7 @@ namespace jsk_rviz_plugins
 
   void CameraInfoDisplay::update(float wall_dt, float ros_dt)
   {
-    boost::mutex::scoped_lock lock(mutex_);
+    std::lock_guard<std::mutex> lock(mutex_);
     if (image_updated_) {
       ROS_DEBUG("image updated");
       if (!bottom_texture_.isNull()) {
@@ -240,7 +240,7 @@ namespace jsk_rviz_plugins
   }
 
   bool CameraInfoDisplay::isSameCameraInfo(
-    const sensor_msgs::CameraInfo::ConstPtr& msg)
+    const sensor_msgs::msg::CameraInfo::ConstSharedPtr& msg)
   {
     if (camera_info_) {
       bool meta_same_p =
@@ -365,12 +365,12 @@ namespace jsk_rviz_plugins
 
     image_sub_.shutdown();
     if (topic.empty()) {
-      ROS_WARN("topic name is empty");
+      RCLCPP_WARN(rclcpp::get_logger("camera_info_display"),("topic name is empty");
     }
-    ros::NodeHandle nh;
-    image_transport::ImageTransport it(nh);
-    image_sub_ = it.subscribe(topic, 1, &CameraInfoDisplay::imageCallback, this,
-                              image_transport_hints_property_->getTransportHints());
+    // TODO: ROS2 - Replace with image_transport ROS2 API
+    // auto node = context_->getRosNodeAbstraction().lock()->get_raw_node();
+    // image_transport::ImageTransport it(node);
+    // image_sub_ = it.subscribe(topic, 1, &CameraInfoDisplay::imageCallback, this);
   }
 
   void CameraInfoDisplay::drawImageTexture()
@@ -412,9 +412,9 @@ namespace jsk_rviz_plugins
 
   // convert sensor_msgs::Image into cv::Mat
   void CameraInfoDisplay::imageCallback(
-      const sensor_msgs::Image::ConstPtr& msg)
+      const sensor_msgs::msg::Image::ConstSharedPtr& msg)
   {
-    boost::mutex::scoped_lock lock(mutex_);
+    std::lock_guard<std::mutex> lock(mutex_);
     cv_bridge::CvImageConstPtr cv_ptr;
     if (!camera_info_) {
       return;
@@ -494,7 +494,7 @@ namespace jsk_rviz_plugins
   }
 
   void CameraInfoDisplay::createCameraInfoShapes(
-    const sensor_msgs::CameraInfo::ConstPtr& msg)
+    const sensor_msgs::msg::CameraInfo::ConstSharedPtr& msg)
   {
     polygons_.clear();
     if (edges_) {
@@ -503,8 +503,8 @@ namespace jsk_rviz_plugins
     image_geometry::PinholeCameraModel model;
     bool model_success_p = model.fromCameraInfo(msg);
     if (!model_success_p) {
-      setStatus(rviz::StatusProperty::Error, "Camera Info", "Failed to create camera model from msg");
-      ROS_ERROR("failed to create camera model");
+      setStatus(rviz_common::properties::StatusProperty::Error, "Camera Info", "Failed to create camera model from msg");
+      RCLCPP_ERROR(rclcpp::get_logger("camera_info_display"), "failed to create camera model");
       return;
     }
     // fx and fy should not be equal 0.
