@@ -2,15 +2,15 @@
 #define ROBOT_COMMAND_INTERFACE_H
 
 #ifndef Q_MOC_RUN
-#include <ros/ros.h>
-#include <rviz/panel.h>
+#include <ros/ros.hpp>
+#include <rviz/panel.hpp>
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 #  include <QtWidgets>
 #else
 #  include <QtGui>
 #endif
-#include <jsk_rviz_plugins/EusCommand.h>
-#include <resource_retriever/retriever.h>
+#include <jsk_rviz_plugins/EusCommand.hpp>
+#include <resource_retriever/retriever.hpp>
 #endif
 
 namespace jsk_rviz_plugins

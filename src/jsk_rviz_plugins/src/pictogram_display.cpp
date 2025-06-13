@@ -59,7 +59,7 @@ namespace jsk_rviz_plugins
     int id =
       QFontDatabase::addApplicationFontFromData(entypo);
     if (id == -1) {
-      ROS_WARN("failed to load font");
+      RCLCPP_WARN("failed to load font");
     }
     return id;
   }
@@ -136,7 +136,7 @@ namespace jsk_rviz_plugins
     // for (std::map<std::string, QString>::iterator it = fontawesome_character_map.begin();
     //      it != fontawesome_character_map.end();
     //      ++it) {
-    //   ROS_INFO("%s", it->first.c_str());
+    //   RCLCPP_INFO("%s", it->first.c_str());
     // }
   }
 
@@ -150,7 +150,7 @@ namespace jsk_rviz_plugins
 
   void PictogramObject::start()
   {
-    time_ = ros::WallTime::now();
+    time_ = rclcpp::Clock::now();
   }
 
   void PictogramObject::setSize(double size)
@@ -173,7 +173,7 @@ namespace jsk_rviz_plugins
     frame_id_ = frame_id;
   }
   
-  void PictogramObject::setContext(rviz::DisplayContext* context)
+  void PictogramObject::setContext(rviz_common::DisplayContext* context)
   {
     context_ = context;
   }
@@ -209,7 +209,7 @@ namespace jsk_rviz_plugins
                                                pose_,
                                                position,
                                                quaternion)) {
-      ROS_ERROR( "Error transforming pose from frame '%s'",
+      RCLCPP_ERROR( "Error transforming pose from frame '%s'",
                  frame_id_.c_str());
       return;
     }
@@ -231,7 +231,7 @@ namespace jsk_rviz_plugins
       else if (action_ == jsk_rviz_plugins::Pictogram::ROTATE_Y) {
         axis = Ogre::Vector3(0, 1, 0);
       }
-      time_ = time_ + ros::WallDuration(wall_dt);
+      time_ = time_ + rclcpp::Duration(wall_dt);
       // time_ -> theta
       Ogre::Radian theta(M_PI * 2 * fmod(time_.toSec() * speed_, 1.0));
       
@@ -248,7 +248,7 @@ namespace jsk_rviz_plugins
         jumpingp = true;
       }
       else if (action_ == jsk_rviz_plugins::Pictogram::JUMP_ONCE &&
-               (ros::WallTime::now() - time_).toSec() < 2) {
+               (rclcpp::Clock::now() - time_).toSec() < 2) {
         jumpingp = true;
       }
       
@@ -257,7 +257,7 @@ namespace jsk_rviz_plugins
       }
       else {
         // t(2-t) * size
-        double t = fmod((ros::WallTime::now() - time_).toSec(), 2.0);
+        double t = fmod((rclcpp::Clock::now() - time_).toSec(), 2.0);
         double height = size_ * t * (2 - t);
         Ogre::Vector3 new_pos = position + quaternion * Ogre::Vector3(height, 0, 0);
         setPosition(new_pos);
@@ -266,9 +266,9 @@ namespace jsk_rviz_plugins
     }
 
     double exceeded_time;
-    if( ttl_ && (exceeded_time = (ros::WallTime::now() - time_).toSec()) > ttl_) {
-      setAlpha( std::max(1.0 - 1.0 * (ros::WallTime::now() - (time_ + ros::WallDuration(ttl_))).toSec() / 5.0, 0.0) );
-      if( 1.0 - 1.0 * (ros::WallTime::now() - (time_ + ros::WallDuration(ttl_))).toSec() / 3.0 < 0)
+    if( ttl_ && (exceeded_time = (rclcpp::Clock::now() - time_).toSec()) > ttl_) {
+      setAlpha( std::max(1.0 - 1.0 * (rclcpp::Clock::now() - (time_ + rclcpp::Duration(ttl_))).toSec() / 5.0, 0.0) );
+      if( 1.0 - 1.0 * (rclcpp::Clock::now() - (time_ + rclcpp::Duration(ttl_))).toSec() / 3.0 < 0)
 	setAction(jsk_rviz_plugins::Pictogram::DELETE);
     }
   }
@@ -293,7 +293,7 @@ namespace jsk_rviz_plugins
     QImage Hud = buffer.getQImage(128, 128, transparent); // should change according to size
     QPainter painter( &Hud );
     painter.setRenderHint(QPainter::Antialiasing, true);
-    QColor foreground = rviz::ogreToQt(color_);
+    QColor foreground = rviz_rendering::ogreToQt(color_);
     painter.setPen(QPen(foreground, 5, Qt::SolidLine));
     
     if (isCharacterSupported(text_) && mode_ == jsk_rviz_plugins::Pictogram::PICTOGRAM_MODE) {
@@ -321,7 +321,7 @@ namespace jsk_rviz_plugins
       painter.end();
     }
     else {
-      ROS_WARN("%s is not supported", text_.c_str());
+      RCLCPP_WARN("%s is not supported", text_.c_str());
     }
   }
 
@@ -443,4 +443,4 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS (jsk_rviz_plugins::PictogramDisplay, rviz::Display);
+PLUGINLIB_EXPORT_CLASS (jsk_rviz_plugins::PictogramDisplay, rviz_common::Display);

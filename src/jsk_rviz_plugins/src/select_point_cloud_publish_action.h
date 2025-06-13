@@ -2,9 +2,9 @@
 #define SELECT_POINT_CLOUD_PUBLISH_ACTION_H
 
 #ifndef Q_MOC_RUN
-#include <ros/ros.h>
+#include <ros/ros.hpp>
 
-#include <rviz/panel.h>
+#include <rviz/panel.hpp>
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 #  include <QtWidgets>
 #else

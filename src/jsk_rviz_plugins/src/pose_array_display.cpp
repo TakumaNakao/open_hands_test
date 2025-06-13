@@ -48,13 +48,13 @@ namespace jsk_rviz_plugins
 PoseArrayDisplay::PoseArrayDisplay()
   : manual_object_( NULL )
 {
-  color_property_ = new rviz::ColorProperty( "Color", QColor( 255, 25, 0 ), "Color to draw the arrows.", this );
-  length_property_ = new rviz::FloatProperty( "Arrow Length", 0.3, "Length of the arrows.", this );
-  axes_length_property_ = new rviz::FloatProperty( "Axes Length", 1, "Length of each axis, in meters.",
+  color_property_ = new rviz_common::properties::ColorProperty( "Color", QColor( 255, 25, 0 ), "Color to draw the arrows.", this );
+  length_property_ = new rviz_common::properties::FloatProperty( "Arrow Length", 0.3, "Length of the arrows.", this );
+  axes_length_property_ = new rviz_common::properties::FloatProperty( "Axes Length", 1, "Length of each axis, in meters.",
                                              this, SLOT( updateAxisGeometry() ));
-  axes_radius_property_ = new rviz::FloatProperty( "Axes Radius", 0.1, "Radius of each axis, in meters.",
+  axes_radius_property_ = new rviz_common::properties::FloatProperty( "Axes Radius", 0.1, "Radius of each axis, in meters.",
                                              this, SLOT( updateAxisGeometry() ));
-  shape_property_ = new rviz::EnumProperty( "Shape", "Arrow", "Shape to display the pose as.",
+  shape_property_ = new rviz_common::properties::EnumProperty( "Shape", "Arrow", "Shape to display the pose as.",
                                       this, SLOT( updateShapeChoice() ));
   shape_property_->addOption( "Arrow", Arrow );
   shape_property_->addOption( "Axes", Axes );
@@ -130,7 +130,7 @@ void PoseArrayDisplay::allocateCoords(int num)
   if (num > coords_objects_.size()) {
     for (size_t i = coords_objects_.size(); i < num; i++) {
       Ogre::SceneNode* scene_node = scene_node_->createChildSceneNode();
-      rviz::Axes* axes = new rviz::Axes( scene_manager_, scene_node,
+      rviz_rendering::Axes* axes = new rviz_rendering::Axes( scene_manager_, scene_node,
                                         axes_length_property_->getFloat(),
                                         axes_radius_property_->getFloat());
       coords_nodes_.push_back(scene_node);
@@ -150,7 +150,7 @@ void PoseArrayDisplay::allocateCoords(int num)
 
 bool validateFloats( const geometry_msgs::PoseArray& msg )
 {
-  return rviz::validateFloats( msg.poses );
+  return std::isfinite( msg.poses );
 }
 
 void PoseArrayDisplay::processMessage( const geometry_msgs::PoseArray::ConstPtr& msg )
@@ -160,7 +160,7 @@ void PoseArrayDisplay::processMessage( const geometry_msgs::PoseArray::ConstPtr&
 #endif
   if( !validateFloats( *msg ))
   {
-    setStatus( rviz::StatusProperty::Error, "Topic", "Message contained invalid floating point values (nans or infs)" );
+    setStatus( rviz_common::properties::StatusProperty::Error, "Topic", "Message contained invalid floating point values (nans or infs)" );
     return;
   }
 
@@ -255,4 +255,4 @@ void PoseArrayDisplay::reset()
 } // namespace rviz
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::PoseArrayDisplay, rviz::Display )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::PoseArrayDisplay, rviz_common::Display )

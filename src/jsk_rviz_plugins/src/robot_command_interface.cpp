@@ -23,7 +23,7 @@ namespace jsk_rviz_plugins
   {
     resource_retriever::Retriever r;
     signal_mapper_ = new QSignalMapper(this);
-    ros::NodeHandle nh("~");
+    rclcpp::Node::SharedPtr nh("~");
     QHBoxLayout* layout = new QHBoxLayout();
     // Parse yaml file from parameter
     if (nh.hasParam("robot_command_buttons")) {
@@ -135,7 +135,7 @@ namespace jsk_rviz_plugins
 
   void RobotCommandInterfaceAction::buttonCallback(int i)
   {
-    ROS_INFO("buttonCallback(%d)", i);
+    RCLCPP_INFO("buttonCallback(%d)", i);
     if (euscommand_mapping_.find(i) != euscommand_mapping_.end()) {
       if(!callRequestEusCommand(euscommand_mapping_[i])) {
         popupDialog((boost::format("Failed to call %s") % euscommand_mapping_[i]).str().c_str());
@@ -162,4 +162,4 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::RobotCommandInterfaceAction, rviz::Panel )
+PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::RobotCommandInterfaceAction, rviz_common::Panel )

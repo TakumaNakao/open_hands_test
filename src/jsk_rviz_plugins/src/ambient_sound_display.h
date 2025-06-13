@@ -1,10 +1,10 @@
 #ifndef __AMBIENT_SOUND_DISPLAY__
 #define __AMBIENT_SOUND_DISPLAY__
 
-#include <message_filters/subscriber.h>
-#include <tf/message_filter.h>
-#include <jsk_hark_msgs/HarkPower.h>
-#include <rviz/display.h>
+#include <message_filters/subscriber.hpp>
+#include <tf/message_filter.hpp>
+#include <jsk_hark_msgs/HarkPower.hpp>
+#include <rviz_common/display.hpp>
 
 namespace Ogre
 {
@@ -18,7 +18,7 @@ namespace jsk_rviz_plugins
 
 class AmbientSoundVisual;
 
-class AmbientSoundDisplay: public rviz::Display
+class AmbientSoundDisplay: public rviz_common::Display
 {
 public:
   // Constructor.  pluginlib::ClassLoader creates instances by calling
@@ -102,14 +102,14 @@ private:
   float width_,scale_,bias_,grad_;
 
   // Property objects for user-editable properties.
-  rviz::ColorPropertyWPtr color_property_;
+  rviz_common::properties::ColorPropertyWPtr color_property_;
   rviz::ROSTopicStringPropertyWPtr topic_property_;
-  rviz::FloatPropertyWPtr alpha_property_;
-  rviz::IntPropertyWPtr history_length_property_;
-  rviz::FloatPropertyWPtr width_property_;
-  rviz::FloatPropertyWPtr scale_property_;
-  rviz::FloatPropertyWPtr bias_property_;
-  rviz::FloatPropertyWPtr grad_property_;
+  rviz_common::properties::FloatPropertyWPtr alpha_property_;
+  rviz_common::properties::IntPropertyWPtr history_length_property_;
+  rviz_common::properties::FloatPropertyWPtr width_property_;
+  rviz_common::properties::FloatPropertyWPtr scale_property_;
+  rviz_common::properties::FloatPropertyWPtr bias_property_;
+  rviz_common::properties::FloatPropertyWPtr grad_property_;
 };
 // END_TUTORIAL
 

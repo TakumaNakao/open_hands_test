@@ -39,18 +39,18 @@
 
 
 #ifndef Q_MOC_RUN
-#include <rviz/display.h>
-#include <rviz/message_filter_display.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/string_property.h>
-#include <rviz/properties/editable_enum_property.h>
-#include <rviz/properties/tf_frame_property.h>
-#include <rviz/properties/ros_topic_property.h>
-#include <rviz/properties/enum_property.h>
-#include <rviz/display_context.h>
-#include <rviz/frame_manager.h>
-#include <people_msgs/PositionMeasurementArray.h>
+#include <rviz_common/display.hpp>
+#include <rviz/message_filter_display.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz_common/properties/string_property.hpp>
+#include <rviz_common/properties/editable_enum_property.hpp>
+#include <rviz_common/properties/tf_frame_property.hpp>
+#include <rviz_common/properties/ros_topic_property.hpp>
+#include <rviz_common/properties/enum_property.hpp>
+#include <rviz/display_context.hpp>
+#include <rviz/frame_manager.hpp>
+#include <people_msgs/PositionMeasurementArray.hpp>
 #include "overlay_utils.h"
 #include "facing_visualizer.h"
 #endif
@@ -59,7 +59,7 @@ namespace jsk_rviz_plugins
 {
   
   class PeoplePositionMeasurementArrayDisplay:
-    public rviz::MessageFilterDisplay<people_msgs::PositionMeasurementArray>
+    public rviz_common::MessageFilterDisplay<people_msgs::PositionMeasurementArray>
   {
     Q_OBJECT
   public:
@@ -71,10 +71,10 @@ namespace jsk_rviz_plugins
     void processMessage(const people_msgs::PositionMeasurementArray::ConstPtr& msg);
     void update(float wall_dt, float ros_dt);
     void clearObjects();
-    rviz::FloatProperty* size_property_;
-    rviz::FloatProperty* timeout_property_;
-    rviz::BoolProperty* anonymous_property_;
-    rviz::StringProperty* text_property_;
+    rviz_common::properties::FloatProperty* size_property_;
+    rviz_common::properties::FloatProperty* timeout_property_;
+    rviz_common::properties::BoolProperty* anonymous_property_;
+    rviz_common::properties::StringProperty* text_property_;
     boost::mutex mutex_;
     double size_;
     double timeout_;

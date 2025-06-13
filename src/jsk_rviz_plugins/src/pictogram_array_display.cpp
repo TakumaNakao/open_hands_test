@@ -139,4 +139,4 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS (jsk_rviz_plugins::PictogramArrayDisplay, rviz::Display);
+PLUGINLIB_EXPORT_CLASS (jsk_rviz_plugins::PictogramArrayDisplay, rviz_common::Display);

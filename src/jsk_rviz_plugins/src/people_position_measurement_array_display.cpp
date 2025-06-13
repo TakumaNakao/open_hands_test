@@ -49,16 +49,16 @@ namespace jsk_rviz_plugins
 {
   PeoplePositionMeasurementArrayDisplay::PeoplePositionMeasurementArrayDisplay()
   {
-    size_property_ = new rviz::FloatProperty("size", 0.3,
+    size_property_ = new rviz_common::properties::FloatProperty("size", 0.3,
                                              "size of the visualizer", this,
                                              SLOT(updateSize()));
-    timeout_property_ = new rviz::FloatProperty(
+    timeout_property_ = new rviz_common::properties::FloatProperty(
       "timeout", 10.0, "timeout seconds", this, SLOT(updateTimeout()));
-    anonymous_property_ = new rviz::BoolProperty(
+    anonymous_property_ = new rviz_common::properties::BoolProperty(
       "anonymous", false,
       "anonymous",
       this, SLOT(updateAnonymous()));
-    text_property_ = new rviz::StringProperty(
+    text_property_ = new rviz_common::properties::StringProperty(
       "text", "person found here person found here",
       "text to rotate",
       this, SLOT(updateText()));
@@ -131,8 +131,8 @@ namespace jsk_rviz_plugins
         oss << "Error transforming pose";
         oss << " from frame '" << msg->header.frame_id << "'";
         oss << " to frame '" << qPrintable(fixed_frame_) << "'";
-        ROS_ERROR_STREAM(oss.str());
-        setStatus(rviz::StatusProperty::Error, "Transform", QString::fromStdString(oss.str()));
+        RCLCPP_ERROR_STREAM(oss.str());
+        setStatus(rviz_common::properties::StatusProperty::Error, "Transform", QString::fromStdString(oss.str()));
       }
       else {
         visualizers_[i]->setPosition(position);
@@ -148,8 +148,8 @@ namespace jsk_rviz_plugins
     if (faces_.size() == 0) {
       return;
     }
-    if ((ros::Time::now() - latest_time_).toSec() > timeout_) {
-      ROS_WARN("timeout face recognition result");
+    if ((rclcpp::Time::now() - latest_time_).toSec() > timeout_) {
+      RCLCPP_WARN("timeout face recognition result");
       clearObjects();
       return;
     }
@@ -196,5 +196,5 @@ namespace jsk_rviz_plugins
 
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::PeoplePositionMeasurementArrayDisplay, rviz::Display )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::PeoplePositionMeasurementArrayDisplay, rviz_common::Display )
 

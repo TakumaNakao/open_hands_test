@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdio.hpp>
 
 #include <QPainter>
 #include <QLineEdit>
@@ -8,14 +8,14 @@
 #include <QLabel>
 #include <QTimer>
 
-#include <std_msgs/Empty.h>
+#include <std_msgs/msg/Empty.hpp>
 
 #include "publish_topic.h"
 
 namespace jsk_rviz_plugins
 {
   PublishTopic::PublishTopic( QWidget* parent )
-    : rviz::Panel( parent )
+    : rviz_common::Panel( parent )
   {
     QHBoxLayout* topic_layout = new QHBoxLayout;
     topic_layout->addWidget( new QLabel( "Topic:" ));
@@ -69,16 +69,16 @@ namespace jsk_rviz_plugins
   }
 
 
-  void PublishTopic::save( rviz::Config config ) const
+  void PublishTopic::save( rviz_common::Config config ) const
   {
-    rviz::Panel::save( config );
+    rviz_common::Panel::save( config );
     config.mapSetValue( "Topic", output_topic_ );
   }
 
   // Load all configuration data for this panel from the given Config object.
-  void PublishTopic::load( const rviz::Config& config )
+  void PublishTopic::load( const rviz_common::Config& config )
   {
-    rviz::Panel::load( config );
+    rviz_common::Panel::load( config );
     QString topic;
     if( config.mapGetString( "Topic", &topic ))
       {
@@ -89,6 +89,6 @@ namespace jsk_rviz_plugins
 
 }
 
-#include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::PublishTopic, rviz::Panel )
+#include <pluginlib/class_list_macros.hpp>
+PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::PublishTopic, rviz_common::Panel )
 

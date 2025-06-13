@@ -39,16 +39,16 @@ namespace jsk_rviz_plugins
 {
   TwistStampedDisplay::TwistStampedDisplay()
   {
-    linear_scale_property_ = new rviz::FloatProperty("linear scale", 1.0,
+    linear_scale_property_ = new rviz_common::properties::FloatProperty("linear scale", 1.0,
                                                      "linear velocity scale",
                                                      this, SLOT(updateLinearScale()));
-    angular_scale_property_ = new rviz::FloatProperty("angular scale", 1.0,
+    angular_scale_property_ = new rviz_common::properties::FloatProperty("angular scale", 1.0,
                                                       "angular velocity scale",
                                                      this, SLOT(updateAngularScale()));
-    linear_color_property_ = new rviz::ColorProperty("linear color", QColor(0, 255, 0),
+    linear_color_property_ = new rviz_common::properties::ColorProperty("linear color", QColor(0, 255, 0),
                                                      "linear velocity color",
                                                      this, SLOT(updateLinearColor()));
-    angular_color_property_ = new rviz::ColorProperty("angular color", QColor(255, 0, 0),
+    angular_color_property_ = new rviz_common::properties::ColorProperty("angular color", QColor(255, 0, 0),
                                                       "angular velocity color",
                                                      this, SLOT(updateAngularColor()));
     linear_scale_property_->setMin(0.0);
@@ -64,13 +64,13 @@ namespace jsk_rviz_plugins
   void TwistStampedDisplay::onInitialize()
   {
     MFDClass::onInitialize();
-    linear_arrow_.reset(new rviz::Arrow(scene_manager_, scene_node_));
-    x_rotate_circle_.reset(new rviz::BillboardLine(scene_manager_, scene_node_));
-    y_rotate_circle_.reset(new rviz::BillboardLine(scene_manager_, scene_node_));
-    z_rotate_circle_.reset(new rviz::BillboardLine(scene_manager_, scene_node_));
-    x_rotate_arrow_.reset(new rviz::Arrow(scene_manager_, scene_node_));
-    y_rotate_arrow_.reset(new rviz::Arrow(scene_manager_, scene_node_));
-    z_rotate_arrow_.reset(new rviz::Arrow(scene_manager_, scene_node_));
+    linear_arrow_.reset(new rviz_rendering::Arrow(scene_manager_, scene_node_));
+    x_rotate_circle_.reset(new rviz_rendering::BillboardLine(scene_manager_, scene_node_));
+    y_rotate_circle_.reset(new rviz_rendering::BillboardLine(scene_manager_, scene_node_));
+    z_rotate_circle_.reset(new rviz_rendering::BillboardLine(scene_manager_, scene_node_));
+    x_rotate_arrow_.reset(new rviz_rendering::Arrow(scene_manager_, scene_node_));
+    y_rotate_arrow_.reset(new rviz_rendering::Arrow(scene_manager_, scene_node_));
+    z_rotate_arrow_.reset(new rviz_rendering::Arrow(scene_manager_, scene_node_));
     updateLinearScale();
     updateAngularScale();
     updateLinearColor();
@@ -102,7 +102,7 @@ namespace jsk_rviz_plugins
     scene_node_->setPosition(position);
     scene_node_->setOrientation(orientation);
     // linear velocity
-    linear_arrow_->setColor(rviz::qtToOgre(linear_color_));
+    linear_arrow_->setColor(rviz_rendering::qtToOgre(linear_color_));
     Ogre::Vector3 linear_direction(msg->twist.linear.x, msg->twist.linear.y, msg->twist.linear.z);
     Ogre::Vector3 linear_scale(linear_scale_ * linear_direction.length(),
                                linear_scale_ * linear_direction.length(),
@@ -132,7 +132,7 @@ namespace jsk_rviz_plugins
                            Ogre::Vector3(0, 0, 1),
                            std::abs(msg->twist.angular.z),
                            msg->twist.angular.z > 0);
-    Ogre::ColourValue c = rviz::qtToOgre(angular_color_);
+    Ogre::ColourValue c = rviz_rendering::qtToOgre(angular_color_);
     x_rotate_circle_->setColor(c.r, c.g, c.b, 1.0);
     y_rotate_circle_->setColor(c.r, c.g, c.b, 1.0);
     z_rotate_circle_->setColor(c.r, c.g, c.b, 1.0);
@@ -208,4 +208,4 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::TwistStampedDisplay, rviz::Display )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::TwistStampedDisplay, rviz_common::Display )

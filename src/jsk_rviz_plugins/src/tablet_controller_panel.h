@@ -38,8 +38,8 @@
 #define JSK_RVIZ_PLUGINS_TABLET_CONTROLLER_PANEL_H_
 
 #ifndef Q_MOC_RUN
-#include <ros/ros.h>
-#include <rviz/panel.h>
+#include <ros/ros.hpp>
+#include <rviz/panel.hpp>
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 #  include <QtWidgets>
 #else
@@ -58,9 +58,9 @@
 #include <QRadioButton>
 #include <QPaintEvent>
 #include <QMouseEvent>
-#include <geometry_msgs/Twist.h>
-#include <jsk_rviz_plugins/StringStamped.h>
-#include <visualization_msgs/MarkerArray.h>
+#include <geometry_msgs/Twist.hpp>
+#include <jsk_rviz_plugins/StringStamped.hpp>
+#include <visualization_msgs/MarkerArray.hpp>
 #include <boost/thread.hpp>
 #endif
 

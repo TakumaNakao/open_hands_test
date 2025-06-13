@@ -51,7 +51,7 @@ namespace jsk_rviz_plugins
   RvizScenePublisher::RvizScenePublisher():
     Display(), it_(nh_), image_id_(0)
   {
-    topic_name_property_ = new rviz::StringProperty(
+    topic_name_property_ = new rviz_common::properties::StringProperty(
       "topic_name", "/rviz/image",
       "topic_name", this, SLOT(updateTopicName()));
   }
@@ -80,7 +80,7 @@ namespace jsk_rviz_plugins
 
   void RvizScenePublisher::update(float wall_dt, float ros_dt)
   {
-    rviz::RenderPanel* panel = context_->getViewManager()->getRenderPanel();
+    rviz_common::RenderPanel* panel = context_->getViewManager()->getRenderPanel();
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
     QPixmap screenshot
       = QGuiApplication::primaryScreen()->grabWindow(context_->getViewManager()->getRenderPanel()->winId());
@@ -94,7 +94,7 @@ namespace jsk_rviz_plugins
 
     sensor_msgs::Image img_msg;
     std_msgs::Header header;
-    header.stamp = ros::Time::now();
+    header.stamp = rclcpp::Time::now();
     header.seq = image_id_++;
     cv_bridge::CvImage img_bridge = cv_bridge::CvImage(header, sensor_msgs::image_encodings::RGB8, image);
     img_bridge.toImageMsg(img_msg);
@@ -104,4 +104,4 @@ namespace jsk_rviz_plugins
 
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::RvizScenePublisher, rviz::Display)
+PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::RvizScenePublisher, rviz_common::Display)

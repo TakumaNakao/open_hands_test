@@ -37,18 +37,18 @@
 #ifndef JSK_RVIZ_PLUGIN_VIDEO_CAPTURE_DISPLAY_H_
 #define JSK_RVIZ_PLUGIN_VIDEO_CAPTURE_DISPLAY_H_
 
-#include <rviz/display.h>
-#include <rviz/properties/string_property.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/int_property.h>
+#include <rviz_common/display.hpp>
+#include <rviz_common/properties/string_property.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/int_property.hpp>
 #include <opencv2/opencv.hpp>
 
-#include <ros/ros.h>
+#include <ros/ros.hpp>
 
 namespace jsk_rviz_plugins
 {
-  class VideoCaptureDisplay: public rviz::Display
+  class VideoCaptureDisplay: public rviz_common::Display
   {
     Q_OBJECT
   public:
@@ -71,12 +71,12 @@ namespace jsk_rviz_plugins
     ////////////////////////////////////////////////////////
     // Variables
     ////////////////////////////////////////////////////////
-    rviz::StringProperty* file_name_property_;
-    rviz::BoolProperty* start_capture_property_;
-    rviz::FloatProperty* fps_property_;
-    rviz::BoolProperty* use_3d_viewer_size_property_;
-    rviz::IntProperty* width_property_;
-    rviz::IntProperty* height_property_;
+    rviz_common::properties::StringProperty* file_name_property_;
+    rviz_common::properties::BoolProperty* start_capture_property_;
+    rviz_common::properties::FloatProperty* fps_property_;
+    rviz_common::properties::BoolProperty* use_3d_viewer_size_property_;
+    rviz_common::properties::IntProperty* width_property_;
+    rviz_common::properties::IntProperty* height_property_;
     std::string file_name_;
     bool capturing_;
     double fps_;

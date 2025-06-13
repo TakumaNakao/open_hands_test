@@ -36,8 +36,8 @@
 #ifndef JSK_RVIZ_PLUGINS_QUIET_INTERACTIVE_MARKER_H_
 #define JSK_RVIZ_PLUGINS_QUIET_INTERACTIVE_MARKER_H_
 
-#include <rviz/default_plugin/interactive_marker_display.h>
-#include <rviz/properties/status_property.h>
+#include <rviz/default_plugin/interactive_marker_display.hpp>
+#include <rviz_common/properties/status_property.hpp>
 
 namespace jsk_rviz_plugins
 {

@@ -37,19 +37,19 @@
 #define JSK_RVIZ_PLUGINS_TF_TRAJECTORY_DISPLAY_H_
 
 #ifndef Q_MOC_RUN
-#include <rviz/message_filter_display.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/tf_frame_property.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/status_property.h>
-#include <rviz/ogre_helpers/billboard_line.h>
-#include <geometry_msgs/PointStamped.h>
+#include <rviz/message_filter_display.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/tf_frame_property.hpp>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz_common/properties/status_property.hpp>
+#include <rviz/ogre_helpers/billboard_line.hpp>
+#include <geometry_msgs/PointStamped.hpp>
 #endif
 
 namespace jsk_rviz_plugins
 {
 
-  class TFTrajectoryDisplay: public rviz::Display
+  class TFTrajectoryDisplay: public rviz_common::Display
   {
     Q_OBJECT
   public:
@@ -62,10 +62,10 @@ namespace jsk_rviz_plugins
     virtual void update(float wall_dt, float ros_dt);
 
     rviz::TfFrameProperty* frame_property_;
-    rviz::FloatProperty* duration_property_;
-    rviz::ColorProperty* color_property_;
-    rviz::FloatProperty* line_width_property_;
-    rviz::BillboardLine* line_;
+    rviz_common::properties::FloatProperty* duration_property_;
+    rviz_common::properties::ColorProperty* color_property_;
+    rviz_common::properties::FloatProperty* line_width_property_;
+    rviz_rendering::BillboardLine* line_;
     std::vector<geometry_msgs::PointStamped> trajectory_;
     std::string frame_;
     std::string fixed_frame_;

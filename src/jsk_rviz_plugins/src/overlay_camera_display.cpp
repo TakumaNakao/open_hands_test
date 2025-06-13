@@ -78,10 +78,10 @@ const QString OverlayCameraDisplay::BOTH( "background and overlay" );
 bool validateFloats(const sensor_msgs::CameraInfo& msg)
 {
   bool valid = true;
-  valid = valid && rviz::validateFloats( msg.D );
-  valid = valid && rviz::validateFloats( msg.K );
-  valid = valid && rviz::validateFloats( msg.R );
-  valid = valid && rviz::validateFloats( msg.P );
+  valid = valid && std::isfinite( msg.D );
+  valid = valid && std::isfinite( msg.K );
+  valid = valid && std::isfinite( msg.R );
+  valid = valid && std::isfinite( msg.P );
   return valid;
 }
 
@@ -327,7 +327,7 @@ void OverlayCameraDisplay::subscribe()
     caminfo_sub_.subscribe( update_nh_, caminfo_topic, 1 );
     setStatus( StatusProperty::Ok, "Camera Info", "OK" );
   }
-  catch( ros::Exception& e )
+  catch( rclcpp::exceptions::RCLError& e )
   {
     setStatus( StatusProperty::Error, "Camera Info", QString( "Error subscribing: ") + e.what() );
   }
@@ -405,7 +405,7 @@ void OverlayCameraDisplay::update( float wall_dt, float ros_dt )
   render_panel_->getRenderWindow()->update();
   if (!overlay_) {
     static int count = 0;
-    rviz::UniformStringStream ss;
+    std::ostringstream ss;
     ss << "OverlayCameraImageDisplayObject" << count++;
     overlay_.reset(new OverlayObject(ss.str()));
     overlay_->show();
@@ -462,7 +462,7 @@ bool OverlayCameraDisplay::updateCamera()
   }
 
   // if we're in 'exact' time mode, only show image if the time is exactly right
-  ros::Time rviz_time = context_->getFrameManager()->getTime();
+  rclcpp::Time rviz_time = context_->getFrameManager()->getTime();
   if ( context_->getFrameManager()->getSyncMode() == FrameManager::SyncExact &&
       rviz_time != image->header.stamp )
   {
@@ -487,13 +487,13 @@ bool OverlayCameraDisplay::updateCamera()
   // If the image width is 0 due to a malformed caminfo, try to grab the width from the image.
   if( img_width == 0 )
   {
-    ROS_DEBUG( "Malformed CameraInfo on camera [%s], width = 0", qPrintable( getName() ));
+    RCLCPP_DEBUG( "Malformed CameraInfo on camera [%s], width = 0", qPrintable( getName() ));
     img_width = texture_.getWidth();
   }
 
   if (img_height == 0)
   {
-    ROS_DEBUG( "Malformed CameraInfo on camera [%s], height = 0", qPrintable( getName() ));
+    RCLCPP_DEBUG( "Malformed CameraInfo on camera [%s], height = 0", qPrintable( getName() ));
     img_height = texture_.getHeight();
   }
 
@@ -537,7 +537,7 @@ bool OverlayCameraDisplay::updateCamera()
   Ogre::Vector3 down = orientation * Ogre::Vector3::UNIT_Y;
   position = position + (down * ty);
 
-  if( !rviz::validateFloats( position ))
+  if( !std::isfinite( position ))
   {
     setStatus( StatusProperty::Error, "Camera Info", "CameraInfo/P resulted in an invalid position calculation (nans or infs)" );
     return false;
@@ -645,4 +645,4 @@ void OverlayCameraDisplay::updateTextureAlpha()
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::OverlayCameraDisplay, rviz::Display )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::OverlayCameraDisplay, rviz_common::Display )

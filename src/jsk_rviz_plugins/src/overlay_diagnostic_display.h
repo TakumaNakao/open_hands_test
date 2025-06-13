@@ -36,29 +36,29 @@
 #define JSK_RVIZ_PLUGIN_OVERLAY_DIAGNOSTIC_DISPLAY_H_
 
 #ifndef Q_MOC_RUN
-#include <rviz/display.h>
-#include <OGRE/OgreTexture.h>
-#include <OGRE/OgreColourValue.h>
-#include <OGRE/OgreMaterial.h>
+#include <rviz_common/display.hpp>
+#include <OGRE/OgreTexture.hpp>
+#include <OGRE/OgreColourValue.hpp>
+#include <OGRE/OgreMaterial.hpp>
 
 #include <QPainter>
 #include <QPainterPath>
 
-#include <rviz/properties/ros_topic_property.h>
-#include <rviz/properties/editable_enum_property.h>
-#include <rviz/properties/enum_property.h>
-#include <rviz/properties/int_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/color_property.h>
+#include <rviz_common/properties/ros_topic_property.hpp>
+#include <rviz_common/properties/editable_enum_property.hpp>
+#include <rviz_common/properties/enum_property.hpp>
+#include <rviz_common/properties/int_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/color_property.hpp>
 
-#include <diagnostic_msgs/DiagnosticArray.h>
+#include <diagnostic_msgs/DiagnosticArray.hpp>
 
 #include "overlay_utils.h"
 #endif
 
 namespace jsk_rviz_plugins
 {
-  class OverlayDiagnosticDisplay: public rviz::Display
+  class OverlayDiagnosticDisplay: public rviz_common::Display
   {
     Q_OBJECT
   public:
@@ -133,14 +133,14 @@ namespace jsk_rviz_plugins
     double t_;
     double stall_duration_;
     bool is_animating_;
-    rviz::RosTopicProperty* ros_topic_property_;
+    rviz_common::properties::RosTopicProperty* ros_topic_property_;
     rviz::EditableEnumProperty* diagnostics_namespace_property_;
-    rviz::EnumProperty* type_property_;
-    rviz::IntProperty* top_property_;
-    rviz::IntProperty* left_property_;
-    rviz::FloatProperty* alpha_property_;
-    rviz::IntProperty* size_property_;
-    rviz::FloatProperty* stall_duration_property_;
+    rviz_common::properties::EnumProperty* type_property_;
+    rviz_common::properties::IntProperty* top_property_;
+    rviz_common::properties::IntProperty* left_property_;
+    rviz_common::properties::FloatProperty* alpha_property_;
+    rviz_common::properties::IntProperty* size_property_;
+    rviz_common::properties::FloatProperty* stall_duration_property_;
     
     ros::Subscriber sub_;
   protected Q_SLOTS:

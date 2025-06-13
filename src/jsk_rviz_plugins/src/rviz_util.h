@@ -37,8 +37,8 @@
 #ifndef JSK_RVIZ_PLUGINGS_RVIZ_UTIL_H_
 #define JSK_RVIZ_PLUGINGS_RVIZ_UTIL_H_
 
-#include <std_msgs/ColorRGBA.h>
-#include <OgreColourValue.h>
+#include <std_msgs/msg/ColorRGBA.hpp>
+#include <OgreColourValue.hpp>
 
 
 namespace rviz

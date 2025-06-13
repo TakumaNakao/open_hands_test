@@ -61,8 +61,8 @@ public:
 
 private:
   // The object implementing the actual arrow shape
-  rviz::BillboardLine* ambient_sound_power_line_;
-  //rviz::Axes* axes_;
+  rviz_rendering::BillboardLine* ambient_sound_power_line_;
+  //rviz_rendering::Axes* axes_;
 
   // A SceneNode whose pose is set to match the coordinate frame of
   // the Imu message header.

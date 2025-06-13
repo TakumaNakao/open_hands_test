@@ -2,9 +2,9 @@
 #define PUBLISH_TOPIC_H
 
 #ifndef Q_MOC_RUN
-#include <ros/ros.h>
+#include <ros/ros.hpp>
 
-#include <rviz/panel.h>
+#include <rviz/panel.hpp>
 #endif
 
 class QLineEdit;

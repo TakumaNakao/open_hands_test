@@ -2,15 +2,15 @@
 #define __AMBIENT_SOUND_DISPLAY__
 
 #ifndef Q_MOC_RUN  // See: https://bugreports.qt-project.org/browse/QTBUG-22829
-#include <message_filters/subscriber.h>
-#include <tf/message_filter.h>
-#include <jsk_hark_msgs/HarkPower.h>
-#include <ambient_sound_visual.h>
+#include <message_filters/subscriber.hpp>
+#include <tf/message_filter.hpp>
+#include <jsk_hark_msgs/HarkPower.hpp>
+#include <ambient_sound_visual.hpp>
 #include <boost/circular_buffer.hpp>
-#include <rviz/message_filter_display.h>
+#include <rviz/message_filter_display.hpp>
 #endif
 
-#include <ros/ros.h>
+#include <ros/ros.hpp>
 
 namespace Ogre
 {
@@ -32,8 +32,8 @@ namespace jsk_rviz_plugins
 
 class AmbientSoundVisual;
 
-//class AmbientSoundDisplay: public rviz::Display
-class AmbientSoundDisplay: public rviz::MessageFilterDisplay<jsk_hark_msgs::HarkPower>
+//class AmbientSoundDisplay: public rviz_common::Display
+class AmbientSoundDisplay: public rviz_common::MessageFilterDisplay<jsk_hark_msgs::HarkPower>
 {
 Q_OBJECT
 public:
@@ -135,14 +135,14 @@ private:
 */
 
   // Property objects for user-editable properties.
-  rviz::ColorProperty *color_property_;
+  rviz_common::properties::ColorProperty *color_property_;
   rviz::ROSTopicStringProperty *topic_property_;
-  rviz::FloatProperty *alpha_property_;
-  rviz::IntProperty *history_length_property_;
-  rviz::FloatProperty *width_property_;
-  rviz::FloatProperty *scale_property_;
-  rviz::FloatProperty *bias_property_;
-  rviz::FloatProperty *grad_property_;
+  rviz_common::properties::FloatProperty *alpha_property_;
+  rviz_common::properties::IntProperty *history_length_property_;
+  rviz_common::properties::FloatProperty *width_property_;
+  rviz_common::properties::FloatProperty *scale_property_;
+  rviz_common::properties::FloatProperty *bias_property_;
+  rviz_common::properties::FloatProperty *grad_property_;
 };
 // END_TUTORIAL
 

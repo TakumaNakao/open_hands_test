@@ -36,21 +36,21 @@
 #ifndef FOOTSTEP_DISPLAY_H
 #define FOOTSTEP_DISPLAY_H
 
-#include <jsk_footstep_msgs/FootstepArray.h>
+#include <jsk_footstep_msgs/FootstepArray.hpp>
 #ifndef Q_MOC_RUN
-#include <rviz/message_filter_display.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/ogre_helpers/billboard_line.h>
-#include <rviz/ogre_helpers/shape.h>
-#include <rviz/ogre_helpers/movable_text.h>
-#include <OGRE/OgreSceneManager.h>
-#include <OGRE/OgreSceneNode.h>
+#include <rviz/message_filter_display.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz/ogre_helpers/billboard_line.hpp>
+#include <rviz/ogre_helpers/shape.hpp>
+#include <rviz/ogre_helpers/movable_text.hpp>
+#include <OGRE/OgreSceneManager.hpp>
+#include <OGRE/OgreSceneNode.hpp>
 #endif
 
 namespace jsk_rviz_plugins
 {
-  class FootstepDisplay : public rviz::MessageFilterDisplay<jsk_footstep_msgs::FootstepArray>
+  class FootstepDisplay : public rviz_common::MessageFilterDisplay<jsk_footstep_msgs::FootstepArray>
   {
     Q_OBJECT
   public:
@@ -69,22 +69,22 @@ namespace jsk_rviz_plugins
     virtual void processMessage(const jsk_footstep_msgs::FootstepArray::ConstPtr& msg);
     virtual bool validateFloats(const jsk_footstep_msgs::FootstepArray& msg);
     
-    rviz::FloatProperty* alpha_property_;
-    rviz::FloatProperty* width_property_;
-    rviz::FloatProperty* height_property_;
-    rviz::FloatProperty* depth_property_;
-    rviz::BoolProperty* show_name_property_;
-    rviz::BoolProperty* use_group_coloring_property_;
+    rviz_common::properties::FloatProperty* alpha_property_;
+    rviz_common::properties::FloatProperty* width_property_;
+    rviz_common::properties::FloatProperty* height_property_;
+    rviz_common::properties::FloatProperty* depth_property_;
+    rviz_common::properties::BoolProperty* show_name_property_;
+    rviz_common::properties::BoolProperty* use_group_coloring_property_;
     jsk_footstep_msgs::FootstepArray::ConstPtr latest_footstep_;
 #if ROS_VERSION_MINIMUM(1,12,0)
-    typedef std::shared_ptr<rviz::Shape> ShapePtr;
+    typedef std::shared_ptr<rviz_rendering::Shape> ShapePtr;
 #else
-    typedef boost::shared_ptr<rviz::Shape> ShapePtr;
+    typedef boost::shared_ptr<rviz_rendering::Shape> ShapePtr;
 #endif
     std::vector<ShapePtr> shapes_;
-    std::vector<rviz::MovableText*> texts_;
+    std::vector<rviz_rendering::MovableText*> texts_;
     std::vector<Ogre::SceneNode*> text_nodes_;
-    rviz::BillboardLine* line_;
+    rviz_rendering::BillboardLine* line_;
     double width_, height_, depth_;
     double alpha_;
     bool show_name_;

@@ -138,8 +138,8 @@ namespace jsk_rviz_plugins
 
   void TabletCmdVelArea::publishCmdVel(double x, double y, double theta)
   {
-    ROS_INFO("(%f, %f)", x, y);
-    ROS_INFO("theta: %f", theta);
+    RCLCPP_INFO("(%f, %f)", x, y);
+    RCLCPP_INFO("theta: %f", theta);
     geometry_msgs::Twist twist;
     twist.linear.x = x;
     twist.linear.y = y;
@@ -167,9 +167,9 @@ namespace jsk_rviz_plugins
     return "QListWidget {font-size: 20pt; color: #424242;}";
   }
   
-  TabletControllerPanel::TabletControllerPanel(QWidget* parent): rviz::Panel(parent)
+  TabletControllerPanel::TabletControllerPanel(QWidget* parent): rviz_common::Panel(parent)
   {
-    ros::NodeHandle nh;
+    rclcpp::Node::SharedPtr nh;
     pub_start_demo_ = nh.advertise<jsk_rviz_plugins::StringStamped>(
       "/Tablet/StartDemo", 1);
     pub_spot_ = nh.advertise<jsk_rviz_plugins::StringStamped>(
@@ -207,14 +207,14 @@ namespace jsk_rviz_plugins
 
   }
 
-  void TabletControllerPanel::load(const rviz::Config& config)
+  void TabletControllerPanel::load(const rviz_common::Config& config)
   {
-    rviz::Panel::load(config);
+    rviz_common::Panel::load(config);
   }
   
-  void TabletControllerPanel::save(rviz::Config config) const
+  void TabletControllerPanel::save(rviz_common::Config config) const
   {
-    rviz::Panel::save(config);
+    rviz_common::Panel::save(config);
   }
 
   ////////////////////////////////////////////////////////
@@ -294,11 +294,11 @@ namespace jsk_rviz_plugins
       QRadioButton* radio = task_radio_buttons_[i];
       if (radio->isChecked()) {
         std::string task = radio->text().toStdString();
-        ROS_INFO("task: %s", task.c_str());
+        RCLCPP_INFO("task: %s", task.c_str());
         task_dialog_->reject();
         jsk_rviz_plugins::StringStamped command;
         command.data = task;
-        command.header.stamp = ros::Time::now();
+        command.header.stamp = rclcpp::Time::now();
         pub_start_demo_.publish(command);
         return;
       }
@@ -356,7 +356,7 @@ namespace jsk_rviz_plugins
       std::string spot = item->text().toStdString();
       jsk_rviz_plugins::StringStamped spot_command;
       spot_command.data = spot;
-      spot_command.header.stamp = ros::Time::now();
+      spot_command.header.stamp = rclcpp::Time::now();
       pub_spot_.publish(spot_command);
     }
     spot_dialog_->reject();
@@ -365,4 +365,4 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS (jsk_rviz_plugins::TabletControllerPanel, rviz::Panel);
+PLUGINLIB_EXPORT_CLASS (jsk_rviz_plugins::TabletControllerPanel, rviz_common::Panel);

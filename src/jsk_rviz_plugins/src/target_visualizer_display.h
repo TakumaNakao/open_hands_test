@@ -38,23 +38,23 @@
 
 
 #ifndef Q_MOC_RUN
-#include <rviz/display.h>
-#include <rviz/message_filter_display.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/string_property.h>
-#include <rviz/properties/editable_enum_property.h>
-#include <rviz/properties/tf_frame_property.h>
-#include <rviz/properties/ros_topic_property.h>
-#include <rviz/properties/enum_property.h>
-#include <diagnostic_msgs/DiagnosticArray.h>
-#include <rviz/ogre_helpers/billboard_line.h>
-#include <rviz/display_context.h>
-#include <rviz/frame_manager.h>
-#include <OGRE/OgreSceneNode.h>
-#include <OGRE/OgreSceneManager.h>
-#include <rviz/ogre_helpers/movable_text.h>
-#include <geometry_msgs/PoseStamped.h>
+#include <rviz_common/display.hpp>
+#include <rviz/message_filter_display.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz_common/properties/string_property.hpp>
+#include <rviz_common/properties/editable_enum_property.hpp>
+#include <rviz_common/properties/tf_frame_property.hpp>
+#include <rviz_common/properties/ros_topic_property.hpp>
+#include <rviz_common/properties/enum_property.hpp>
+#include <diagnostic_msgs/DiagnosticArray.hpp>
+#include <rviz/ogre_helpers/billboard_line.hpp>
+#include <rviz/display_context.hpp>
+#include <rviz/frame_manager.hpp>
+#include <OGRE/OgreSceneNode.hpp>
+#include <OGRE/OgreSceneManager.hpp>
+#include <rviz/ogre_helpers/movable_text.hpp>
+#include <geometry_msgs/PoseStamped.hpp>
 
 #include "facing_visualizer.h"
 #endif
@@ -62,7 +62,7 @@
 namespace jsk_rviz_plugins
 {
   class TargetVisualizerDisplay:
-    public rviz::MessageFilterDisplay<geometry_msgs::PoseStamped>
+    public rviz_common::MessageFilterDisplay<geometry_msgs::PoseStamped>
   {
     Q_OBJECT
   public:
@@ -80,11 +80,11 @@ namespace jsk_rviz_plugins
     virtual void onEnable();
     void processMessage(const geometry_msgs::PoseStamped::ConstPtr& msg);
     void update(float wall_dt, float ros_dt);
-    rviz::StringProperty* target_name_property_;
-    rviz::FloatProperty* alpha_property_;
-    rviz::ColorProperty* color_property_;
-    rviz::FloatProperty* radius_property_;
-    rviz::EnumProperty* shape_type_property_;
+    rviz_common::properties::StringProperty* target_name_property_;
+    rviz_common::properties::FloatProperty* alpha_property_;
+    rviz_common::properties::ColorProperty* color_property_;
+    rviz_common::properties::FloatProperty* radius_property_;
+    rviz_common::properties::EnumProperty* shape_type_property_;
     FacingObject::Ptr visualizer_;
     
     boost::mutex mutex_;

@@ -38,22 +38,22 @@ namespace jsk_rviz_plugins
 {
   HumanSkeletonArrayDisplay::HumanSkeletonArrayDisplay()
   {
-    coloring_property_ = new rviz::EnumProperty(
+    coloring_property_ = new rviz_common::properties::EnumProperty(
       "coloring", "Auto",
       "coloring method",
       this, SLOT(updateColoring()));
     coloring_property_->addOption("Auto", 0);
     coloring_property_->addOption("Flat color", 1);
 
-    color_property_ = new rviz::ColorProperty(
+    color_property_ = new rviz_common::properties::ColorProperty(
       "color", QColor(25, 255, 0),
       "color to draw the edges",
       this, SLOT(updateColor()));
-    alpha_property_ = new rviz::FloatProperty(
+    alpha_property_ = new rviz_common::properties::FloatProperty(
       "alpha", 1.0,
       "alpha value to draw the edges",
       this, SLOT(updateAlpha()));
-    line_width_property_ = new rviz::FloatProperty(
+    line_width_property_ = new rviz_common::properties::FloatProperty(
       "line width", 0.005,
       "line width of the edges",
       this, SLOT(updateLineWidth()));
@@ -142,7 +142,7 @@ namespace jsk_rviz_plugins
     if (num > shapes_.size()) {
       for (size_t i = shapes_.size(); i < num; i++) {
         ShapePtr shape;
-        shape.reset(new rviz::Shape(rviz::Shape::Sphere, context_->getSceneManager(),
+        shape.reset(new rviz_rendering::Shape(rviz_rendering::Shape::Sphere, context_->getSceneManager(),
                                     scene_node_));
         shapes_.push_back(shape);
       }
@@ -156,7 +156,7 @@ namespace jsk_rviz_plugins
   {
     if (num > edges_.size()) {
       for (size_t i = edges_.size(); i < num; i++) {
-        BillboardLinePtr line(new rviz::BillboardLine(
+        BillboardLinePtr line(new rviz_rendering::BillboardLine(
                                                       this->context_->getSceneManager(), this->scene_node_));
         edges_.push_back(line);
       }
@@ -250,4 +250,4 @@ namespace jsk_rviz_plugins
 
 #include <pluginlib/class_list_macros.h>
 PLUGINLIB_EXPORT_CLASS(
-  jsk_rviz_plugins::HumanSkeletonArrayDisplay, rviz::Display)
+  jsk_rviz_plugins::HumanSkeletonArrayDisplay, rviz_common::Display)

@@ -2,8 +2,8 @@
 #define YES_NO_BUTTON_INTERFACE_H
 
 #ifndef Q_MOC_RUN
-#include <ros/ros.h>
-#include <rviz/panel.h>
+#include <ros/ros.hpp>
+#include <rviz/panel.hpp>
 #include <boost/thread.hpp>
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 #  include <QtWidgets>
@@ -12,7 +12,7 @@
 #endif
 #endif
 
-#include <jsk_gui_msgs/YesNo.h>
+#include <jsk_gui_msgs/YesNo.hpp>
 
 
 namespace jsk_rviz_plugins

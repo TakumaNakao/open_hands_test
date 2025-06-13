@@ -2,9 +2,9 @@
 #define EMPTY_SERCICE_CALL_INTERFACE_H
 
 #ifndef Q_MOC_RUN
-#include <ros/ros.h>
-#include <rviz/panel.h>
-#include <std_srvs/Empty.h>
+#include <ros/ros.hpp>
+#include <rviz/panel.hpp>
+#include <std_srvs/Empty.hpp>
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 #  include <QtWidgets>
 #else

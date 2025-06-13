@@ -16,14 +16,14 @@ namespace jsk_rviz_plugins
     skip_rate_property_->setMin(  0.0);
 
     scale_property_
-      = new rviz::FloatProperty("Scale", 0.3,
+      = new rviz_common::properties::FloatProperty("Scale", 0.3,
                                 "set the scale of arrow",
                                 this, SLOT(updateScale()));
 
     scale_property_->setMin(0.0);
 
     alpha_property_
-      = new rviz::FloatProperty("Alpha", 1,
+      = new rviz_common::properties::FloatProperty("Alpha", 1,
                                 "set the alpha of arrow",
                                 this, SLOT(updateAlpha()));
 
@@ -301,4 +301,4 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::NormalDisplay,rviz::Display )
+PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::NormalDisplay,rviz_common::Display )

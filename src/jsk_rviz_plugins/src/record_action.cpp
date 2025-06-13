@@ -11,7 +11,7 @@ namespace jsk_rviz_plugins
 {
 
   RecordAction::RecordAction( QWidget* parent )
-    : rviz::Panel( parent )
+    : rviz_common::Panel( parent )
   {
     layout = new QVBoxLayout;
 
@@ -129,17 +129,17 @@ namespace jsk_rviz_plugins
     }
   }
 
-  void RecordAction::save( rviz::Config config ) const
+  void RecordAction::save( rviz_common::Config config ) const
   {
-    rviz::Panel::save( config );
+    rviz_common::Panel::save( config );
   }
 
-  void RecordAction::load( const rviz::Config& config )
+  void RecordAction::load( const rviz_common::Config& config )
   {
-    rviz::Panel::load( config );
+    rviz_common::Panel::load( config );
   }
 
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::RecordAction, rviz::Panel )
+PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::RecordAction, rviz_common::Panel )

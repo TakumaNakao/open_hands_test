@@ -30,7 +30,7 @@
 #ifndef RVIZ_POSE_ARRAY_DISPLAY_H_
 #define RVIZ_POSE_ARRAY_DISPLAY_H_
 
-#include <geometry_msgs/PoseArray.h>
+#include <geometry_msgs/PoseArray.hpp>
 
 #include "rviz/message_filter_display.h"
 
@@ -50,7 +50,7 @@ class Axes;
 namespace jsk_rviz_plugins
 {
 /** @brief Displays a geometry_msgs/PoseArray message as a bunch of line-drawn arrows. */
-  class PoseArrayDisplay: public rviz::MessageFilterDisplay<geometry_msgs::PoseArray>
+  class PoseArrayDisplay: public rviz_common::MessageFilterDisplay<geometry_msgs::PoseArray>
 {
 Q_OBJECT
 public:
@@ -76,12 +76,12 @@ private:
 
   Ogre::ManualObject* manual_object_;
 
-  rviz::ColorProperty* color_property_;
-  rviz::FloatProperty* length_property_;
-  rviz::FloatProperty* axes_length_property_;
-  rviz::FloatProperty* axes_radius_property_;
-  rviz::EnumProperty* shape_property_;
-  std::vector<rviz::Axes*> coords_objects_;
+  rviz_common::properties::ColorProperty* color_property_;
+  rviz_common::properties::FloatProperty* length_property_;
+  rviz_common::properties::FloatProperty* axes_length_property_;
+  rviz_common::properties::FloatProperty* axes_radius_property_;
+  rviz_common::properties::EnumProperty* shape_property_;
+  std::vector<rviz_rendering::Axes*> coords_objects_;
   std::vector<Ogre::SceneNode*> coords_nodes_;
 
   bool pose_valid_;

@@ -146,17 +146,17 @@ namespace jsk_rviz_plugins
       this, SLOT( updateImageTopic() ));
     image_transport_hints_property_->hide();
 
-    color_property_ = new rviz::ColorProperty(
+    color_property_ = new rviz_common::properties::ColorProperty(
       "color",
       QColor(85, 255, 255),
       "color of CameraInfo",
       this, SLOT(updateColor()));
-    edge_color_property_ = new rviz::ColorProperty(
+    edge_color_property_ = new rviz_common::properties::ColorProperty(
       "edge color",
       QColor(125, 125, 125),
       "edge color of CameraInfo",
       this, SLOT(updateEdgeColor()));
-    alpha_property_ = new rviz::FloatProperty(
+    alpha_property_ = new rviz_common::properties::FloatProperty(
       "alpha",
       0.5,
       "alpha blending value",
@@ -282,7 +282,7 @@ namespace jsk_rviz_plugins
   void CameraInfoDisplay::addPolygon(
     const cv::Point3d& O, const cv::Point3d& A, const cv::Point3d& B, std::string name, bool use_color, bool upper_triangle)
   {
-    Ogre::ColourValue color = rviz::qtToOgre(color_);
+    Ogre::ColourValue color = rviz_rendering::qtToOgre(color_);
     color.a = alpha_;
     TrianglePolygon::Ptr triangle (new TrianglePolygon(
                                      scene_manager_,
@@ -300,7 +300,7 @@ namespace jsk_rviz_plugins
         || bottom_texture_->getWidth() != width
         || bottom_texture_->getHeight() != height) {
       static uint32_t count = 0;
-      rviz::UniformStringStream ss;
+      std::ostringstream ss;
       ss << "CameraInfoDisplayPolygonBottom" << count++;
       material_bottom_
         = Ogre::MaterialManager::getSingleton().create(
@@ -311,7 +311,7 @@ namespace jsk_rviz_plugins
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
         Ogre::TEX_TYPE_2D, width, height, 0, Ogre::PF_A8R8G8B8, Ogre::TU_DEFAULT);
       material_bottom_->getTechnique(0)->getPass(0)->setColourWriteEnabled(true);
-      Ogre::ColourValue color = rviz::qtToOgre(color_);
+      Ogre::ColourValue color = rviz_rendering::qtToOgre(color_);
       color.a = alpha_;
       material_bottom_->getTechnique(0)->getPass(0)->setAmbient(color);
       material_bottom_->setReceiveShadows(false);
@@ -332,7 +332,7 @@ namespace jsk_rviz_plugins
     if (texture_.isNull()) {
       // material
       static uint32_t count = 0;
-      rviz::UniformStringStream ss;
+      std::ostringstream ss;
       ss << "CameraInfoDisplayPolygon" << count++;
       material_
         = Ogre::MaterialManager::getSingleton().create(
@@ -343,7 +343,7 @@ namespace jsk_rviz_plugins
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
         Ogre::TEX_TYPE_2D, 1, 1, 0, Ogre::PF_A8R8G8B8, Ogre::TU_DEFAULT);
       material_->getTechnique(0)->getPass(0)->setColourWriteEnabled(true);
-      Ogre::ColourValue color = rviz::qtToOgre(color_);
+      Ogre::ColourValue color = rviz_rendering::qtToOgre(color_);
       color.a = alpha_;
       material_->getTechnique(0)->getPass(0)->setAmbient(color);
       material_->setReceiveShadows(false);
@@ -509,17 +509,17 @@ namespace jsk_rviz_plugins
     }
     // fx and fy should not be equal 0.
     if (model.fx() == 0.0 || model.fy() == 0.0) {
-      setStatus(rviz::StatusProperty::Error, "Camera Info", "Invalid intrinsic matrix");
+      setStatus(rviz_common::properties::StatusProperty::Error, "Camera Info", "Invalid intrinsic matrix");
       ROS_ERROR_STREAM("camera model have invalid intrinsic matrix " << model.intrinsicMatrix());
       return;
     }
-    setStatus(rviz::StatusProperty::Ok, "Camera Info", "OK");
+    setStatus(rviz_common::properties::StatusProperty::Ok, "Camera Info", "OK");
 
     ////////////////////////////////////////////////////////
     // initialize BillboardLine
     ////////////////////////////////////////////////////////
     if (!edges_) {
-      edges_.reset(new rviz::BillboardLine(context_->getSceneManager(),
+      edges_.reset(new rviz_rendering::BillboardLine(context_->getSceneManager(),
                                            scene_node_));
       edges_->setLineWidth(0.01);
     }
@@ -555,7 +555,7 @@ namespace jsk_rviz_plugins
       ////////////////////////////////////////////////////////
       // setup color for polygons
       ////////////////////////////////////////////////////////
-      Ogre::ColourValue color = rviz::qtToOgre(color_);
+      Ogre::ColourValue color = rviz_rendering::qtToOgre(color_);
       color.a = alpha_;
       prepareMaterial();
       if (!not_show_side_polygons_) {
@@ -696,4 +696,4 @@ namespace jsk_rviz_plugins
 
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::CameraInfoDisplay, rviz::Display )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::CameraInfoDisplay, rviz_common::Display )

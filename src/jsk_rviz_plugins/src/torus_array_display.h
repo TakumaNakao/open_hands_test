@@ -37,17 +37,17 @@
 #define JSK_RVIZ_PLUGINS_TORUS_ARRAY_DISPLAY_H_
 
 #ifndef Q_MOC_RUN
-#include <jsk_recognition_msgs/TorusArray.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/int_property.h>
-#include <rviz/message_filter_display.h>
-#include <rviz/ogre_helpers/shape.h>
-#include <rviz/ogre_helpers/mesh_shape.h>
-#include <rviz/ogre_helpers/arrow.h>
-#include <OGRE/OgreSceneManager.h>
-#include <OGRE/OgreSceneNode.h>
+#include <jsk_recognition_msgs/TorusArray.hpp>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/int_property.hpp>
+#include <rviz/message_filter_display.hpp>
+#include <rviz/ogre_helpers/shape.hpp>
+#include <rviz/ogre_helpers/mesh_shape.hpp>
+#include <rviz/ogre_helpers/arrow.hpp>
+#include <OGRE/OgreSceneManager.hpp>
+#include <OGRE/OgreSceneNode.hpp>
 #endif
 
 namespace jsk_rviz_plugins
@@ -57,15 +57,15 @@ namespace jsk_rviz_plugins
     unsigned v1, v2, v3; // index for the 3 vertices that make up a triangle
   };
 
-  class TorusArrayDisplay: public rviz::MessageFilterDisplay<jsk_recognition_msgs::TorusArray>
+  class TorusArrayDisplay: public rviz_common::MessageFilterDisplay<jsk_recognition_msgs::TorusArray>
   {
     Q_OBJECT
   public:
 #if ROS_VERSION_MINIMUM(1,12,0)
-    typedef std::shared_ptr<rviz::Arrow> ArrowPtr;
+    typedef std::shared_ptr<rviz_rendering::Arrow> ArrowPtr;
     typedef std::shared_ptr<rviz::MeshShape> ShapePtr;
 #else
-    typedef boost::shared_ptr<rviz::Arrow> ArrowPtr;
+    typedef boost::shared_ptr<rviz_rendering::Arrow> ArrowPtr;
     typedef boost::shared_ptr<rviz::MeshShape> ShapePtr;
 #endif
     TorusArrayDisplay();
@@ -76,12 +76,12 @@ namespace jsk_rviz_plugins
     void allocateShapes(const jsk_recognition_msgs::TorusArray::ConstPtr& msg);
     void allocateShapes(const size_t num);
     QColor getColor(size_t index);
-    rviz::ColorProperty* color_property_;
-    rviz::FloatProperty* alpha_property_;
-    rviz::IntProperty* uv_property_;
-    rviz::BoolProperty* auto_color_property_;
-    rviz::BoolProperty* show_normal_property_;
-    rviz::FloatProperty* normal_length_property_;
+    rviz_common::properties::ColorProperty* color_property_;
+    rviz_common::properties::FloatProperty* alpha_property_;
+    rviz_common::properties::IntProperty* uv_property_;
+    rviz_common::properties::BoolProperty* auto_color_property_;
+    rviz_common::properties::BoolProperty* show_normal_property_;
+    rviz_common::properties::FloatProperty* normal_length_property_;
     QColor color_;
     double alpha_;
     bool auto_color_;

@@ -36,21 +36,21 @@
 #define JSK_RVIZ_PLUGIN_OVERLAY_IMAGE_DISPLAY_H_
 
 #ifndef Q_MOC_RUN
-#include <rviz/display.h>
-#include <OGRE/OgreTexture.h>
-#include <OGRE/OgreColourValue.h>
-#include <OGRE/OgreMaterial.h>
+#include <rviz_common/display.hpp>
+#include <OGRE/OgreTexture.hpp>
+#include <OGRE/OgreColourValue.hpp>
+#include <OGRE/OgreMaterial.hpp>
 
 #include <QPainter>
 
-#include <rviz/properties/ros_topic_property.h>
-#include <rviz/properties/int_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/editable_enum_property.h>
+#include <rviz_common/properties/ros_topic_property.hpp>
+#include <rviz_common/properties/int_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/editable_enum_property.hpp>
 
-#include <image_transport/image_transport.h>
-#include <sensor_msgs/Image.h>
+#include <image_transport/image_transport.hpp>
+#include <sensor_msgs/Image.hpp>
 
 #include "overlay_utils.h"
 #include "image_transport_hints_property.h"
@@ -58,7 +58,7 @@
 
 namespace jsk_rviz_plugins
 {
-  class OverlayImageDisplay : public rviz::Display
+  class OverlayImageDisplay : public rviz_common::Display
   {
     Q_OBJECT
   public:
@@ -75,15 +75,15 @@ namespace jsk_rviz_plugins
   protected:
     boost::mutex mutex_;
     OverlayObject::Ptr overlay_;
-    rviz::RosTopicProperty* update_topic_property_;
+    rviz_common::properties::RosTopicProperty* update_topic_property_;
     ImageTransportHintsProperty* transport_hint_property_;
-    rviz::BoolProperty* keep_aspect_ratio_property_;
-    rviz::IntProperty* width_property_;
-    rviz::IntProperty* height_property_;
-    rviz::IntProperty* left_property_;
-    rviz::IntProperty* top_property_;
-    rviz::FloatProperty* alpha_property_;
-    rviz::BoolProperty* overwrite_alpha_property_;
+    rviz_common::properties::BoolProperty* keep_aspect_ratio_property_;
+    rviz_common::properties::IntProperty* width_property_;
+    rviz_common::properties::IntProperty* height_property_;
+    rviz_common::properties::IntProperty* left_property_;
+    rviz_common::properties::IntProperty* top_property_;
+    rviz_common::properties::FloatProperty* alpha_property_;
+    rviz_common::properties::BoolProperty* overwrite_alpha_property_;
     int width_, height_, left_, top_;
     double alpha_;
 #if ROS_VERSION_MINIMUM(1,12,0)

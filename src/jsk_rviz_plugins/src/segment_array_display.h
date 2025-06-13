@@ -37,30 +37,30 @@
 #define JSK_RVIZ_PLUGINS_SEGMENT_ARRAY_DISPLAY_H_
 
 #ifndef Q_MOC_RUN
-#include <jsk_recognition_msgs/SegmentArray.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/enum_property.h>
-#include <rviz/message_filter_display.h>
-#include <rviz/ogre_helpers/shape.h>
-#include <rviz/ogre_helpers/billboard_line.h>
-#include <rviz/ogre_helpers/arrow.h>
-#include <OGRE/OgreSceneManager.h>
-#include <OGRE/OgreSceneNode.h>
+#include <jsk_recognition_msgs/SegmentArray.hpp>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/enum_property.hpp>
+#include <rviz/message_filter_display.hpp>
+#include <rviz/ogre_helpers/shape.hpp>
+#include <rviz/ogre_helpers/billboard_line.hpp>
+#include <rviz/ogre_helpers/arrow.hpp>
+#include <OGRE/OgreSceneManager.hpp>
+#include <OGRE/OgreSceneNode.hpp>
 #endif
 
 namespace jsk_rviz_plugins
 {
   class SegmentArrayDisplay:
-    public rviz::MessageFilterDisplay<jsk_recognition_msgs::SegmentArray>
+    public rviz_common::MessageFilterDisplay<jsk_recognition_msgs::SegmentArray>
   {
     Q_OBJECT
   public:
 #if ROS_VERSION_MINIMUM(1,12,0)
-    typedef std::shared_ptr<rviz::BillboardLine> BillboardLinePtr;
+    typedef std::shared_ptr<rviz_rendering::BillboardLine> BillboardLinePtr;
 #else
-    typedef boost::shared_ptr<rviz::BillboardLine> BillboardLinePtr;
+    typedef boost::shared_ptr<rviz_rendering::BillboardLine> BillboardLinePtr;
 #endif
     SegmentArrayDisplay();
     virtual ~SegmentArrayDisplay();
@@ -72,10 +72,10 @@ namespace jsk_rviz_plugins
     virtual void showEdges(
       const jsk_recognition_msgs::SegmentArray::ConstPtr& msg);
 
-    rviz::EnumProperty* coloring_property_;
-    rviz::ColorProperty* color_property_;
-    rviz::FloatProperty* alpha_property_;
-    rviz::FloatProperty* line_width_property_;
+    rviz_common::properties::EnumProperty* coloring_property_;
+    rviz_common::properties::ColorProperty* color_property_;
+    rviz_common::properties::FloatProperty* alpha_property_;
+    rviz_common::properties::FloatProperty* line_width_property_;
     QColor color_;
     double alpha_;
     std::string coloring_method_;

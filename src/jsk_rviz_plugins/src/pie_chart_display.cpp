@@ -35,11 +35,11 @@
 
 #include "pie_chart_display.h"
 
-#include <OGRE/OgreMaterialManager.h>
-#include <OGRE/OgreTextureManager.h>
-#include <OGRE/OgreTexture.h>
-#include <OGRE/OgreTechnique.h>
-#include <OGRE/OgreHardwarePixelBuffer.h>
+#include <OGRE/OgreMaterialManager.hpp>
+#include <OGRE/OgreTextureManager.hpp>
+#include <OGRE/OgreTexture.hpp>
+#include <OGRE/OgreTechnique.hpp>
+#include <OGRE/OgreHardwarePixelBuffer.hpp>
 #include <rviz_rendering/uniform_string_stream.hpp>
 #include <rviz_common/display_context.hpp>
 #include <QPainter>
@@ -52,7 +52,7 @@ namespace jsk_rviz_plugins
   {
     update_topic_property_ = new rviz_common::properties::RosTopicProperty(
       "Topic", "",
-      "std_msgs/msg/Float32",
+      "std_msgs/msg/msg/Float32",
       "std_msgs::Float32 topic to subscribe to.",
       this, SLOT( updateTopic() ));
     size_property_ = new rviz_common::properties::IntProperty("size", 128,
@@ -506,5 +506,5 @@ namespace jsk_rviz_plugins
   }
 }
 
-#include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::PieChartDisplay, rviz::Display )
+#include <pluginlib/class_list_macros.hpp>
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::PieChartDisplay, rviz_common::Display )

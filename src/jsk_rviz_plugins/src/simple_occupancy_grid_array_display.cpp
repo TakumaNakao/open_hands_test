@@ -78,8 +78,8 @@ namespace jsk_rviz_plugins
     if (num > clouds_.size()) { // need to allocate new node and clouds
       for (size_t i = clouds_.size(); i < num; i++) {
         Ogre::SceneNode* node = scene_node_->createChildSceneNode();
-        rviz::PointCloud* cloud = new rviz::PointCloud();
-        cloud->setRenderMode(rviz::PointCloud::RM_TILES);
+        rviz_rendering::PointCloud* cloud = new rviz_rendering::PointCloud();
+        cloud->setRenderMode(rviz_rendering::PointCloud::RM_TILES);
         cloud->setCommonDirection( Ogre::Vector3::UNIT_Z );
         cloud->setCommonUpVector( Ogre::Vector3::UNIT_Y );
         node->attachObject(cloud);
@@ -112,7 +112,7 @@ namespace jsk_rviz_plugins
     allocateCloudsAndNodes(msg->grids.size()); // not enough
     for (size_t i = 0; i < msg->grids.size(); i++) {
       Ogre::SceneNode* node = nodes_[i];
-      rviz::PointCloud* cloud = clouds_[i];
+      rviz_rendering::PointCloud* cloud = clouds_[i];
       const jsk_recognition_msgs::SimpleOccupancyGrid grid = msg->grids[i];
       Ogre::Vector3 position;
       Ogre::Quaternion quaternion;
@@ -130,18 +130,18 @@ namespace jsk_rviz_plugins
         oss << " from frame '" << grid.header.frame_id << "'";
         oss << " to frame '" << qPrintable(fixed_frame_) << "'";
         ROS_ERROR_STREAM(oss.str());
-        setStatus(rviz::StatusProperty::Error, "Transform", QString::fromStdString(oss.str()));
+        setStatus(rviz_common::properties::StatusProperty::Error, "Transform", QString::fromStdString(oss.str()));
         return;
       }
       node->setPosition(position);
       node->setOrientation(quaternion);
       cloud->setDimensions(grid.resolution, grid.resolution, 0.0);
-      std::vector<rviz::PointCloud::Point> points;
+      std::vector<rviz_rendering::PointCloud::Point> points;
       for (size_t ci = 0; ci < grid.cells.size(); ci++) {
         const geometry_msgs::Point p = grid.cells[ci];
-        rviz::PointCloud::Point point;
+        rviz_rendering::PointCloud::Point point;
         if (auto_color_) {
-          point.color = rviz::colorMsgToOgre(jsk_topic_tools::colorCategory20(i));
+          point.color = rviz_rendering::colorMsgToOgre(jsk_topic_tools::colorCategory20(i));
         }
         else {
           point.color = white;
@@ -173,5 +173,5 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::SimpleOccupancyGridArrayDisplay, rviz::Display )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::SimpleOccupancyGridArrayDisplay, rviz_common::Display )
 

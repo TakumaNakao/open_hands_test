@@ -46,7 +46,7 @@
 namespace jsk_rviz_plugins
 {
   ScreenshotListenerTool::ScreenshotListenerTool()
-    : rviz::Tool()
+    : rviz_common::Tool()
   {
 
   }
@@ -57,7 +57,7 @@ namespace jsk_rviz_plugins
 
   void ScreenshotListenerTool::onInitialize()
   {
-    ros::NodeHandle nh;
+    rclcpp::Node::SharedPtr nh;
     screenshot_service_ = nh.advertiseService(
       "/rviz/screenshot",
       &ScreenshotListenerTool::takeScreenShot, this);
@@ -87,4 +87,4 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::ScreenshotListenerTool, rviz::Tool )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::ScreenshotListenerTool, rviz_common::Tool )

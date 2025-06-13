@@ -37,27 +37,27 @@
 #define JSK_RVIZ_PLUGINS_SIMPLE_OCCUPANCY_GRID_ARRAY_DISPLAY_H_
 
 #ifndef Q_MOC_RUN
-#include <jsk_recognition_msgs/SimpleOccupancyGridArray.h>
-#include <rviz/message_filter_display.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/ogre_helpers/shape.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/ogre_helpers/point_cloud.h>
+#include <jsk_recognition_msgs/SimpleOccupancyGridArray.hpp>
+#include <rviz/message_filter_display.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz/ogre_helpers/shape.hpp>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz/ogre_helpers/point_cloud.hpp>
 #endif
 
 namespace jsk_rviz_plugins
 {
   class SimpleOccupancyGridArrayDisplay:
-    public rviz::MessageFilterDisplay<
+    public rviz_common::MessageFilterDisplay<
     jsk_recognition_msgs::SimpleOccupancyGridArray>
   {
     Q_OBJECT
   public:
 #if ROS_VERSION_MINIMUM(1,12,0)
-    typedef std::shared_ptr<rviz::PointCloud> PointCloudPtr;
+    typedef std::shared_ptr<rviz_rendering::PointCloud> PointCloudPtr;
 #else
-    typedef boost::shared_ptr<rviz::PointCloud> PointCloudPtr;
+    typedef boost::shared_ptr<rviz_rendering::PointCloud> PointCloudPtr;
 #endif
     SimpleOccupancyGridArrayDisplay();
     virtual ~SimpleOccupancyGridArrayDisplay();
@@ -65,10 +65,10 @@ namespace jsk_rviz_plugins
     virtual void onInitialize();
     virtual void reset();
     virtual void allocateCloudsAndNodes(const size_t num);
-    rviz::FloatProperty* alpha_property_;
-    rviz::BoolProperty* auto_color_property_;
+    rviz_common::properties::FloatProperty* alpha_property_;
+    rviz_common::properties::BoolProperty* auto_color_property_;
     double alpha_;
-    std::vector<rviz::PointCloud*> clouds_;
+    std::vector<rviz_rendering::PointCloud*> clouds_;
     std::vector<Ogre::SceneNode*> nodes_;
     bool auto_color_;
   private:

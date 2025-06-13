@@ -38,34 +38,34 @@
 #define JSK_RVIZ_PLUGINS_TWIST_STAMPED_H_
 
 #ifndef Q_MOC_RUN
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/int_property.h>
-#include <rviz/message_filter_display.h>
-#include <rviz/ogre_helpers/shape.h>
-#include <rviz/ogre_helpers/mesh_shape.h>
-#include <rviz/ogre_helpers/arrow.h>
-#include <OGRE/OgreSceneNode.h>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/int_property.hpp>
+#include <rviz/message_filter_display.hpp>
+#include <rviz/ogre_helpers/shape.hpp>
+#include <rviz/ogre_helpers/mesh_shape.hpp>
+#include <rviz/ogre_helpers/arrow.hpp>
+#include <OGRE/OgreSceneNode.hpp>
 
-#include <geometry_msgs/TwistStamped.h>
-#include <rviz/ogre_helpers/arrow.h>
-#include <rviz/ogre_helpers/billboard_line.h>
+#include <geometry_msgs/TwistStamped.hpp>
+#include <rviz/ogre_helpers/arrow.hpp>
+#include <rviz/ogre_helpers/billboard_line.hpp>
 #endif
 
 
 namespace jsk_rviz_plugins
 {
-  class TwistStampedDisplay: public rviz::MessageFilterDisplay<geometry_msgs::TwistStamped>
+  class TwistStampedDisplay: public rviz_common::MessageFilterDisplay<geometry_msgs::TwistStamped>
   {
     Q_OBJECT
   public:
 #if ROS_VERSION_MINIMUM(1,12,0)
-    typedef std::shared_ptr<rviz::Arrow> ArrowPtr;
-    typedef std::shared_ptr<rviz::BillboardLine> BillboardLinePtr;
+    typedef std::shared_ptr<rviz_rendering::Arrow> ArrowPtr;
+    typedef std::shared_ptr<rviz_rendering::BillboardLine> BillboardLinePtr;
 #else
-    typedef boost::shared_ptr<rviz::Arrow> ArrowPtr;
-    typedef boost::shared_ptr<rviz::BillboardLine> BillboardLinePtr;
+    typedef boost::shared_ptr<rviz_rendering::Arrow> ArrowPtr;
+    typedef boost::shared_ptr<rviz_rendering::BillboardLine> BillboardLinePtr;
 #endif
     TwistStampedDisplay();
     virtual ~TwistStampedDisplay();
@@ -86,10 +86,10 @@ namespace jsk_rviz_plugins
     ////////////////////////////////////////////////////////
     // properties
     ////////////////////////////////////////////////////////
-    rviz::FloatProperty* linear_scale_property_;
-    rviz::FloatProperty* angular_scale_property_;
-    rviz::ColorProperty* linear_color_property_;
-    rviz::ColorProperty* angular_color_property_;
+    rviz_common::properties::FloatProperty* linear_scale_property_;
+    rviz_common::properties::FloatProperty* angular_scale_property_;
+    rviz_common::properties::ColorProperty* linear_color_property_;
+    rviz_common::properties::ColorProperty* angular_color_property_;
     
     double linear_scale_;
     double angular_scale_;

@@ -36,21 +36,21 @@
 #ifndef JSK_RVIZ_PLUGIN_OVERLAY_PICKER_TOOL_H_
 #define JSK_RVIZ_PLUGIN_OVERLAY_PICKER_TOOL_H_
 
-#include <rviz/tool.h>
-#include <rviz/properties/property.h>
-#include <rviz/properties/property_tree_model.h>
-#include <rviz/viewport_mouse_event.h>
-#include <rviz/render_panel.h>
+#include <rviz/tool.hpp>
+#include <rviz_common/properties/property.hpp>
+#include <rviz_common/properties/property_tree_model.hpp>
+#include <rviz/viewport_mouse_event.hpp>
+#include <rviz/render_panel.hpp>
 
 namespace jsk_rviz_plugins
 {
-  class OverlayPickerTool: public rviz::Tool
+  class OverlayPickerTool: public rviz_common::Tool
   {
   public:
     OverlayPickerTool();
     virtual void activate() {}
     virtual void deactivate() {};
-    virtual int processKeyEvent(QKeyEvent* event, rviz::RenderPanel* panel);
+    virtual int processKeyEvent(QKeyEvent* event, rviz_common::RenderPanel* panel);
     virtual int processMouseEvent(rviz::ViewportMouseEvent& event);
     template <class T>
     T* isPropertyType(rviz::Property* p)

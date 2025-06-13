@@ -36,22 +36,22 @@
 #ifndef JSK_RVIZ_PLUGINS_OVERLAY_CAMERA_DISPLAY_H_
 #define JSK_RVIZ_PLUGINS_OVERLAY_CAMERA_DISPLAY_H_
 
-#include <rviz/default_plugin/camera_display.h>
+#include <rviz/default_plugin/camera_display.hpp>
 
 #ifndef Q_MOC_RUN
 #include <QObject>
 
-#include <OgreMaterial.h>
-#include <OgreRenderTargetListener.h>
-#include <OgreSharedPtr.h>
+#include <OgreMaterial.hpp>
+#include <OgreRenderTargetListener.hpp>
+#include <OgreSharedPtr.hpp>
 
-# include <sensor_msgs/CameraInfo.h>
+# include <sensor_msgs/CameraInfo.hpp>
 
-# include <message_filters/subscriber.h>
+# include <message_filters/subscriber.hpp>
 #if ROS_VERSION_MINIMUM(1, 15, 0) // noetic and greater
-# include <tf2_ros/message_filter.h>
+# include <tf2_ros/message_filter.hpp>
 #else
-# include <tf/message_filter.h>
+# include <tf/message_filter.hpp>
 #endif
 
 # include "rviz/image/image_display_base.h"
@@ -167,11 +167,11 @@ private:
 protected:
   OverlayObject::Ptr overlay_;
   void redraw();
-  rviz::IntProperty* width_property_;
-  rviz::IntProperty* height_property_;
-  rviz::IntProperty* left_property_;
-  rviz::IntProperty* top_property_;
-  rviz::FloatProperty* texture_alpha_property_;
+  rviz_common::properties::IntProperty* width_property_;
+  rviz_common::properties::IntProperty* height_property_;
+  rviz_common::properties::IntProperty* left_property_;
+  rviz_common::properties::IntProperty* top_property_;
+  rviz_common::properties::FloatProperty* texture_alpha_property_;
   int width_, height_;
   int left_, top_;
   float texture_alpha_;

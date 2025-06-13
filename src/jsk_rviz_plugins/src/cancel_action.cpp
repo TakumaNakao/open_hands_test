@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdio.hpp>
 
 #include <QPainter>
 #include <QLineEdit>
@@ -8,7 +8,7 @@
 #include <QLabel>
 #include <QTimer>
 
-#include <std_msgs/msg/empty.hpp>
+#include <std_msgs/msg/msg/empty.hpp>
 #include <action_msgs/msg/goal_info.hpp>
 
 #include "cancel_action.h"
@@ -169,5 +169,5 @@ namespace jsk_rviz_plugins
 
 }
 
-#include <pluginlib/class_list_macros.h>
+#include <pluginlib/class_list_macros.hpp>
 PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::CancelAction, rviz_common::Panel )

@@ -61,67 +61,67 @@ namespace jsk_rviz_plugins
                                    fg_color_(255, 255, 255, 255.0),
                                    require_update_texture_(false)
   {
-    update_topic_property_ = new rviz::RosTopicProperty(
+    update_topic_property_ = new rviz_common::properties::RosTopicProperty(
       "Topic", "",
-      ros::message_traits::datatype<std_msgs::String>(),
+      rosidl_generator_traits::data_type<std_msgs::String>(),
       "std_msgs::String topic to subscribe to.",
       this, SLOT(updateTopic()));
-    overtake_position_properties_property_ = new rviz::BoolProperty(
+    overtake_position_properties_property_ = new rviz_common::properties::BoolProperty(
       "Overtake Position Properties", false,
       "overtake position properties specified by message such as left, top and font",
       this, SLOT(updateOvertakePositionProperties()));
-    overtake_color_properties_property_ = new rviz::BoolProperty(
+    overtake_color_properties_property_ = new rviz_common::properties::BoolProperty(
       "Overtake Color Properties", false,
       "overtake color properties specified by message such as foreground/background color and alpha",
       this, SLOT(updateOvertakeColorProperties()));
-    align_bottom_property_ = new rviz::BoolProperty(
+    align_bottom_property_ = new rviz_common::properties::BoolProperty(
       "Align Bottom", false,
       "align text with the bottom of the overlay region",
       this, SLOT(updateAlignBottom()));
-    top_property_ = new rviz::IntProperty(
+    top_property_ = new rviz_common::properties::IntProperty(
       "top", 0,
       "top position",
       this, SLOT(updateTop()));
     top_property_->setMin(0);
-    left_property_ = new rviz::IntProperty(
+    left_property_ = new rviz_common::properties::IntProperty(
       "left", 0,
       "left position",
       this, SLOT(updateLeft()));
     left_property_->setMin(0);
-    width_property_ = new rviz::IntProperty(
+    width_property_ = new rviz_common::properties::IntProperty(
       "width", 128,
       "width position",
       this, SLOT(updateWidth()));
     width_property_->setMin(0);
-    height_property_ = new rviz::IntProperty(
+    height_property_ = new rviz_common::properties::IntProperty(
       "height", 128,
       "height position",
       this, SLOT(updateHeight()));
     height_property_->setMin(0);
-    text_size_property_ = new rviz::IntProperty(
+    text_size_property_ = new rviz_common::properties::IntProperty(
       "text size", 12,
       "text size",
       this, SLOT(updateTextSize()));
     text_size_property_->setMin(0);
-    line_width_property_ = new rviz::IntProperty(
+    line_width_property_ = new rviz_common::properties::IntProperty(
       "line width", 2,
       "line width",
       this, SLOT(updateLineWidth()));
     line_width_property_->setMin(0);
-    fg_color_property_ = new rviz::ColorProperty(
+    fg_color_property_ = new rviz_common::properties::ColorProperty(
       "Foreground Color", QColor(25, 255, 240),
       "Foreground Color",
       this, SLOT(updateFGColor()));
-    fg_alpha_property_ = new rviz::FloatProperty(
+    fg_alpha_property_ = new rviz_common::properties::FloatProperty(
       "Foreground Alpha", 0.8, "Foreground Alpha",
       this, SLOT(updateFGAlpha()));
     fg_alpha_property_->setMin(0.0);
     fg_alpha_property_->setMax(1.0);
-    bg_color_property_ = new rviz::ColorProperty(
+    bg_color_property_ = new rviz_common::properties::ColorProperty(
       "Background Color", QColor(0, 0, 0),
       "Background Color",
       this, SLOT(updateBGColor()));
-    bg_alpha_property_ = new rviz::FloatProperty(
+    bg_alpha_property_ = new rviz_common::properties::FloatProperty(
       "Background Alpha", 0.8, "Background Alpha",
       this, SLOT(updateBGAlpha()));
     bg_alpha_property_->setMin(0.0);
@@ -129,7 +129,7 @@ namespace jsk_rviz_plugins
 
     QFontDatabase database;
     font_families_ = database.families();
-    font_property_ = new rviz::EnumProperty(
+    font_property_ = new rviz_common::properties::EnumProperty(
       "font", "DejaVu Sans Mono",
       "font", this,
       SLOT(updateFont()));
@@ -188,7 +188,7 @@ namespace jsk_rviz_plugins
     std::string topic_name = update_topic_property_->getTopicStd();
     if (topic_name.length() > 0 && topic_name != "/")
     {
-      sub_ = ros::NodeHandle().subscribe(topic_name, 1, &StringDisplay::processMessage, this);
+      sub_ = rclcpp::Node::SharedPtr().subscribe(topic_name, 1, &StringDisplay::processMessage, this);
     }
   }
 
@@ -292,7 +292,7 @@ namespace jsk_rviz_plugins
     if (!overlay_)
     {
       static int count = 0;
-      rviz::UniformStringStream ss;
+      std::ostringstream ss;
       ss << "StringDisplayObject" << count++;
       overlay_.reset(new OverlayObject(ss.str()));
       overlay_->show();
@@ -517,4 +517,4 @@ namespace jsk_rviz_plugins
 
 }  // namespace jsk_rviz_plugins
 
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::StringDisplay, rviz::Display )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::StringDisplay, rviz_common::Display )

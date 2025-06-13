@@ -41,7 +41,7 @@ namespace jsk_rviz_plugins
 
   BoundingBoxDisplay::BoundingBoxDisplay()
   {
-    coloring_property_ = new rviz::EnumProperty(
+    coloring_property_ = new rviz_common::properties::EnumProperty(
       "coloring", "Flat color",
       "coloring method",
       this, SLOT(updateColoring()));
@@ -49,41 +49,41 @@ namespace jsk_rviz_plugins
     coloring_property_->addOption("Label", 1);
     coloring_property_->addOption("Value", 2);
 
-    alpha_method_property_ = new rviz::EnumProperty(
+    alpha_method_property_ = new rviz_common::properties::EnumProperty(
       "alpha_method", "flat", "alpha method",
       this, SLOT(updateAlphaMethod()));
     alpha_method_property_->addOption("flat", 0);
     alpha_method_property_->addOption("value", 1);
 
-    color_property_ = new rviz::ColorProperty(
+    color_property_ = new rviz_common::properties::ColorProperty(
       "color", QColor(25, 255, 0),
       "color to draw the bounding boxes",
       this, SLOT(updateColor()));
-    alpha_property_ = new rviz::FloatProperty(
+    alpha_property_ = new rviz_common::properties::FloatProperty(
       "alpha", 0.8,
       "alpha value to draw the bounding boxes",
       this, SLOT(updateAlpha()));
-    alpha_min_property_ = new rviz::FloatProperty(
+    alpha_min_property_ = new rviz_common::properties::FloatProperty(
       "alpha min", 0.0,
       "alpha value corresponding to value = 0",
       this, SLOT(updateAlphaMin()));
-    alpha_max_property_ = new rviz::FloatProperty(
+    alpha_max_property_ = new rviz_common::properties::FloatProperty(
       "alpha max", 1.0,
       "alpha value corresponding to value = 1",
       this, SLOT(updateAlphaMax()));
-    only_edge_property_ = new rviz::BoolProperty(
+    only_edge_property_ = new rviz_common::properties::BoolProperty(
       "only edge", false,
       "show only the edges of the boxes",
       this, SLOT(updateOnlyEdge()));
-    line_width_property_ = new rviz::FloatProperty(
+    line_width_property_ = new rviz_common::properties::FloatProperty(
       "line width", 0.005,
       "line width of the edges",
       this, SLOT(updateLineWidth()));
-    show_coords_property_ = new rviz::BoolProperty(
+    show_coords_property_ = new rviz_common::properties::BoolProperty(
       "show coords", false,
       "show coordinate of bounding box",
       this, SLOT(updateShowCoords()));
-    value_threshold_property_ = new rviz::FloatProperty(
+    value_threshold_property_ = new rviz_common::properties::FloatProperty(
       "value threshold", 0.0,
       "filter all boxes with value < threshold",
       this, SLOT(updateValueThreshold()));
@@ -292,4 +292,4 @@ namespace jsk_rviz_plugins
 }  // namespace jsk_rviz_plugins
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::BoundingBoxDisplay, rviz::Display)
+PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::BoundingBoxDisplay, rviz_common::Display)

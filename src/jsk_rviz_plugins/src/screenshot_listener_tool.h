@@ -37,14 +37,14 @@
 #ifndef JSK_RVIZ_PLUGIN_SCREENSHOT_LISTENER_H_
 #define JSK_RVIZ_PLUGIN_SCREENSHOT_LISTENER_H_
 
-#include <rviz/tool.h>
-#include <rviz/properties/property.h>
-#include <rviz/properties/property_tree_model.h>
-#include <jsk_rviz_plugins/Screenshot.h>
+#include <rviz/tool.hpp>
+#include <rviz_common/properties/property.hpp>
+#include <rviz_common/properties/property_tree_model.hpp>
+#include <jsk_rviz_plugins/Screenshot.hpp>
 
 namespace jsk_rviz_plugins
 {
-  class ScreenshotListenerTool: public rviz::Tool
+  class ScreenshotListenerTool: public rviz_common::Tool
   {
   public:
     ScreenshotListenerTool();

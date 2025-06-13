@@ -38,25 +38,25 @@
 #define JSK_RVIZ_PLUGINS_CAMERA_INFO_DISPLAY_H_
 
 #ifndef Q_MOC_RUN
-#include <rviz/display.h>
-#include <rviz/message_filter_display.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/ros_topic_property.h>
-#include <rviz/ogre_helpers/shape.h>
-#include <rviz/ogre_helpers/billboard_line.h>
-#include <OGRE/OgreSceneNode.h>
-#include <image_geometry/pinhole_camera_model.h>
-#include <sensor_msgs/Image.h>
-#include <OGRE/OgreManualObject.h>
-#include <OGRE/OgreSceneManager.h>
-#include <OGRE/OgreTextureManager.h>
-#include <OGRE/OgreTexture.h>
-#include <OGRE/OgreTechnique.h>
-#include <cv_bridge/cv_bridge.h>
-#include <sensor_msgs/image_encodings.h>
-#include <image_transport/subscriber.h>
+#include <rviz_common/display.hpp>
+#include <rviz/message_filter_display.hpp>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/ros_topic_property.hpp>
+#include <rviz/ogre_helpers/shape.hpp>
+#include <rviz/ogre_helpers/billboard_line.hpp>
+#include <OGRE/OgreSceneNode.hpp>
+#include <image_geometry/pinhole_camera_model.hpp>
+#include <sensor_msgs/Image.hpp>
+#include <OGRE/OgreManualObject.hpp>
+#include <OGRE/OgreSceneManager.hpp>
+#include <OGRE/OgreTextureManager.hpp>
+#include <OGRE/OgreTexture.hpp>
+#include <OGRE/OgreTechnique.hpp>
+#include <cv_bridge/cv_bridge.hpp>
+#include <sensor_msgs/image_encodings.hpp>
+#include <image_transport/subscriber.hpp>
 
 #include "image_transport_hints_property.h"
 #endif
@@ -89,16 +89,16 @@ namespace jsk_rviz_plugins
   };
   
   class CameraInfoDisplay:
-    public rviz::MessageFilterDisplay<sensor_msgs::CameraInfo>
+    public rviz_common::MessageFilterDisplay<sensor_msgs::CameraInfo>
   {
     Q_OBJECT
   public:
 #if ROS_VERSION_MINIMUM(1,12,0)
-    typedef std::shared_ptr<rviz::Shape> ShapePtr;
-    typedef std::shared_ptr<rviz::BillboardLine> BillboardLinePtr;
+    typedef std::shared_ptr<rviz_rendering::Shape> ShapePtr;
+    typedef std::shared_ptr<rviz_rendering::BillboardLine> BillboardLinePtr;
 #else
-    typedef boost::shared_ptr<rviz::Shape> ShapePtr;
-    typedef boost::shared_ptr<rviz::BillboardLine> BillboardLinePtr;
+    typedef boost::shared_ptr<rviz_rendering::Shape> ShapePtr;
+    typedef boost::shared_ptr<rviz_rendering::BillboardLine> BillboardLinePtr;
 #endif
     CameraInfoDisplay();
     virtual ~CameraInfoDisplay();
@@ -157,15 +157,15 @@ namespace jsk_rviz_plugins
     // properties
     ////////////////////////////////////////////////////////
     ImageTransportHintsProperty* image_transport_hints_property_;
-    rviz::FloatProperty* far_clip_distance_property_;
-    rviz::FloatProperty* alpha_property_;
-    rviz::ColorProperty* color_property_;
-    rviz::ColorProperty* edge_color_property_;
-    rviz::BoolProperty* show_polygons_property_;
-    rviz::BoolProperty* not_show_side_polygons_property_;
-    rviz::BoolProperty* use_image_property_;
-    rviz::RosTopicProperty* image_topic_property_;
-    rviz::BoolProperty* show_edges_property_;
+    rviz_common::properties::FloatProperty* far_clip_distance_property_;
+    rviz_common::properties::FloatProperty* alpha_property_;
+    rviz_common::properties::ColorProperty* color_property_;
+    rviz_common::properties::ColorProperty* edge_color_property_;
+    rviz_common::properties::BoolProperty* show_polygons_property_;
+    rviz_common::properties::BoolProperty* not_show_side_polygons_property_;
+    rviz_common::properties::BoolProperty* use_image_property_;
+    rviz_common::properties::RosTopicProperty* image_topic_property_;
+    rviz_common::properties::BoolProperty* show_edges_property_;
     
   protected Q_SLOTS:
     void updateFarClipDistance();

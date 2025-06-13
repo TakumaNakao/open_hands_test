@@ -2,15 +2,15 @@
 #define RECORD_ACTION_H
 
 #ifndef Q_MOC_RUN
-#include <ros/ros.h>
+#include <ros/ros.hpp>
 
-#include <rviz/panel.h>
+#include <rviz/panel.hpp>
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 #  include <QtWidgets>
 #else
 #  include <QtGui>
 #endif
-#include <jsk_rviz_plugins/RecordCommand.h>
+#include <jsk_rviz_plugins/RecordCommand.hpp>
 #endif
 
 class QLineEdit;

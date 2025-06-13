@@ -37,20 +37,20 @@
 #ifndef JSK_RVIZ_PLUGIN_RVIZ_SCENE_PUBLISHER_H_
 #define JSK_RVIZ_PLUGIN_RVIZ_SCENE_PUBLISHER_H_
 
-#include <rviz/display.h>
-#include <rviz/properties/string_property.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/float_property.h>
+#include <rviz_common/display.hpp>
+#include <rviz_common/properties/string_property.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
 #include <opencv2/opencv.hpp>
-#include <image_transport/image_transport.h>
-#include <cv_bridge/cv_bridge.h>
-#include <sensor_msgs/Image.h>
+#include <image_transport/image_transport.hpp>
+#include <cv_bridge/cv_bridge.hpp>
+#include <sensor_msgs/Image.hpp>
 
-#include <ros/ros.h>
+#include <ros/ros.hpp>
 
 namespace jsk_rviz_plugins
 {
-  class RvizScenePublisher: public rviz::Display
+  class RvizScenePublisher: public rviz_common::Display
   {
     Q_OBJECT
   public:
@@ -65,7 +65,7 @@ namespace jsk_rviz_plugins
     virtual void onInitialize();
     virtual void onEnable();
     virtual void update(float wall_dt, float ros_dt);
-    rviz::StringProperty* topic_name_property_;
+    rviz_common::properties::StringProperty* topic_name_property_;
     std::string topic_name_;
     int image_id_;
     ros::NodeHandle nh_;

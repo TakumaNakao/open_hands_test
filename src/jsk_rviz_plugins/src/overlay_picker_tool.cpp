@@ -54,12 +54,12 @@
 namespace jsk_rviz_plugins
 {
   OverlayPickerTool::OverlayPickerTool()
-    : is_moving_(false), shift_pressing_(false), rviz::Tool()
+    : is_moving_(false), shift_pressing_(false), rviz_common::Tool()
   {
 
   }
 
-  int OverlayPickerTool::processKeyEvent(QKeyEvent* event, rviz::RenderPanel* panel)
+  int OverlayPickerTool::processKeyEvent(QKeyEvent* event, rviz_common::RenderPanel* panel)
   {
     if (event->type() == QEvent::KeyPress && event->key() == Qt::Key_Shift) { // shift
       shift_pressing_ = true;
@@ -71,7 +71,7 @@ namespace jsk_rviz_plugins
   }
   
   
-  int OverlayPickerTool::processMouseEvent(rviz::ViewportMouseEvent& event)
+  int OverlayPickerTool::processMouseEvent(rviz_common::ViewportMouseEvent& event)
   {
     if (event.left() && event.leftDown()) {
       if (!is_moving_) {
@@ -87,10 +87,10 @@ namespace jsk_rviz_plugins
     return 0;
   }
 
-  bool OverlayPickerTool::handleDisplayClick(rviz::Property* property, rviz::ViewportMouseEvent& event)
+  bool OverlayPickerTool::handleDisplayClick(rviz_common::properties::Property* property, rviz_common::ViewportMouseEvent& event)
   {
-    if (isPropertyType<rviz::DisplayGroup>(property)) {
-      rviz::DisplayGroup* group_property = isPropertyType<rviz::DisplayGroup>(property);
+    if (isPropertyType<rviz_common::DisplayGroup>(property)) {
+      rviz_common::DisplayGroup* group_property = isPropertyType<rviz_common::DisplayGroup>(property);
       for (int i = 0; i < group_property->numChildren(); i++) {
         if (handleDisplayClick(group_property->childAt(i), event)) {
           return true;
@@ -123,17 +123,17 @@ namespace jsk_rviz_plugins
     return false;
   }
 
-  void OverlayPickerTool::onClicked(rviz::ViewportMouseEvent& event)
+  void OverlayPickerTool::onClicked(rviz_common::ViewportMouseEvent& event)
   {
     ROS_DEBUG("onClicked");
     is_moving_ = true;
     ROS_DEBUG("clicked: (%d, %d)", event.x, event.y);
     // check the active overlay plugin
-    rviz::DisplayGroup* display_group = context_->getRootDisplayGroup();
+    rviz_common::DisplayGroup* display_group = context_->getRootDisplayGroup();
     handleDisplayClick(display_group, event);
   }
 
-  void OverlayPickerTool::onMove(rviz::ViewportMouseEvent& event)
+  void OverlayPickerTool::onMove(rviz_common::ViewportMouseEvent& event)
   {
     ROS_DEBUG("onMove");
     ROS_DEBUG("moving: (%d, %d)", event.x, event.y);
@@ -159,7 +159,7 @@ namespace jsk_rviz_plugins
     }
   }
   
-  void OverlayPickerTool::onRelease(rviz::ViewportMouseEvent& event)
+  void OverlayPickerTool::onRelease(rviz_common::ViewportMouseEvent& event)
   {
     ROS_DEBUG("onRelease");
     is_moving_ = false;
@@ -192,4 +192,4 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::OverlayPickerTool, rviz::Tool )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::OverlayPickerTool, rviz_common::Tool )

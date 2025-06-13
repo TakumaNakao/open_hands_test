@@ -37,37 +37,37 @@
 
 #ifndef Q_MOC_RUN
 #include "bounding_box_display_common.h"
-#include <jsk_recognition_msgs/BoundingBoxArray.h>
-#include <jsk_topic_tools/color_utils.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/enum_property.h>
-#include <rviz/message_filter_display.h>
-#include <rviz/ogre_helpers/shape.h>
-#include <rviz/ogre_helpers/billboard_line.h>
-#include <rviz/ogre_helpers/arrow.h>
-#include <OGRE/OgreSceneManager.h>
-#include <OGRE/OgreSceneNode.h>
+#include <jsk_recognition_msgs/BoundingBoxArray.hpp>
+#include <jsk_topic_tools/color_utils.hpp>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/enum_property.hpp>
+#include <rviz/message_filter_display.hpp>
+#include <rviz/ogre_helpers/shape.hpp>
+#include <rviz/ogre_helpers/billboard_line.hpp>
+#include <rviz/ogre_helpers/arrow.hpp>
+#include <OGRE/OgreSceneManager.hpp>
+#include <OGRE/OgreSceneNode.hpp>
 #endif
 
 namespace jsk_rviz_plugins
 {
 
   template <class MessageType>
-  class BoundingBoxDisplayCommon: public rviz::MessageFilterDisplay<MessageType>
+  class BoundingBoxDisplayCommon: public rviz_common::MessageFilterDisplay<MessageType>
   {
 public:
     BoundingBoxDisplayCommon() {};
     ~BoundingBoxDisplayCommon() {};
 #if ROS_VERSION_MINIMUM(1,12,0)
-    typedef std::shared_ptr<rviz::Shape> ShapePtr;
-    typedef std::shared_ptr<rviz::BillboardLine> BillboardLinePtr;
-    typedef std::shared_ptr<rviz::Arrow> ArrowPtr;
+    typedef std::shared_ptr<rviz_rendering::Shape> ShapePtr;
+    typedef std::shared_ptr<rviz_rendering::BillboardLine> BillboardLinePtr;
+    typedef std::shared_ptr<rviz_rendering::Arrow> ArrowPtr;
 #else
-    typedef boost::shared_ptr<rviz::Shape> ShapePtr;
-    typedef boost::shared_ptr<rviz::BillboardLine> BillboardLinePtr;
-    typedef boost::shared_ptr<rviz::Arrow> ArrowPtr;
+    typedef boost::shared_ptr<rviz_rendering::Shape> ShapePtr;
+    typedef boost::shared_ptr<rviz_rendering::BillboardLine> BillboardLinePtr;
+    typedef boost::shared_ptr<rviz_rendering::Arrow> ArrowPtr;
 #endif
 
 protected:
@@ -153,8 +153,8 @@ protected:
     {
       if (num > shapes_.size()) {
         for (size_t i = shapes_.size(); i < num; i++) {
-          ShapePtr shape (new rviz::Shape(
-                            rviz::Shape::Cube, this->context_->getSceneManager(),
+          ShapePtr shape (new rviz_rendering::Shape(
+                            rviz_rendering::Shape::Cube, this->context_->getSceneManager(),
                             this->scene_node_));
           shapes_.push_back(shape);
         }
@@ -169,7 +169,7 @@ protected:
     {
       if (num > edges_.size()) {
         for (size_t i = edges_.size(); i < num; i++) {
-          BillboardLinePtr line(new rviz::BillboardLine(
+          BillboardLinePtr line(new rviz_rendering::BillboardLine(
                                   this->context_->getSceneManager(), this->scene_node_));
           edges_.push_back(line);
         }
@@ -187,7 +187,7 @@ protected:
           Ogre::SceneNode* scene_node = this->scene_node_->createChildSceneNode();
           std::vector<ArrowPtr> coord;
           for (int i = 0; i < 3; i++) {
-            ArrowPtr arrow (new rviz::Arrow(this->scene_manager_, scene_node));
+            ArrowPtr arrow (new rviz_rendering::Arrow(this->scene_manager_, scene_node));
             coord.push_back(arrow);
           }
           coords_nodes_.push_back(scene_node);

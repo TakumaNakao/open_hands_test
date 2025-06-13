@@ -20,32 +20,32 @@ namespace jsk_rviz_plugins
 
     AmbientSoundDisplay::AmbientSoundDisplay()/*{{{*/
     {
-          color_property_ = new rviz::ColorProperty("Color",QColor( 204, 51, 204),
+          color_property_ = new rviz_common::properties::ColorProperty("Color",QColor( 204, 51, 204),
                   "Color to draw the acceleration arrows." ,
                   this, SLOT(updateColorAndAlpha()));
-          alpha_property_ = new rviz::FloatProperty( "Alpha", 1.0,
+          alpha_property_ = new rviz_common::properties::FloatProperty( "Alpha", 1.0,
                   "0 is fully transparent, 1.0 is fully opaque.",
                   this, SLOT( updateColorAndAlpha() ));
-          history_length_property_ = new rviz::IntProperty("History Length", 1,
+          history_length_property_ = new rviz_common::properties::IntProperty("History Length", 1,
                   "Number of prior measurements to display." ,
                   this, SLOT(updateHistoryLength()));
-          width_property_ = new rviz::FloatProperty("Width", 0.1,
+          width_property_ = new rviz_common::properties::FloatProperty("Width", 0.1,
                   "Width of line",
                   this, SLOT(updateAppearance()));
-          scale_property_ = new rviz::FloatProperty("Scale", 1.0,
+          scale_property_ = new rviz_common::properties::FloatProperty("Scale", 1.0,
                   "Scale of line",
                   this, SLOT(updateAppearance()));
-          bias_property_ = new rviz::FloatProperty("Bias", 10,
+          bias_property_ = new rviz_common::properties::FloatProperty("Bias", 10,
                   "Bias",
                   this, SLOT(updateAppearance()));
-          grad_property_ = new rviz::FloatProperty("Gradient", 0.1,
+          grad_property_ = new rviz_common::properties::FloatProperty("Gradient", 0.1,
                   "Gradient",
                   this, SLOT(updateAppearance()));
           history_length_property_->setMin( 1 );
           history_length_property_->setMax( 1 );
     }/*}}}*/
 
-    // After the parent rviz::Display::initialize() does its own setup, it
+    // After the parent rviz_common::Display::initialize() does its own setup, it
     // calls the subclass's onInitialize() function.  This is where we
     // instantiate all the workings of the class.
     void AmbientSoundDisplay::onInitialize()/*{{{*/
@@ -102,7 +102,7 @@ namespace jsk_rviz_plugins
 //        }
 //        tf_filter_->clear();
 //        messages_received_ = 0;
-//        setStatus( rviz::status_levels::Warn, "Topic", "No messages received" );
+//        setStatus( rviz_common::properties::StatusProperty::Warn, "Topic", "No messages received" );
 //    }/*}}}*/
 
     // Set the current color and alpha values for each visual.
@@ -148,7 +148,7 @@ namespace jsk_rviz_plugins
     {
         std::vector<float>::const_iterator it = msg.powers.begin();
         for (; it < msg.powers.end(); ++it) {
-            if(!rviz::validateFloats(*it)){
+            if(!std::isfinite(*it)){
                 return false;
             };
         }        
@@ -214,11 +214,11 @@ namespace jsk_rviz_plugins
     {
         if( !validateFloats( *msg ))
         {
-            setStatus( rviz::StatusProperty::Error, "Topic", "Message contained invalid floating point values (nans or infs)" );
+            setStatus( rviz_common::properties::StatusProperty::Error, "Topic", "Message contained invalid floating point values (nans or infs)" );
             return;
         }
 
-        // Here we call the rviz::FrameManager to get the transform from the
+        // Here we call the rviz_common::FrameManager to get the transform from the
         // fixed frame to the frame in the header of this Imu message.  If
         // it fails, we can't do anything else so we return.
         Ogre::Quaternion orientation;
@@ -276,5 +276,5 @@ namespace jsk_rviz_plugins
 // Tell pluginlib about this class.  It is important to do this in
 // global scope, outside our package's namespace.
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::AmbientSoundDisplay, rviz::Display )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::AmbientSoundDisplay, rviz_common::Display )
 

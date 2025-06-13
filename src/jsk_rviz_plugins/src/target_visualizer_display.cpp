@@ -48,27 +48,27 @@ namespace jsk_rviz_plugins
   TargetVisualizerDisplay::TargetVisualizerDisplay():
     message_recieved_(false)
   {
-    target_name_property_ = new rviz::StringProperty(
+    target_name_property_ = new rviz_common::properties::StringProperty(
       "target name", "target",
       "name of the target",
       this, SLOT(updateTargetName())
       );
-    radius_property_ = new rviz::FloatProperty(
+    radius_property_ = new rviz_common::properties::FloatProperty(
       "radius", 1.0,
       "radius of the target mark",
       this, SLOT(updateRadius()));
     radius_property_->setMin(0.0);
-    alpha_property_ = new rviz::FloatProperty(
+    alpha_property_ = new rviz_common::properties::FloatProperty(
       "alpha", 0.8,
       "0 is fully transparent, 1.0 is fully opaque.",
       this, SLOT(updateAlpha()));
     alpha_property_->setMin(0.0);
     alpha_property_->setMax(1.0);
-    color_property_ = new rviz::ColorProperty(
+    color_property_ = new rviz_common::properties::ColorProperty(
       "color", QColor(25, 255, 240),
       "color of the target",
       this, SLOT(updateColor()));
-    shape_type_property_ = new rviz::EnumProperty(
+    shape_type_property_ = new rviz_common::properties::EnumProperty(
       "type", "Simple Circle",
       "Shape to display the pose as",
       this, SLOT(updateShapeType()));
@@ -111,7 +111,7 @@ namespace jsk_rviz_plugins
       oss << " from frame '" << msg->header.frame_id << "'";
       oss << " to frame '" << qPrintable(fixed_frame_) << "'";
       ROS_ERROR_STREAM(oss.str());
-      setStatus(rviz::StatusProperty::Error, "Transform", QString::fromStdString(oss.str()));
+      setStatus(rviz_common::properties::StatusProperty::Error, "Transform", QString::fromStdString(oss.str()));
       return;
     }
     visualizer_->setPosition(position);
@@ -220,5 +220,5 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::TargetVisualizerDisplay, rviz::Display )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::TargetVisualizerDisplay, rviz_common::Display )
 

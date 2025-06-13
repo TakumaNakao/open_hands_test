@@ -41,38 +41,38 @@ namespace jsk_rviz_plugins
 {
 
   DiagnosticsDisplay::DiagnosticsDisplay()
-    : rviz::Display(), msg_(0)
+    : rviz_common::Display(), msg_(0)
   {
     ros_topic_property_
-      = new rviz::RosTopicProperty(
+      = new rviz_common::properties::RosTopicProperty(
         "Topic", "/diagnostics_agg",
-        ros::message_traits::datatype<diagnostic_msgs::DiagnosticArray>(),
+        rosidl_generator_traits::data_type<diagnostic_msgs::DiagnosticArray>(),
         "diagnostic_msgs::DiagnosticArray topic to subscribe to.",
         this, SLOT( updateRosTopic() ));
-    frame_id_property_ = new rviz::TfFrameProperty(
-      "frame_id", rviz::TfFrameProperty::FIXED_FRAME_STRING,
+    frame_id_property_ = new rviz_common::properties::TfFrameProperty(
+      "frame_id", rviz_common::properties::TfFrameProperty::FIXED_FRAME_STRING,
       "the parent frame_id to visualize diagnostics",
       this, 0, true);
-    diagnostics_namespace_property_ = new rviz::EditableEnumProperty(
+    diagnostics_namespace_property_ = new rviz_common::properties::EditableEnumProperty(
       "diagnostics namespace", "/",
       "diagnostics namespace to visualize diagnostics",
       this, SLOT(updateDiagnosticsNamespace()));
-    radius_property_ = new rviz::FloatProperty(
+    radius_property_ = new rviz_common::properties::FloatProperty(
       "radius", 1.0,
       "radius of diagnostics circle",
       this, SLOT(updateRadius()));
-    line_width_property_ = new rviz::FloatProperty(
+    line_width_property_ = new rviz_common::properties::FloatProperty(
       "line width", 0.03,
       "line width",
       this, SLOT(updateLineWidth()));
-    axis_property_ = new rviz::EnumProperty(
+    axis_property_ = new rviz_common::properties::EnumProperty(
       "axis", "x",
       "axis",
       this, SLOT(updateAxis()));
     axis_property_->addOption("x", 0);
     axis_property_->addOption("y", 1);
     axis_property_->addOption("z", 2);
-    font_size_property_ = new rviz::FloatProperty(
+    font_size_property_ = new rviz_common::properties::FloatProperty(
       "font size", 0.05,
       "font size",
       this, SLOT(updateFontSize()));
@@ -108,10 +108,10 @@ namespace jsk_rviz_plugins
     Ogre::Vector3 position;
     std::string frame_id = frame_id_property_->getFrame().toStdString();
     if( !context_->getFrameManager()->getTransform( frame_id,
-                                                    ros::Time(0.0),
+                                                    rclcpp::Time(0.0),
                                                     position, orientation ))
     {
-      ROS_WARN( "Error transforming from frame '%s' to frame '%s'",
+      RCLCPP_WARN( "Error transforming from frame '%s' to frame '%s'",
                 frame_id.c_str(), qPrintable( fixed_frame_ ));
       return;
     }
@@ -150,10 +150,10 @@ namespace jsk_rviz_plugins
     static int counter = 0;
     scene_node_ = scene_manager_->getRootSceneNode()->createChildSceneNode();
     orbit_node_ = scene_node_->createChildSceneNode(); // ??
-    line_ = new rviz::BillboardLine(context_->getSceneManager(), scene_node_);
-    msg_ = new rviz::MovableText("not initialized", "Liberation Sans", 0.05);
-    msg_->setTextAlignment(rviz::MovableText::H_CENTER,
-                           rviz::MovableText::V_ABOVE);
+    line_ = new rviz_rendering::BillboardLine(context_->getSceneManager(), scene_node_);
+    msg_ = new rviz_rendering::MovableText("not initialized", "Liberation Sans", 0.05);
+    msg_->setTextAlignment(rviz_rendering::MovableText::H_CENTER,
+                           rviz_rendering::MovableText::V_ABOVE);
     frame_id_property_->setFrameManager(context_->getFrameManager());
     orbit_node_->attachObject(msg_);
     msg_->setVisible(false);
@@ -299,7 +299,7 @@ namespace jsk_rviz_plugins
   
   void DiagnosticsDisplay::subscribe()
   {
-    ros::NodeHandle n;
+    rclcpp::Node::SharedPtr n;
     sub_ = n.subscribe(ros_topic_property_->getTopicStd(),
                        1,
                        &DiagnosticsDisplay::processMessage,
@@ -356,4 +356,4 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::DiagnosticsDisplay, rviz::Display )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::DiagnosticsDisplay, rviz_common::Display )

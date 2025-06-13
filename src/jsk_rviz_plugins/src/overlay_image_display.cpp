@@ -53,33 +53,33 @@ namespace jsk_rviz_plugins
       is_msg_available_(false), require_update_(false), overwrite_alpha_(false)
   {
     // setup properties
-    update_topic_property_ = new rviz::RosTopicProperty(
+    update_topic_property_ = new rviz_common::properties::RosTopicProperty(
       "Topic", "",
-      ros::message_traits::datatype<sensor_msgs::Image>(),
+      rosidl_generator_traits::data_type<sensor_msgs::Image>(),
       "sensor_msgs::Image topic to subscribe to.",
       this, SLOT( updateTopic() ));
     transport_hint_property_ = new ImageTransportHintsProperty("transport hint",
                                                               "transport hint to subscribe topic",
                                                               this, SLOT(updateTopic()));
-    keep_aspect_ratio_property_ = new rviz::BoolProperty("keep aspect ratio", false,
+    keep_aspect_ratio_property_ = new rviz_common::properties::BoolProperty("keep aspect ratio", false,
                                                          "keep aspect ratio of original image",
                                                          this, SLOT(updateKeepAspectRatio()));
-    width_property_ = new rviz::IntProperty("width", 128,
+    width_property_ = new rviz_common::properties::IntProperty("width", 128,
                                             "width of the image window",
                                             this, SLOT(updateWidth()));
-    height_property_ = new rviz::IntProperty("height", 128,
+    height_property_ = new rviz_common::properties::IntProperty("height", 128,
                                              "height of the image window",
                                              this, SLOT(updateHeight()));
-    left_property_ = new rviz::IntProperty("left", 128,
+    left_property_ = new rviz_common::properties::IntProperty("left", 128,
                                            "left of the image window",
                                            this, SLOT(updateLeft()));
-    top_property_ = new rviz::IntProperty("top", 128,
+    top_property_ = new rviz_common::properties::IntProperty("top", 128,
                                           "top of the image window",
                                           this, SLOT(updateTop()));
-    alpha_property_ = new rviz::FloatProperty("alpha", 0.8,
+    alpha_property_ = new rviz_common::properties::FloatProperty("alpha", 0.8,
                                               "alpha belnding value",
                                               this, SLOT(updateAlpha()));
-    overwrite_alpha_property_ = new rviz::BoolProperty("overwrite alpha value", false,
+    overwrite_alpha_property_ = new rviz_common::properties::BoolProperty("overwrite alpha value", false,
                                                        "overwrite alpha value by alpha property "
                                                        "and ignore alpha channel of the image",
                                                        this, SLOT(updateOverwriteAlpha()));
@@ -100,7 +100,7 @@ namespace jsk_rviz_plugins
 
   void OverlayImageDisplay::onInitialize()
   {
-    ros::NodeHandle nh;
+    rclcpp::Node::SharedPtr nh;
 #if ROS_VERSION_MINIMUM(1,12,0)
     it_ = std::shared_ptr<image_transport::ImageTransport>(new image_transport::ImageTransport(nh));
 #else
@@ -175,7 +175,7 @@ namespace jsk_rviz_plugins
     if (require_update_ && is_msg_available_) {
       if (!overlay_) {
         static int count = 0;
-        rviz::UniformStringStream ss;
+        std::ostringstream ss;
         ss << "OverlayImageDisplayObject" << count++;
         overlay_.reset(new OverlayObject(ss.str()));
         overlay_->show();
@@ -235,7 +235,7 @@ namespace jsk_rviz_plugins
     }
     catch (cv_bridge::Exception& e)
     {
-      ROS_ERROR("cv_bridge exception: %s", e.what());
+      RCLCPP_ERROR("cv_bridge exception: %s", e.what());
     }
   }
 
@@ -341,4 +341,4 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::OverlayImageDisplay, rviz::Display )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::OverlayImageDisplay, rviz_common::Display )

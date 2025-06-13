@@ -28,7 +28,7 @@ namespace jsk_rviz_plugins
     {
     }/*}}}*/
 
-    // After the parent rviz::Display::initialize() does its own setup, it
+    // After the parent rviz_common::Display::initialize() does its own setup, it
     // calls the subclass's onInitialize() function.  This is where we
     // instantiate all the workings of the class.
     void AmbientSoundDisplay::onInitialize()/*{{{*/
@@ -78,7 +78,7 @@ namespace jsk_rviz_plugins
         }
         tf_filter_->clear();
         messages_received_ = 0;
-        setStatus( rviz::status_levels::Warn, "Topic", "No messages received" );
+        setStatus( rviz_common::properties::StatusProperty::Warn, "Topic", "No messages received" );
     }/*}}}*/
 
     void AmbientSoundDisplay::setTopic( const std::string& topic )/*{{{*/
@@ -95,7 +95,7 @@ namespace jsk_rviz_plugins
         causeRender();
     }/*}}}*/
 
-    void AmbientSoundDisplay::setColor( const rviz::Color& color )/*{{{*/
+    void AmbientSoundDisplay::setColor( const QColor& color )/*{{{*/
     {
         color_ = color;
 
@@ -223,11 +223,11 @@ namespace jsk_rviz_plugins
         try
         {
             sub_.subscribe( update_nh_, topic_, 10 );
-            setStatus( rviz::status_levels::Ok, "Topic", "OK" );
+            setStatus( rviz_common::properties::StatusProperty::Ok, "Topic", "OK" );
         }
-        catch( ros::Exception& e )
+        catch( rclcpp::exceptions::RCLError& e )
         {
-            setStatus( rviz::status_levels::Error, "Topic",
+            setStatus( rviz_common::properties::StatusProperty::Error, "Topic",
                     std::string( "Error subscribing: " ) + e.what() );
         }
     }/*}}}*/
@@ -265,9 +265,9 @@ namespace jsk_rviz_plugins
         // "Topic" and says how many messages have been received in this case.
         std::stringstream ss;
         ss << messages_received_ << " messages received";
-        setStatus( rviz::status_levels::Ok, "Topic", ss.str() );
+        setStatus( rviz_common::properties::StatusProperty::Ok, "Topic", ss.str() );
 
-        // Here we call the rviz::FrameManager to get the transform from the
+        // Here we call the rviz_common::FrameManager to get the transform from the
         // fixed frame to the frame in the header of this Imu message.  If
         // it fails, we can't do anything else so we return.
         Ogre::Quaternion orientation;
@@ -276,7 +276,7 @@ namespace jsk_rviz_plugins
                     msg->header.stamp,
                     position, orientation ))
         {
-            ROS_DEBUG( "Error transforming from frame '%s' to frame '%s'",
+            RCLCPP_DEBUG( "Error transforming from frame '%s' to frame '%s'",
                     msg->header.frame_id.c_str(), fixed_frame_.c_str() );
             return;
         }
@@ -301,7 +301,7 @@ namespace jsk_rviz_plugins
         visual->setMessage( msg );
     }/*}}}*/
 
-    // Override rviz::Display's reset() function to add a call to clear().
+    // Override rviz_common::Display's reset() function to add a call to clear().
     void AmbientSoundDisplay::reset()/*{{{*/
     {
         Display::reset();
@@ -315,18 +315,18 @@ namespace jsk_rviz_plugins
     void AmbientSoundDisplay::createProperties()/*{{{*/
     {
         topic_property_ =
-            property_manager_->createProperty<rviz::ROSTopicStringProperty>( "Topic",
+            property_manager_->createProperty<rviz_common::properties::RosTopicProperty>( "Topic",
                     property_prefix_,
                     boost::bind( &AmbientSoundDisplay::getTopic, this ),
                     boost::bind( &AmbientSoundDisplay::setTopic, this, _1 ),
                     parent_category_,
                     this );
         setPropertyHelpText( topic_property_, "jsk_hark_msgs::HarkPower topic to subscribe to." );
-        rviz::ROSTopicStringPropertyPtr topic_prop = topic_property_.lock();
-        topic_prop->setMessageType( ros::message_traits::datatype<jsk_hark_msgs::HarkPower>() );
+        rviz_common::properties::RosTopicPropertyPtr topic_prop = topic_property_.lock();
+        topic_prop->setMessageType( rosidl_generator_traits::data_type<jsk_hark_msgs::HarkPower>() );
 
         color_property_ =
-            property_manager_->createProperty<rviz::ColorProperty>( "Color",
+            property_manager_->createProperty<rviz_common::properties::ColorProperty>( "Color",
                     property_prefix_,
                     boost::bind( &AmbientSoundDisplay::getColor, this ),
                     boost::bind( &AmbientSoundDisplay::setColor, this, _1 ),
@@ -335,7 +335,7 @@ namespace jsk_rviz_plugins
         setPropertyHelpText( color_property_, "Color to draw the acceleration arrows." );
 
         alpha_property_ =
-            property_manager_->createProperty<rviz::FloatProperty>( "Alpha",
+            property_manager_->createProperty<rviz_common::properties::FloatProperty>( "Alpha",
                     property_prefix_,
                     boost::bind( &AmbientSoundDisplay::getAlpha, this ),
                     boost::bind( &AmbientSoundDisplay::setAlpha, this, _1 ),
@@ -344,7 +344,7 @@ namespace jsk_rviz_plugins
         setPropertyHelpText( alpha_property_, "0 is fully transparent, 1.0 is fully opaque." );
 
         history_length_property_ =
-            property_manager_->createProperty<rviz::IntProperty>( "History Length",
+            property_manager_->createProperty<rviz_common::properties::IntProperty>( "History Length",
                     property_prefix_,
                     boost::bind( &AmbientSoundDisplay::getHistoryLength, this ),
                     boost::bind( &AmbientSoundDisplay::setHistoryLength, this, _1 ),
@@ -353,7 +353,7 @@ namespace jsk_rviz_plugins
         setPropertyHelpText( history_length_property_, "Number of prior measurements to display." );
         
         width_property_ = 
-            property_manager_->createProperty<rviz::FloatProperty>( "Width",
+            property_manager_->createProperty<rviz_common::properties::FloatProperty>( "Width",
                     property_prefix_,
                     boost::bind( &AmbientSoundDisplay::getWidth, this ),
                     boost::bind( &AmbientSoundDisplay::setWidth, this, _1 ),
@@ -362,7 +362,7 @@ namespace jsk_rviz_plugins
         setPropertyHelpText( width_property_, "Width of line" );
 
         scale_property_ = 
-            property_manager_->createProperty<rviz::FloatProperty>( "Scale",
+            property_manager_->createProperty<rviz_common::properties::FloatProperty>( "Scale",
                     property_prefix_,
                     boost::bind( &AmbientSoundDisplay::getScale, this ),
                     boost::bind( &AmbientSoundDisplay::setScale, this, _1 ),
@@ -371,7 +371,7 @@ namespace jsk_rviz_plugins
         setPropertyHelpText( scale_property_, "Scale of line" );
         
         grad_property_ = 
-            property_manager_->createProperty<rviz::FloatProperty>( "Grad",
+            property_manager_->createProperty<rviz_common::properties::FloatProperty>( "Grad",
                     property_prefix_,
                     boost::bind( &AmbientSoundDisplay::getGrad, this ),
                     boost::bind( &AmbientSoundDisplay::setGrad, this, _1 ),
@@ -380,7 +380,7 @@ namespace jsk_rviz_plugins
         setPropertyHelpText( grad_property_, "Graduation" );
 
         bias_property_ = 
-            property_manager_->createProperty<rviz::FloatProperty>( "Bias",
+            property_manager_->createProperty<rviz_common::properties::FloatProperty>( "Bias",
                     property_prefix_,
                     boost::bind( &AmbientSoundDisplay::getBias, this ),
                     boost::bind( &AmbientSoundDisplay::setBias, this, _1 ),
@@ -394,5 +394,5 @@ namespace jsk_rviz_plugins
 // Tell pluginlib about this class.  It is important to do this in
 // global scope, outside our package's namespace.
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::AmbientSoundDisplay, rviz::Display )
+PLUGINLIB_EXPORT_CLASS( jsk_rviz_plugins::AmbientSoundDisplay, rviz_common::Display )
 

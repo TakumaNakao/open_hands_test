@@ -39,9 +39,9 @@
 #ifndef Q_MOC_RUN
 #include <rviz_common/display.hpp>
 #include "overlay_utils.h"
-#include <OGRE/OgreColourValue.h>
-#include <OGRE/OgreMaterial.h>
-#include <std_msgs/msg/color_rgba.hpp>
+#include <OGRE/OgreColourValue.hpp>
+#include <OGRE/OgreMaterial.hpp>
+#include <std_msgs/msg/msg/color_rgba.hpp>
 #include <rviz_common/properties/ros_topic_property.hpp>
 #include <rviz_common/properties/bool_property.hpp>
 #include <rviz_common/properties/int_property.hpp>

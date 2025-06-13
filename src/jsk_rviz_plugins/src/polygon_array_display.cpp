@@ -45,7 +45,7 @@ namespace jsk_rviz_plugins
 {
   PolygonArrayDisplay::PolygonArrayDisplay()
   {
-    coloring_property_ = new rviz::EnumProperty(
+    coloring_property_ = new rviz_common::properties::EnumProperty(
       "coloring", "Auto",
       "coloring method",
       this, SLOT(updateColoring()));
@@ -53,27 +53,27 @@ namespace jsk_rviz_plugins
     coloring_property_->addOption("Flat color", 1);
     coloring_property_->addOption("Liekelihood", 2);
     coloring_property_->addOption("Label", 3);
-    color_property_ = new rviz::ColorProperty(
+    color_property_ = new rviz_common::properties::ColorProperty(
       "Color", QColor(25, 255, 0),
       "Color to draw the polygons.",
       this, SLOT(queueRender()));
-    alpha_property_ = new rviz::FloatProperty(
+    alpha_property_ = new rviz_common::properties::FloatProperty(
       "Alpha", 1.0,
       "Amount of transparency to apply to the polygon.",
       this, SLOT(queueRender()));
-    only_border_property_ = new rviz::BoolProperty(
+    only_border_property_ = new rviz_common::properties::BoolProperty(
       "only border", true,
       "only shows the borders of polygons",
       this, SLOT(updateOnlyBorder()));
-    show_normal_property_ = new rviz::BoolProperty(
+    show_normal_property_ = new rviz_common::properties::BoolProperty(
       "show normal", true,
       "show normal direction",
       this, SLOT(updateShowNormal()));
-    enable_lighting_property_ = new rviz::BoolProperty(
+    enable_lighting_property_ = new rviz_common::properties::BoolProperty(
       "enable lighting", true,
       "enable lighting",
       this, SLOT(updateEnableLighting()));
-    normal_length_property_ = new rviz::FloatProperty(
+    normal_length_property_ = new rviz_common::properties::FloatProperty(
       "normal length", 0.1,
       "normal length",
       this, SLOT(updateNormalLength()));
@@ -142,7 +142,7 @@ namespace jsk_rviz_plugins
   bool validateFloats(const jsk_recognition_msgs::PolygonArray& msg)
   {
     for (size_t i = 0; i < msg.polygons.size(); i++) {
-      if (!rviz::validateFloats(msg.polygons[i].polygon.points))
+      if (!std::isfinite(msg.polygons[i].polygon.points))
         return false;
     }
     return true;
@@ -187,7 +187,7 @@ namespace jsk_rviz_plugins
     if (msg->polygons.size() > arrow_objects_.size()) {
       for (size_t i = arrow_objects_.size(); i < msg->polygons.size(); i++) {
         Ogre::SceneNode* scene_node = scene_node_->createChildSceneNode();
-        ArrowPtr arrow (new rviz::Arrow(scene_manager_, scene_node));
+        ArrowPtr arrow (new rviz_rendering::Arrow(scene_manager_, scene_node));
         scene_node->setVisible(false);
         arrow_objects_.push_back(arrow);
         arrow_nodes_.push_back(scene_node);
@@ -205,8 +205,8 @@ namespace jsk_rviz_plugins
   {
     if (num > lines_.size()) {
       for (size_t i = lines_.size(); i < num; i++) {
-        rviz::BillboardLine* line
-          = new rviz::BillboardLine(context_->getSceneManager(),
+        rviz_rendering::BillboardLine* line
+          = new rviz_rendering::BillboardLine(context_->getSceneManager(),
                                     scene_nodes_[i]);
         line->setLineWidth(0.01);
         line->setNumLines(1);
@@ -229,12 +229,12 @@ namespace jsk_rviz_plugins
       color.a = ros_color.a;
     }
     else if (coloring_method_ == "flat") {
-      color = rviz::qtToOgre(color_property_->getColor());
+      color = rviz_rendering::qtToOgre(color_property_->getColor());
     }
     else if (coloring_method_ == "likelihood") {
       if (latest_msg_->likelihood.size() == 0 ||
           latest_msg_->likelihood.size() < index) {
-        setStatus(rviz::StatusProperty::Error,
+        setStatus(rviz_common::properties::StatusProperty::Error,
                   "Topic",
                   "Message does not have lieklihood fields");
       }
@@ -250,7 +250,7 @@ namespace jsk_rviz_plugins
     else if (coloring_method_ == "label") {
       if (latest_msg_->labels.size() == 0 ||
           latest_msg_->labels.size() < index) {
-        setStatus(rviz::StatusProperty::Error,
+        setStatus(rviz_common::properties::StatusProperty::Error,
                   "Topic",
                   "Message does not have lebels fields");
       }
@@ -279,7 +279,7 @@ namespace jsk_rviz_plugins
       return;
     scene_node->setPosition(position);
     scene_node->setOrientation(orientation);
-    rviz::BillboardLine* line = lines_[i];
+    rviz_rendering::BillboardLine* line = lines_[i];
     line->clear();
     line->setMaxPointsPerLine(polygon.polygon.points.size() + 1);
         
@@ -416,13 +416,13 @@ namespace jsk_rviz_plugins
     const jsk_recognition_msgs::PolygonArray::ConstPtr& msg)
   {
     if (!validateFloats(*msg)) {
-      setStatus(rviz::StatusProperty::Error,
+      setStatus(rviz_common::properties::StatusProperty::Error,
                 "Topic",
                 "Message contained invalid floating point values"
                 "(nans or infs)");
       return;
     }
-    setStatus(rviz::StatusProperty::Ok,
+    setStatus(rviz_common::properties::StatusProperty::Ok,
               "Topic",
               "ok");
     latest_msg_ = msg;
@@ -476,7 +476,7 @@ namespace jsk_rviz_plugins
       oss << header.frame_id << "' to frame '";
       oss << qPrintable(fixed_frame_) << "'";
       ROS_DEBUG_STREAM(oss.str());
-      setStatus(rviz::StatusProperty::Error,
+      setStatus(rviz_common::properties::StatusProperty::Error,
                 "Transform", QString::fromStdString(oss.str()));
     }
     return ok;
@@ -533,4 +533,4 @@ namespace jsk_rviz_plugins
 }
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::PolygonArrayDisplay, rviz::Display)
+PLUGINLIB_EXPORT_CLASS(jsk_rviz_plugins::PolygonArrayDisplay, rviz_common::Display)

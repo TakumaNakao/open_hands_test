@@ -47,7 +47,7 @@ namespace jsk_rviz_plugins
   // Display to visualize pictogram on rviz
   ////////////////////////////////////////////////////////
   class PictogramArrayDisplay:
-    public rviz::MessageFilterDisplay<jsk_rviz_plugins::PictogramArray>
+    public rviz_common::MessageFilterDisplay<jsk_rviz_plugins::PictogramArray>
   {
     Q_OBJECT
   public:
