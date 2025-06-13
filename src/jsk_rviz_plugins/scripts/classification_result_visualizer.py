@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Author: Yuki Furuta <furushchev@jsk.imi.i.u-tokyo.ac.jp>
 
 from dynamic_reconfigure.server import Server
-import rospy
+import rclpy
 from geometry_msgs.msg import PoseArray
 from jsk_topic_tools import ConnectionBasedTransport
 from jsk_recognition_msgs.msg import BoundingBox, BoundingBoxArray
@@ -30,9 +30,9 @@ class ClassificationResultVisualizer(ConnectionBasedTransport):
         self.pub_marker = self.advertise("~output", MarkerArray, queue_size=10)
 
     def subscribe(self):
-        approximate_sync = rospy.get_param("~approximate_sync", False)
-        queue_size = rospy.get_param("~queue_size", 100)
-        slop = rospy.get_param("~slop", 0.1)
+        approximate_sync = rclpy.get_param("~approximate_sync", False)
+        queue_size = rclpy.get_param("~queue_size", 100)
+        slop = rclpy.get_param("~slop", 0.1)
 
         sub_cls = MF.Subscriber(
             "~input/classes", ClassificationResult, queue_size=1)
@@ -142,7 +142,7 @@ class ClassificationResultVisualizer(ConnectionBasedTransport):
                        color=ColorRGBA(**self.text_color),
                        text=text,
                        ns=classes.classifier,
-                       lifetime=rospy.Duration(self.marker_lifetime))
+                       lifetime=rclpy.Duration(self.marker_lifetime))
             m.scale.z = self.text_size
             m.pose.position.x += self.text_offset[0]
             m.pose.position.y += self.text_offset[1]
@@ -153,6 +153,6 @@ class ClassificationResultVisualizer(ConnectionBasedTransport):
 
 
 if __name__ == '__main__':
-    rospy.init_node("classification_result_visualizer")
+    rclpy.init_node("classification_result_visualizer")
     viz = ClassificationResultVisualizer()
-    rospy.spin()
+    rclpy.spin()

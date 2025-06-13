@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import rospy
+import rclpy
 from jsk_recognition_msgs.msg import PolygonArray
 from geometry_msgs.msg import Polygon, PolygonStamped, Point32
 from std_msgs.msg import Header
@@ -50,14 +50,14 @@ def StarPolygon(header):
     return p
     
 if __name__ == "__main__":
-    rospy.init_node("polygon_array_sample")
-    pub = rospy.Publisher("~output", PolygonArray)
-    r = rospy.Rate(10)
-    while not rospy.is_shutdown():
+    rclpy.init_node("polygon_array_sample")
+    pub = rclpy.Publisher("~output", PolygonArray)
+    r = rclpy.Rate(10)
+    while not rclpy.is_shutdown():
         msg = PolygonArray()
         header = Header()
         header.frame_id = "world"
-        header.stamp = rospy.Time.now()
+        header.stamp = rclpy.Time.now()
         msg.header = header
         msg.polygons = [SquarePolygon(header),
                         RectanglePolygon(header),

@@ -21,7 +21,7 @@ class PropertyTreeWidget;
 
 namespace jsk_rviz_plugins
 {
-  class SelectPointCloudPublishAction: public rviz::Panel
+  class SelectPointCloudPublishAction: public rviz_common::Panel
     {
       // This class uses Qt slots and is a subclass of QObject, so it needs
       // the Q_OBJECT macro.
@@ -29,8 +29,8 @@ Q_OBJECT
   public:
       SelectPointCloudPublishAction( QWidget* parent = 0 );
 
-      virtual void load( const rviz::Config& config );
-      virtual void save( rviz::Config config ) const;
+      virtual void load( const rviz_common::Config& config );
+      virtual void save( rviz_common::Config config ) const;
 
       protected Q_SLOTS:
 

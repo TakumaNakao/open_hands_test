@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 Colorize link according to hrpsys_ros_bridge/ContactState using
 visualization_msgs/Marker
 """
 
-import rospy
+import rclpy
 from hrpsys_ros_bridge.msg import ContactState, ContactStateStamped, ContactStatesStamped
 from visualization_msgs.msg import Marker, MarkerArray
 from xml.dom.minidom import parse, parseString
@@ -59,7 +59,7 @@ def callback(msgs):
             link_name = chain[-3]
         mesh_file, offset = find_mesh(link_name)
         marker.header.frame_id = link_name
-        marker.header.stamp = rospy.Time.now()
+        marker.header.stamp = rclpy.Time.now()
         marker.type = Marker.MESH_RESOURCE
         if msg.state.state == ContactState.ON:
             marker.color.a = g_config.on_alpha
@@ -85,17 +85,17 @@ def callback(msgs):
     pub.publish(marker_array)
 
 if __name__ == "__main__":
-    rospy.init_node("contact_state_marker")
-    rgb = rospy.get_param("~rgb", [1, 0, 0])
-    alpha = rospy.get_param("~alpha", 0.5)
-    scale = rospy.get_param("~scale", 1.02)
-    robot_description = rospy.get_param("/robot_description")
+    rclpy.init_node("contact_state_marker")
+    rgb = rclpy.get_param("~rgb", [1, 0, 0])
+    alpha = rclpy.get_param("~alpha", 0.5)
+    scale = rclpy.get_param("~scale", 1.02)
+    robot_description = rclpy.get_param("/robot_description")
     
     # Parse robot_description using minidom directly
     # because urdf_parser_py cannot read PR2 urdf
     doc = parseString(robot_description)
     g_links = doc.getElementsByTagName('link')
     srv = Server(ContactStateMarkerConfig, config_callback)
-    pub = rospy.Publisher('~marker', MarkerArray)
-    sub = rospy.Subscriber("~input", ContactStatesStamped, callback)
-    rospy.spin()
+    pub = rclpy.Publisher('~marker', MarkerArray)
+    sub = rclpy.Subscriber("~input", ContactStatesStamped, callback)
+    rclpy.spin()

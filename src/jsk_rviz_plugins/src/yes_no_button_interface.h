@@ -18,15 +18,15 @@
 namespace jsk_rviz_plugins
 {
 
-  class YesNoButtonInterface: public rviz::Panel
+  class YesNoButtonInterface: public rviz_common::Panel
   {
   Q_OBJECT
   public:
     YesNoButtonInterface(QWidget* parent = 0);
 
     virtual void onInitialize();
-    virtual void load(const rviz::Config& config);
-    virtual void save(rviz::Config config) const;
+    virtual void load(const rviz_common::Config& config);
+    virtual void save(rviz_common::Config config) const;
 
   protected Q_SLOTS:
     void respondYes();
@@ -41,7 +41,7 @@ namespace jsk_rviz_plugins
     bool yes_;
     bool need_user_input_;
     boost::mutex mutex_;
-    ros::ServiceServer yes_no_button_service_;
+    rclcpp::Service<.*>::SharedPtr yes_no_button_service_;
   };
 
 }  // namespace jsk_rviz_plugins

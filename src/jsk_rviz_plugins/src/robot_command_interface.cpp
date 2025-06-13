@@ -62,7 +62,7 @@ namespace jsk_rviz_plugins
                   std::string package = icon.substr(0, package_end);
                   icon.erase(0, package_end);
                   std::string package_path;
-                  package_path = ros::package::getPath(package);
+                  package_path = ament_index_cpp::get_package_share_directory(package);
                   icon = package_path + icon;
                 }
                 button->setIcon(QIcon(QPixmap(QString(icon.c_str()))));
@@ -127,7 +127,7 @@ namespace jsk_rviz_plugins
   }
 
   bool RobotCommandInterfaceAction::callRequestEusCommand(const std::string& command){
-    ros::ServiceClient client = nh_.serviceClient<jsk_rviz_plugins::EusCommand>("/eus_command", true);
+    rclcpp::Client<.*>::SharedPtr client = nh_.serviceClient<jsk_rviz_plugins::EusCommand>("/eus_command", true);
     jsk_rviz_plugins::EusCommand srv;
     srv.request.command = command;
     return client.call(srv);
@@ -143,7 +143,7 @@ namespace jsk_rviz_plugins
     }
     else if (emptyservice_mapping_.find(i) != emptyservice_mapping_.end()) {
       std_srvs::Empty emp;
-      if (!ros::service::call(emptyservice_mapping_[i], emp)) {
+      if (!client->async_send_request(emptyservice_mapping_[i], emp)) {
         popupDialog((boost::format("Failed to call %s") % emptyservice_mapping_[i]).str().c_str());
       }
     }

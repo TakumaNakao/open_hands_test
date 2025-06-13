@@ -1,13 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import rospy
+import rclpy
 from jsk_rviz_plugins.msg import OverlayMenu
 
-rospy.init_node("test_menu")
-p = rospy.Publisher("test_menu", OverlayMenu, queue_size=1)
-r = rospy.Rate(5)
+rclpy.init_node("test_menu")
+p = rclpy.Publisher("test_menu", OverlayMenu, queue_size=1)
+r = rclpy.Rate(5)
 counter = 0
-while not rospy.is_shutdown():
+while not rclpy.is_shutdown():
   menu = OverlayMenu()
   menu.title = "The Beatles"
   menu.menus = ["John Lennon", "Paul McCartney", "George Harrison",

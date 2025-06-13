@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 try:
   from jsk_rviz_plugins.msg import *
 except:
@@ -7,9 +7,9 @@ except:
 
 from sensor_msgs.msg import PointCloud2
 from std_msgs.msg import ColorRGBA, Float32
-import rospy
+import rclpy
 
-text_pub = rospy.Publisher("output_text", OverlayText)
+text_pub = rclpy.Publisher("output_text", OverlayText)
 
 def cloud_cb(cloud):
   point_num = cloud.width * cloud.height
@@ -37,6 +37,6 @@ PointFrame      : %s
 
 
 if __name__ == "__main__":
-  rospy.init_node("pointcloud_information_text")
-  rospy.Subscriber("input", PointCloud2, cloud_cb)
-  rospy.spin()
+  rclpy.init_node("pointcloud_information_text")
+  rclpy.Subscriber("input", PointCloud2, cloud_cb)
+  rclpy.spin()

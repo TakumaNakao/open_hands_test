@@ -19,7 +19,7 @@ class QPushButton;
 
 namespace jsk_rviz_plugins
 {
-  class RecordAction: public rviz::Panel
+  class RecordAction: public rviz_common::Panel
   {
     enum RecordState{
       IDLE = 0,
@@ -29,8 +29,8 @@ namespace jsk_rviz_plugins
     public:
     RecordAction( QWidget* parent = 0 );
 
-    virtual void load( const rviz::Config& config );
-    virtual void save( rviz::Config config ) const;
+    virtual void load( const rviz_common::Config& config );
+    virtual void save( rviz_common::Config config ) const;
 
   public Q_SLOTS:
 

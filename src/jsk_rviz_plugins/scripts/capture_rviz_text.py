@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import rospy
+import rclpy
 from jsk_rviz_plugins.msg import OverlayText
 from std_msgs.msg import Int32
 
@@ -25,10 +25,10 @@ def callback(msg):
 
 def main():
     global pub
-    pub = rospy.Publisher("capture_text", OverlayText)
-    sub = rospy.Subscriber("capture_count", Int32, callback)
-    rospy.spin()
+    pub = rclpy.Publisher("capture_text", OverlayText)
+    sub = rclpy.Subscriber("capture_count", Int32, callback)
+    rclpy.spin()
 
 if __name__ == "__main__":
-    rospy.init_node("capture_rviz_text")
+    rclpy.init_node("capture_rviz_text")
     main()

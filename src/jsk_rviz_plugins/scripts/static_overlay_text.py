@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python33
 
 # it depends on jsk_rviz_plugins
 

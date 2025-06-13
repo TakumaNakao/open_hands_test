@@ -1,21 +1,21 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import rospy
+import rclpy
 import tf
 from tf.transformations import *
 import numpy as np
 from jsk_rviz_plugins.msg import OverlayText
 from std_msgs.msg import ColorRGBA
-rospy.init_node("tf_diff")
+rclpy.init_node("tf_diff")
 
-src1 = rospy.get_param("~src1")
-src2 = rospy.get_param("~src2")
+src1 = rclpy.get_param("~src1")
+src2 = rclpy.get_param("~src2")
 listener = tf.TransformListener()
-r = rospy.Rate(1)
-pub = rospy.Publisher("diff_text", OverlayText)
-while not rospy.is_shutdown():
+r = rclpy.Rate(1)
+pub = rclpy.Publisher("diff_text", OverlayText)
+while not rclpy.is_shutdown():
     try:
-        (pos, rot) = listener.lookupTransform(src1, src2, rospy.Time(0))
+        (pos, rot) = listener.lookupTransform(src1, src2, rclpy.Time(0))
         pos_diff = np.linalg.norm(pos)
         # quaternion to rpy
         rpy = euler_from_quaternion(rot)
@@ -37,6 +37,6 @@ rot: %f
         msg.bg_color = ColorRGBA(0.0, 0.0, 0.0, 0.0)
         pub.publish(msg)
     except:
-        rospy.logerr("ignore error")
+        rclpy.logerr("ignore error")
     finally:
         r.sleep()

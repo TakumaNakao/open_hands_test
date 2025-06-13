@@ -85,14 +85,14 @@ namespace jsk_rviz_plugins
     rclcpp::Publisher<.*>::SharedPtr pub_cmd_vel_;
   };
   
-  class TabletControllerPanel: public rviz::Panel
+  class TabletControllerPanel: public rviz_common::Panel
   {
     Q_OBJECT
   public:
     TabletControllerPanel(QWidget* parent = 0);
     virtual ~TabletControllerPanel();
-    virtual void load(const rviz::Config& config);
-    virtual void save(rviz::Config config) const;
+    virtual void load(const rviz_common::Config& config);
+    virtual void save(rviz_common::Config config) const;
 
   protected:
     ////////////////////////////////////////////////////////

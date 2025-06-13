@@ -1,15 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 
-import rospy
+import rclpy
 
 from jsk_recognition_msgs.msg import BoundingBoxArray, BoundingBox
 from tf.transformations import *
-rospy.init_node("bbox_sample")
-pub = rospy.Publisher("bbox", BoundingBoxArray)
-r = rospy.Rate(24)
+rclpy.init_node("bbox_sample")
+pub = rclpy.Publisher("bbox", BoundingBoxArray)
+r = rclpy.Rate(24)
 counter = 0
-while not rospy.is_shutdown():
+while not rclpy.is_shutdown():
   box_a = BoundingBox()
   box_b = BoundingBox()
   box_c = BoundingBox()
@@ -17,7 +17,7 @@ while not rospy.is_shutdown():
   box_b.label = 5
   box_b.label = 10
   box_arr = BoundingBoxArray()
-  now = rospy.Time.now()
+  now = rclpy.Time.now()
   box_a.header.stamp = now
   box_b.header.stamp = now
   box_c.header.stamp = now

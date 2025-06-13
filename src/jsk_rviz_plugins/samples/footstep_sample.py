@@ -1,19 +1,19 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 FRAME_ID = "/map"
 
 from jsk_footstep_msgs.msg import Footstep, FootstepArray
 
-import rospy
+import rclpy
 
 def main():
-    pub = rospy.Publisher("/footsteps", FootstepArray)
-    r = rospy.Rate(3)
+    pub = rclpy.Publisher("/footsteps", FootstepArray)
+    r = rclpy.Rate(3)
     ysize = 0
     zpos = 0
-    while not rospy.is_shutdown():
+    while not rclpy.is_shutdown():
         msg = FootstepArray()
-        now = rospy.Time.now()
+        now = rclpy.Time.now()
         msg.header.frame_id = FRAME_ID
         msg.header.stamp = now
         xpos = 0
@@ -45,6 +45,6 @@ def main():
         r.sleep()
 
 if __name__ == "__main__":
-    rospy.init_node("footstep_sample")
+    rclpy.init_node("footstep_sample")
     main()
     

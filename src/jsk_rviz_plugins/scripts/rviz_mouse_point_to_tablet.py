@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import rospy
+import rclpy
 import numpy
 from math import pi
 from view_controller_msgs.msg import CameraPlacement
@@ -26,20 +26,20 @@ def timerCallback(event):
         next_x = latest_mouse_point.point.x * 640
         next_y = latest_mouse_point.point.y * 480
         msg = Tablet()
-        msg.header.stamp = rospy.Time.now()
+        msg.header.stamp = rclpy.Time.now()
         msg.action.task_name = "MoveCameraCenter"
         # chop
         msg.action.touch_x = next_x
         msg.action.touch_y = next_y
-        rospy.loginfo("neck actino to (%f, %f)" % (msg.action.touch_x, msg.action.touch_y))
+        rclpy.loginfo("neck actino to (%f, %f)" % (msg.action.touch_x, msg.action.touch_y))
         pub.publish(msg)
         latest_mouse_point = None
 
         
 if __name__ == "__main__":
-    rospy.init_node("rviz_mouse_point_to_tablet")
-    pub = rospy.Publisher("/Tablet/Command", Tablet)
-    sub = rospy.Subscriber("/rviz/current_mouse_point", 
+    rclpy.init_node("rviz_mouse_point_to_tablet")
+    pub = rclpy.Publisher("/Tablet/Command", Tablet)
+    sub = rclpy.Subscriber("/rviz/current_mouse_point", 
                            PointStamped, pointCallback)
-    rospy.Timer(rospy.Duration(0.3), timerCallback)
-    rospy.spin()
+    rclpy.Timer(rclpy.Duration(0.3), timerCallback)
+    rclpy.spin()

@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 Display the difference between reference and actual swing/support time according to hrpsys_ros_bridge/ContactState using
 jsk_rviz_plugins/PictogramArray
 """
 
-import rospy
+import rclpy
 from jsk_rviz_plugins.msg import Pictogram, PictogramArray
 from geometry_msgs.msg import Quaternion
 from hrpsys_ros_bridge.msg import ContactState, ContactStateStamped, ContactStatesStamped
@@ -17,7 +17,7 @@ def callback(ref, act):
     if len(ref_contact_states_queue) > buffer_size - 1:
         arr = PictogramArray()
         arr.header.frame_id = "/odom"
-        arr.header.stamp = rospy.Time.now()
+        arr.header.stamp = rclpy.Time.now()
         for i, (ref_st, act_st) in enumerate(zip(ref.states, act.states)):
             picto = Pictogram()
             if ref_st.state.state == act_st.state.state:
@@ -30,14 +30,14 @@ def callback(ref, act):
                         picto.pose.orientation = Quaternion(0, -1, 0, 1)
                         picto.action = Pictogram.ADD
                         picto.color = ColorRGBA(1.0, 0.0, 0.0, 0.8)
-                        rospy.loginfo("%s early landing %s [s]", ref_st.header.frame_id, str(ref_st.state.remaining_time))
+                        rclpy.loginfo("%s early landing %s [s]", ref_st.header.frame_id, str(ref_st.state.remaining_time))
                     elif [x.states[i].state.state for x in ref_contact_states_queue] == [ContactState.ON] * buffer_size and [x.states[i].state.state for x in act_contact_states_queue] == [ContactState.ON] * buffer_size:
                         picto.character = "up-bold"
                         picto.size = 1
                         picto.pose.orientation = Quaternion(0, -1, 0, 1)
                         picto.action = Pictogram.ADD
                         picto.color = ColorRGBA(0.0, 1.0, 0.0, 0.8)
-                        rospy.loginfo("%s late taking off", ref_st.header.frame_id)
+                        rclpy.loginfo("%s late taking off", ref_st.header.frame_id)
                         print("oso hanare")
                     else:
                         continue
@@ -48,14 +48,14 @@ def callback(ref, act):
                         picto.pose.orientation = Quaternion(0, -1, 0, 1)
                         picto.action = Pictogram.ADD
                         picto.color = ColorRGBA(0.0, 1.0, 0.0, 0.8)
-                        rospy.loginfo("%s late landing", ref_st.header.frame_id)
+                        rclpy.loginfo("%s late landing", ref_st.header.frame_id)
                     elif [x.states[i].state.state for x in ref_contact_states_queue] == [ContactState.ON] * buffer_size and [x.states[i].state.state for x in act_contact_states_queue] == [ContactState.ON] * buffer_size:
                         picto.character = "up-bold"
                         picto.size = 1
                         picto.pose.orientation = Quaternion(0, -1, 0, 1)
                         picto.action = Pictogram.ADD
                         picto.color = ColorRGBA(1.0, 0.0, 0.0, 0.8)
-                        rospy.loginfo("%s early taking off %s [s]", ref_st.header.frame_id, str(ref_st.state.remaining_time))
+                        rclpy.loginfo("%s early taking off %s [s]", ref_st.header.frame_id, str(ref_st.state.remaining_time))
                     else:
                         continue
             picto.header.frame_id = ref_st.header.frame_id
@@ -69,9 +69,9 @@ def callback(ref, act):
     act_contact_states_queue.append(act)
 
 if __name__ == "__main__":
-    rospy.init_node("landing_time_detector")
+    rclpy.init_node("landing_time_detector")
 
-    pub = rospy.Publisher("~pictogram_array", PictogramArray)
+    pub = rclpy.Publisher("~pictogram_array", PictogramArray)
     ref_contact_states_sub = message_filters.Subscriber('~input_ref', ContactStatesStamped)
     act_contact_states_sub = message_filters.Subscriber('~input_act', ContactStatesStamped)
 
@@ -82,4 +82,4 @@ if __name__ == "__main__":
     ts = message_filters.TimeSynchronizer([ref_contact_states_sub, act_contact_states_sub], 10)
     ts.registerCallback(callback)
 
-    rospy.spin()
+    rclpy.spin()

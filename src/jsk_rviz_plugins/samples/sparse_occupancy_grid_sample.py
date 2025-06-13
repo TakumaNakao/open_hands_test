@@ -1,13 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import rospy
+import rclpy
 from jsk_recognition_msgs.msg import *
 from geometry_msgs.msg import Point
-rospy.init_node("test_occupancy_grid")
+rclpy.init_node("test_occupancy_grid")
 
-p = rospy.Publisher("/occupancy_grid", SimpleOccupancyGridArray)
+p = rclpy.Publisher("/occupancy_grid", SimpleOccupancyGridArray)
 
-r = rospy.Rate(1)
+r = rclpy.Rate(1)
 
 def cells(x_offset):
     ret = []
@@ -17,8 +17,8 @@ def cells(x_offset):
     return ret
 
 
-while not rospy.is_shutdown():
-    now = rospy.Time.now()
+while not rclpy.is_shutdown():
+    now = rclpy.Time.now()
     occupancy_grid_array = SimpleOccupancyGridArray()
     for i in range(10):
         occupancy_grid = SimpleOccupancyGrid()

@@ -1,28 +1,28 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import numpy as np
 from scipy.spatial import ConvexHull
 
-import rospy
+import rclpy
 from jsk_recognition_msgs.msg import Segment
 from jsk_recognition_msgs.msg import SegmentArray
 from geometry_msgs.msg import Point
 
 
 def main():
-    rospy.init_node('segment_array_sample')
+    rclpy.init_node('segment_array_sample')
 
-    pub = rospy.Publisher('~output', SegmentArray, queue_size=1)
-    r = rospy.Rate(rospy.get_param('~rate', 1.0))
+    pub = rclpy.Publisher('~output', SegmentArray, queue_size=1)
+    r = rclpy.Rate(rclpy.get_param('~rate', 1.0))
 
     segment_array = SegmentArray()
-    segment_array.header.frame_id = rospy.get_param('~frame_id', 'map')
+    segment_array.header.frame_id = rclpy.get_param('~frame_id', 'map')
 
     N = 30
-    while not rospy.is_shutdown():
+    while not rclpy.is_shutdown():
         points = np.random.rand(N, 3)
         hull = ConvexHull(points)
-        segment_array.header.stamp = rospy.Time.now()
+        segment_array.header.stamp = rclpy.Time.now()
         segment_array.segments = []
         for i in hull.simplices:
             a, b, c = points[i]

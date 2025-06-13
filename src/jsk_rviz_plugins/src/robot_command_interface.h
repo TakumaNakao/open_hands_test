@@ -15,7 +15,7 @@
 
 namespace jsk_rviz_plugins
 {
-  class RobotCommandInterfaceAction: public rviz::Panel
+  class RobotCommandInterfaceAction: public rviz_common::Panel
   {
     Q_OBJECT
     public:

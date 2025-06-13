@@ -53,8 +53,8 @@ public:
   void setTopic(const std::string& topic);
   const std::string& getTopic() { return topic_; }
 
-  void setColor( const rviz::Color& color );
-  const rviz::Color& getColor() { return color_; }
+  void setColor( const rviz_common::properties::Color& color );
+  const rviz_common::properties::Color& getColor() { return color_; }
 
   void setAlpha( float alpha );
   float getAlpha() { return alpha_; }
@@ -127,7 +127,7 @@ private:
 
   // User-editable property variables.
 /*
-  rviz::Color color_;
+  rviz_common::properties::Color color_;
   std::string topic_;
   float alpha_;
   int history_length_;

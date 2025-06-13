@@ -100,7 +100,7 @@ namespace jsk_rviz_plugins
     geometry_msgs::Pose pose_;
     std::string frame_id_;
     rviz_common::DisplayContext* context_;
-    ros::WallTime time_;
+    rclcpp::Time time_;
     double ttl_;
     double speed_;
     uint8_t mode_;

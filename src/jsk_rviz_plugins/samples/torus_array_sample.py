@@ -1,15 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import rospy
+import rclpy
 from jsk_recognition_msgs.msg import TorusArray, Torus
 from geometry_msgs.msg import Pose
 import math
 
-rospy.init_node("test_torus")
-p = rospy.Publisher("test_torus", TorusArray)
-r = rospy.Rate(5)
+rclpy.init_node("test_torus")
+p = rclpy.Publisher("test_torus", TorusArray)
+r = rclpy.Rate(5)
 counter = 0
-while not rospy.is_shutdown():
+while not rclpy.is_shutdown():
   torus_array = TorusArray()
   torus1 = Torus()
   torus1.header.frame_id = "base_link"

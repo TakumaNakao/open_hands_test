@@ -52,7 +52,7 @@ namespace jsk_rviz_plugins
     virtual void activate();
     virtual void deactivate();
   protected:
-    virtual void openProperty(rviz::Property* property);
+    virtual void openProperty(rviz_common::properties::Property* property);
   private:
     
   };

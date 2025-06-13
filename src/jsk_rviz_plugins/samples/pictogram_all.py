@@ -1,17 +1,17 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 #
 # Please run rviz by rosrun rviz rviz -d `rospack find jsk_rviz_plugins`/config/pictogram.rviz
 #
 
-import rospy
+import rclpy
 import math
 from jsk_rviz_plugins.msg import Pictogram, PictogramArray
 from random import random, choice
-rospy.init_node("pictogram_all_sample")
-p = rospy.Publisher("/pictogram_array", PictogramArray)
+rclpy.init_node("pictogram_all_sample")
+p = rclpy.Publisher("/pictogram_array", PictogramArray)
 
-r = rospy.Rate(1)
+r = rclpy.Rate(1)
 actions = [Pictogram.JUMP, Pictogram.JUMP_ONCE, Pictogram.ADD, 
            Pictogram.ROTATE_X, Pictogram.ROTATE_Y, Pictogram.ROTATE_Z]
 pictograms = ["phone",
@@ -1703,17 +1703,17 @@ pictograms = ["phone",
 "fa-unity"]
 
 counter = 0
-while not rospy.is_shutdown():
+while not rclpy.is_shutdown():
     initial_x = -int(math.sqrt(len(pictograms)))/2
     arr = PictogramArray()
     arr.header.frame_id = "/base_link"
-    arr.header.stamp = rospy.Time.now()
+    arr.header.stamp = rclpy.Time.now()
     prev_xyz = [initial_x, -10, 0]
     for character in pictograms:
         msg = Pictogram()
         msg.header.frame_id = "/base_link"
         msg.action = choice(actions)
-        msg.header.stamp = rospy.Time.now()
+        msg.header.stamp = rclpy.Time.now()
         msg.pose.position.x = prev_xyz[0] + 1
         msg.pose.position.y = prev_xyz[1]
         msg.pose.position.z = 0

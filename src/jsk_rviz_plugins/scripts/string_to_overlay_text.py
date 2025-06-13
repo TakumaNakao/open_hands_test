@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import rospy
+import rclpy
 
 from std_msgs.msg import String, Float32
 from threading import Lock
@@ -46,17 +46,17 @@ class MultiTopicCallback():
             multi_topic_msgs[self.topic] = msg
         
 if __name__ == "__main__":
-    rospy.init_node("string_to_overlay_text")
+    rclpy.init_node("string_to_overlay_text")
     text_interface = OverlayTextInterface("~output")
-    multi_topics = rospy.get_param("~multi_topics", [])
-    g_format = rospy.get_param("~format", "{0}")
+    multi_topics = rclpy.get_param("~multi_topics", [])
+    g_format = rclpy.get_param("~format", "{0}")
     if multi_topics:
         subs = []
         for topic in multi_topics:
             callback = MultiTopicCallback(topic)
-            subs.append(rospy.Subscriber(topic, String, callback.callback))
-        rospy.Timer(rospy.Duration(0.1), publish_text_multi)
+            subs.append(rclpy.Subscriber(topic, String, callback.callback))
+        rclpy.Timer(rclpy.Duration(0.1), publish_text_multi)
     else:
-        sub = rospy.Subscriber("~input", String, callback)
-        rospy.Timer(rospy.Duration(0.1), publish_text)
-    rospy.spin()
+        sub = rclpy.Subscriber("~input", String, callback)
+        rclpy.Timer(rclpy.Duration(0.1), publish_text)
+    rclpy.spin()

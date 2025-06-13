@@ -41,11 +41,11 @@
 
 namespace jsk_rviz_plugins
 {
-  class QuietInteractiveMarkerDisplay: public rviz::InteractiveMarkerDisplay
+  class QuietInteractiveMarkerDisplay: public rviz_default_plugins::displays::InteractiveMarkerDisplay
   {
   public:
     QuietInteractiveMarkerDisplay();
-    virtual void setStatus( rviz::StatusProperty::Level level, const QString& name, const QString& text );
+    virtual void setStatus( rviz_common::properties::StatusProperty::Level level, const QString& name, const QString& text );
   protected:
     bool dummy_status_;
   };

@@ -122,8 +122,8 @@ namespace jsk_rviz_plugins
     boost::shared_ptr<diagnostic_msgs::DiagnosticStatus> latest_status_;
 #endif
     State previous_state_;
-    ros::WallTime latest_message_time_;
-    ros::WallTime animation_start_time_;
+    rclcpp::Time latest_message_time_;
+    rclcpp::Time animation_start_time_;
     int size_;
     std::string diagnostics_namespace_;
     int type_;

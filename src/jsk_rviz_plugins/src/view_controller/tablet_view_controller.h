@@ -34,20 +34,22 @@
 #define JSK_RVIZ_PLUGINS_TABLET_VIEW_CONTROLLER_H_
 
 #ifndef Q_MOC_RUN
-#include "rviz/view_controller.h"
+#include "rviz_common/view_controller.hpp"
 
-#include <ros/subscriber.h>
-#include <ros/ros.h>
+#include <rclcpp/rclcpp.hpp>
 
-#include "view_controller_msgs/CameraPlacement.h"
+#include "view_controller_msgs/msg/camera_placement.hpp"
 
 #include <OGRE/OgreVector3.h>
 #include <OGRE/OgreQuaternion.h>
 #endif
 
-namespace rviz {
+namespace rviz_common {
   class SceneNode;
   class Shape;
+}
+
+namespace rviz_common { namespace properties {
   class BoolProperty;
   class FloatProperty;
   class VectorProperty;
@@ -55,13 +57,13 @@ namespace rviz {
   class TfFrameProperty;
   class EditableEnumProperty;
   class RosTopicProperty;
-}
+}}
 
 namespace jsk_rviz_plugins
 {
 
 /** @brief An un-constrained "flying" camera, specified by an eye point, focus point, and up vector. */
-class TabletViewController : public rviz::ViewController
+class TabletViewController : public rviz_common::ViewController
 {
 Q_OBJECT
 public:
@@ -96,7 +98,7 @@ public:
   void yaw_pitch_roll( float yaw, float pitch, float roll );
 
 
-  virtual void handleMouseEvent(rviz::ViewportMouseEvent& evt);
+  virtual void handleMouseEvent(rviz_common::ViewportMouseEvent& evt);
 
 
   /** @brief Calls beginNewTransition() to
@@ -181,7 +183,7 @@ protected:  //methods
 
   /** @brief Begins a camera movement animation to the given goal points. */
   void beginNewTransition(const Ogre::Vector3 &eye, const Ogre::Vector3 &focus, const Ogre::Vector3 &up,
-                          const ros::Duration &transition_time);
+                          const rclcpp::Duration &transition_time);
 
   /** @brief Cancels any currently active camera movement. */
   void cancelTransition();
@@ -195,7 +197,7 @@ protected:  //methods
   float getDistanceFromCameraToFocalPoint(); ///< Return the distance between camera and focal point.
 
   void publishCurrentPlacement();
-  void publishMouseEvent(rviz::ViewportMouseEvent& event);
+  void publishMouseEvent(rviz_common::ViewportMouseEvent& event);
   Ogre::Quaternion getOrientation(); ///< Return a Quaternion
 
 protected Q_SLOTS:
@@ -204,24 +206,24 @@ protected Q_SLOTS:
   void updateMousePointPublishTopics();
 protected:    //members
 
-  ros::NodeHandle nh_;
+  rclcpp::Node::SharedPtr nh_;
 
-  rviz::BoolProperty* mouse_enabled_property_;            ///< If True, most user changes to camera state are disabled.
-  rviz::EditableEnumProperty* interaction_mode_property_; ///< Select between Orbit or FPS control style.
-  rviz::BoolProperty* fixed_up_property_;                 ///< If True, "up" is fixed to ... up.
+  rviz_common::properties::BoolProperty* mouse_enabled_property_;            ///< If True, most user changes to camera state are disabled.
+  rviz_common::properties::EditableEnumProperty* interaction_mode_property_; ///< Select between Orbit or FPS control style.
+  rviz_common::properties::BoolProperty* fixed_up_property_;                 ///< If True, "up" is fixed to ... up.
 
-  rviz::FloatProperty* distance_property_;                ///< The camera's distance from the focal point
-  rviz::VectorProperty* eye_point_property_;              ///< The position of the camera.
-  rviz::VectorProperty* focus_point_property_;            ///< The point around which the camera "orbits".
-  rviz::VectorProperty* up_vector_property_;              ///< The up vector for the camera.
-  rviz::FloatProperty* default_transition_time_property_; ///< A default time for any animation requests.
+  rviz_common::properties::FloatProperty* distance_property_;                ///< The camera's distance from the focal point
+  rviz_common::properties::VectorProperty* eye_point_property_;              ///< The position of the camera.
+  rviz_common::properties::VectorProperty* focus_point_property_;            ///< The point around which the camera "orbits".
+  rviz_common::properties::VectorProperty* up_vector_property_;              ///< The up vector for the camera.
+  rviz_common::properties::FloatProperty* default_transition_time_property_; ///< A default time for any animation requests.
 
-  rviz::RosTopicProperty* camera_placement_topic_property_;
-  rviz::RosTopicProperty* camera_placement_publish_topic_property_;
-  rviz::RosTopicProperty* mouse_point_publish_topic_property_;
-//  rviz::RosTopicProperty* camera_placement_trajectory_topic_property_;
+  rviz_common::properties::RosTopicProperty* camera_placement_topic_property_;
+  rviz_common::properties::RosTopicProperty* camera_placement_publish_topic_property_;
+  rviz_common::properties::RosTopicProperty* mouse_point_publish_topic_property_;
+//  rviz_common::properties::RosTopicProperty* camera_placement_trajectory_topic_property_;
 
-  rviz::TfFrameProperty* attached_frame_property_;
+  rviz_common::properties::TfFrameProperty* attached_frame_property_;
   Ogre::SceneNode* attached_scene_node_;
 
   Ogre::Quaternion reference_orientation_;    ///< Used to store the orientation of the attached frame relative to <Fixed Frame>
@@ -232,21 +234,21 @@ protected:    //members
   Ogre::Vector3 start_position_, goal_position_;
   Ogre::Vector3 start_focus_, goal_focus_;
   Ogre::Vector3 start_up_, goal_up_;
-  ros::Time trajectory_start_time_;
-  ros::Time transition_start_time_;
-  ros::Duration current_transition_duration_;
+  rclcpp::Time trajectory_start_time_;
+  rclcpp::Time transition_start_time_;
+  rclcpp::Duration current_transition_duration_;
 
-  rviz::Shape* focal_shape_;    ///< A small ellipsoid to show the focus point.
+  rviz_rendering::Shape* focal_shape_;    ///< A small ellipsoid to show the focus point.
   bool dragging_;         ///< A flag indicating the dragging state of the mouse.
 
   QCursor interaction_disabled_cursor_;         ///< A cursor for indicating mouse interaction is disabled.
   
-//  ros::Subscriber trajectory_subscriber_;
-  ros::Subscriber placement_subscriber_;
+//  rclcpp::Subscription<.*>::SharedPtr trajectory_subscriber_;
+  rclcpp::Subscription<.*>::SharedPtr placement_subscriber_;
 
-  ros::Publisher placement_publisher_;
+  rclcpp::Publisher<.*>::SharedPtr placement_publisher_;
   
-  ros::Publisher mouse_point_publisher_;
+  rclcpp::Publisher<.*>::SharedPtr mouse_point_publisher_;
 };
 
 }  // namespace rviz_animated_view_controller

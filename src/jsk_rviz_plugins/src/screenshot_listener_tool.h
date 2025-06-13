@@ -56,7 +56,7 @@ namespace jsk_rviz_plugins
     virtual bool takeScreenShot(
       jsk_rviz_plugins::Screenshot::Request& req,
       jsk_rviz_plugins::Screenshot::Response& res);
-    ros::ServiceServer screenshot_service_;
+    rclcpp::Service<.*>::SharedPtr screenshot_service_;
   private:
     
   };

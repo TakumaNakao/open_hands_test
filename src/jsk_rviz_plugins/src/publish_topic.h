@@ -12,14 +12,14 @@ class QPushButton;
 
 namespace jsk_rviz_plugins
 {
-  class PublishTopic: public rviz::Panel
+  class PublishTopic: public rviz_common::Panel
     {
 Q_OBJECT
   public:
       PublishTopic( QWidget* parent = 0 );
 
-      virtual void load( const rviz::Config& config );
-      virtual void save( rviz::Config config ) const;
+      virtual void load( const rviz_common::Config& config );
+      virtual void save( rviz_common::Config config ) const;
 
       public Q_SLOTS:
 

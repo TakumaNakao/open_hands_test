@@ -19,7 +19,7 @@ class QPushButton;
 
 namespace jsk_rviz_plugins
 {
-  class CancelAction: public rviz::Panel
+  class CancelAction: public rviz_common::Panel
     {
       // This class uses Qt slots and is a subclass of QObject, so it needs
       // the Q_OBJECT macro.
@@ -28,8 +28,8 @@ Q_OBJECT
       CancelAction( QWidget* parent = 0 );
 
       
-      virtual void load( const rviz::Config& config );
-      virtual void save( rviz::Config config ) const;
+      virtual void load( const rviz_common::Config& config );
+      virtual void save( rviz_common::Config config ) const;
 
       public Q_SLOTS:
 
