@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>jsk_rviz_plugins</name>
+  <version>3.0.0</version>
+  <description>The jsk_rviz_plugins package (ROS2 port)</description>
+  <maintainer email="k-okada@jsk.t.u-tokyo.ac.jp">Kei Okada</maintainer>
+  <license>BSD</license>
+  <author email="k-okada@jsk.t.u-tokyo.ac.jp">Kei Okada</author>
+  <author email="youhei@jsk.t.u-tokyo.ac.jp">Yohei Kakiuchi</author>
+  <author email="s-fujii@jsk.t.u-tokyo.ac.jp">Shohei Fujii</author>
+  <author email="ueda@jsk.t.u-tokyo.ac.jp">Ryohei Ueda</author>
+  <url type="repository">http://github.com/jsk-ros-pkg/jsk_visualization</url>
+  <url type="bugtracker">http://github.com/jsk-ros-pkg/jsk_visualization/issues</url>
+  <url type="website">https://jsk-visualization.readthedocs.io/en/latest/jsk_rviz_plugins/index.html</url>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>diagnostic_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>image_geometry</build_depend>
+  <build_depend>jsk_footstep_msgs</build_depend>
+  <build_depend>jsk_gui_msgs</build_depend>
+  <build_depend>jsk_hark_msgs</build_depend>
+  <build_depend>jsk_recognition_msgs</build_depend>
+  <build_depend>jsk_recognition_utils</build_depend>
+  <build_depend>jsk_topic_tools</build_depend>
+  <build_depend>rosidl_default_generators</build_depend>
+  <build_depend>people_msgs</build_depend>
+  <build_depend>rviz2</build_depend>
+  <build_depend>rviz_common</build_depend>
+  <build_depend>rviz_default_plugins</build_depend>
+  <build_depend>rviz_ogre_vendor</build_depend>
+  <build_depend>rviz_rendering</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>urdfdom_py</build_depend>
+  <build_depend>view_controller_msgs</build_depend>
+  <build_depend>rclcpp</build_depend>
+  <build_depend>rclpy</build_depend>
+  <build_depend>pluginlib</build_depend>
+  <build_depend>qt5-qmake</build_depend>
+  <build_depend>qtbase5-dev</build_depend>
+
+  <exec_depend>python3-scipy</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>diagnostic_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>image_geometry</exec_depend>
+  <exec_depend>image_publisher</exec_depend>
+  <exec_depend>jsk_footstep_msgs</exec_depend>
+  <exec_depend>jsk_gui_msgs</exec_depend>
+  <exec_depend>jsk_hark_msgs</exec_depend>
+  <exec_depend>jsk_recognition_msgs</exec_depend>
+  <exec_depend>jsk_recognition_utils</exec_depend>
+  <exec_depend>jsk_topic_tools</exec_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <exec_depend>people_msgs</exec_depend>
+  <exec_depend>posedetection_msgs</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>rviz_common</exec_depend>
+  <exec_depend>rviz_default_plugins</exec_depend>
+  <exec_depend>rviz_ogre_vendor</exec_depend>
+  <exec_depend>rviz_rendering</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>urdfdom_py</exec_depend>
+  <exec_depend>view_controller_msgs</exec_depend>
+  <exec_depend>rclcpp</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>pluginlib</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+  <test_depend>launch_testing</test_depend>
+  <test_depend>pr2_description</test_depend>
+  <test_depend>joint_state_publisher</test_depend>
+  <test_depend>robot_state_publisher</test_depend>
+  <test_depend>jsk_data</test_depend>
+  <test_depend>jsk_tools</test_depend>
+  <test_depend>image_transport</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+    <rviz plugin="${prefix}/plugin_description.xml"/>
+  </export>
+
+</package>

@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>jsk_interactive_marker</name>
+  <description>jsk interactive markers (ROS2 port)</description>
+  <version>3.0.0</version>
+  <author email="furuta@jsk.t.u-tokyo.ac.jp">furuta</author>
+  <maintainer email="furuta@jsk.t.u-tokyo.ac.jp">furuta</maintainer>
+  <license>BSD</license>
+  <url>http://ros.org/wiki/interactive_marker</url>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+
+  <build_depend>rclcpp</build_depend>
+  <build_depend>rclpy</build_depend>
+  <build_depend>visualization_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>interactive_markers</build_depend>
+  <build_depend>urdf</build_depend>
+  <build_depend>tf2</build_depend>
+  <build_depend>tf2_ros</build_depend>
+  <build_depend>tf2_geometry_msgs</build_depend>
+  <build_depend>jsk_footstep_msgs</build_depend>
+  <build_depend>rclcpp_action</build_depend>
+  <build_depend>eigen3_cmake_module</build_depend>
+  <build_depend>tinyxml2</build_depend>
+  <build_depend>message_filters</build_depend>
+  <build_depend>rosidl_default_generators</build_depend>
+  <build_depend>jsk_rviz_plugins</build_depend>
+  <build_depend>moveit_msgs</build_depend>
+  <build_depend>jsk_recognition_msgs</build_depend>
+  <build_depend>jsk_recognition_utils</build_depend>
+  <build_depend>jsk_topic_tools</build_depend>
+  <build_depend>yaml-cpp</build_depend>
+  <build_depend>rviz2</build_depend>
+  <build_depend>rviz_common</build_depend>
+  <build_depend>pluginlib</build_depend>
+
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <exec_depend>rclcpp</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>tinyxml2</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>interactive_markers</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>tf2</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>tf2_geometry_msgs</exec_depend>
+  <exec_depend>jsk_footstep_msgs</exec_depend>
+  <exec_depend>rclcpp_action</exec_depend>
+  <exec_depend>message_filters</exec_depend>
+  <exec_depend>jsk_rviz_plugins</exec_depend>
+  <exec_depend>jsk_topic_tools</exec_depend>
+  <exec_depend>jsk_recognition_msgs</exec_depend>
+  <exec_depend>jsk_recognition_utils</exec_depend>
+  <exec_depend>yaml-cpp</exec_depend>
+  <exec_depend>moveit_msgs</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>rviz_common</exec_depend>
+  <exec_depend>pluginlib</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+    <rviz plugin="${prefix}/plugin_description.xml" />
+  </export>
+
+</package>
+
+

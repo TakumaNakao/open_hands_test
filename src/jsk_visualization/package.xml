@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>jsk_visualization</name>
+  <version>3.0.0</version>
+  <description>
+   <p>Metapackage that contains visualization package for jsk-ros-pkg (ROS2 port)</p>
+  </description>
+
+  <maintainer email="ueda@jsk.t.u-tokyo.ac.jp">Ryohei Ueda</maintainer>
+  <author email="ueda@jsk.t.u-tokyo.ac.jp">Ryohei Ueda</author>
+  <author email="k-okada@jsk.t.u-tokyo.ac.jp">Kei Okada</author>
+  <author email="youhei@jsk.imi.i.u-tokyo.ac.jp">Youhei Kakiuchi</author>
+
+  <license>BSD</license>
+  <url type="website">http://ros.org/wiki/jsk_visualization</url>
+  <url type="repository">https://github.com/jsk-ros-pkg/jsk_visualization</url>
+  <url type="bugtracker">https://github.com/jsk-ros-pkg/jsk_visualization/issues</url>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>jsk_rqt_plugins</exec_depend>
+  <exec_depend>jsk_rviz_plugins</exec_depend>
+  <exec_depend>jsk_interactive</exec_depend>
+  <exec_depend>jsk_interactive_marker</exec_depend>
+  <exec_depend>jsk_interactive_test</exec_depend>
+  
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+  
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

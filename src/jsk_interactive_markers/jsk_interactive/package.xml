@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>jsk_interactive</name>
+  <version>3.0.0</version>
+  <description>jsk_interactive (ROS2 port)</description>
+  <maintainer email="furua@jsk.imi.i.u-tokyo.ac.jp">Yusuke Furuta</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/jsk_interactive</url>
+
+  <author>Yusuke Furuta</author>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+
+  <build_depend>rclpy</build_depend>
+  <build_depend>visualization_msgs</build_depend>
+  <build_depend>rclcpp_action</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>jsk_interactive_marker</build_depend>
+  <build_depend>tf2_ros</build_depend>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>rclcpp_action</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>jsk_interactive_marker</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
