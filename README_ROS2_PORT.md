@@ -66,11 +66,85 @@ This is a ROS2 port of the JSK Visualization package suite from ROS1. The origin
 
 - **Plugin System**: Update RViz and rqt plugin registration for ROS2
 
+## Migration Progress
+
+### ✅ Completed
+- [x] Package structure analysis
+- [x] Package.xml files converted to format 3
+- [x] CMakeLists.txt files updated to ament_cmake
+- [x] Basic workspace setup
+- [x] Python script migration (rospy → rclpy) - 7 files migrated
+- [x] C++ header migration (basic ROS2 API updates) - 2 files
+- [x] Setup.py configuration for Python entry points
+- [x] Message definitions (already ROS2 compatible)
+
+### 🔄 In Progress
+- [ ] C++ source code migration (implementation files)
+- [ ] Plugin configurations for RViz2
+- [ ] Launch files (XML → Python)
+
+### ⏳ Pending
+- [ ] Build testing (requires proper ROS2 environment)
+- [ ] Runtime testing
+- [ ] Documentation updates
+- [ ] Missing dependency resolution (jsk_gui_msgs, etc.)
+
+### Python Scripts Migrated
+1. `overlay_sample.py` - Basic overlay text publishing
+2. `piechart_sample.py` - Pie chart visualization
+3. `static_overlay_text.py` - Static text overlay with parameters
+4. `overlay_text_interface.py` - Text interface with parameter system
+5. `rosconsole_overlay_text.py` - Console log overlay
+6. `float32_to_overlay_text.py` - Float32 to text conversion
+7. `pictogram.py` - Pictogram cycling sample
+
+### C++ Headers Migrated
+1. `overlay_utils.h` - Basic ROS2 includes and smart pointers
+2. `overlay_text_display.h` - RViz2 display plugin headers
+
+### Migration Patterns Applied
+
+#### Python (rospy → rclpy)
+```python
+# ROS1 Pattern
+import rospy
+rospy.init_node("node_name")
+pub = rospy.Publisher("topic", MsgType, queue_size=10)
+sub = rospy.Subscriber("topic", MsgType, callback)
+timer = rospy.Timer(rospy.Duration(0.1), timer_callback)
+param = rospy.get_param("~param", default_value)
+
+# ROS2 Pattern
+import rclpy
+from rclpy.node import Node
+
+class MyNode(Node):
+    def __init__(self):
+        super().__init__('node_name')
+        self.pub = self.create_publisher(MsgType, 'topic', 10)
+        self.sub = self.create_subscription(MsgType, 'topic', self.callback, 10)
+        self.timer = self.create_timer(0.1, self.timer_callback)
+        self.declare_parameter('param', default_value)
+        param = self.get_parameter('param').value
+```
+
+#### C++ Headers (ROS1 → ROS2)
+```cpp
+// ROS1
+#include <ros/ros.h>
+#include <rviz/display.h>
+#include <rviz/properties/ros_topic_property.h>
+
+// ROS2
+#include <rclcpp/rclcpp.hpp>
+#include <rviz_common/display.hpp>
+#include <rviz_common/properties/ros_topic_property.hpp>
+```
+
 ### ❌ Known Issues
 - C++ compilation will fail until source code is updated
-- Python scripts will fail until rospy→rclpy migration is complete
-- Launch files need conversion from XML to Python format
 - Some JSK-specific dependencies may not be available in ROS2
+- Build testing requires proper ROS2 environment setup
 
 ## Dependencies
 
