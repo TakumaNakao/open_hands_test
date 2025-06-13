@@ -168,7 +168,7 @@ namespace jsk_rviz_plugins
   }
 
   void HumanSkeletonArrayDisplay::showEdges(
-    const jsk_recognition_msgs::HumanSkeletonArray::ConstPtr& msg)
+    const jsk_rviz_plugins::msg::HumanSkeletonArray::ConstPtr& msg)
   {
     int line_num = 0;
     for (size_t i = 0; i < msg->skeletons.size(); i++) {
@@ -179,7 +179,7 @@ namespace jsk_rviz_plugins
     int line_i = 0;
     for (size_t i = 0; i < msg->skeletons.size(); i++) {
       for (size_t j = 0; j < msg->skeletons[i].bones.size(); j++) {
-        jsk_recognition_msgs::Segment edge_msg = msg->skeletons[i].bones[j];
+        jsk_rviz_plugins::msg::Segment edge_msg = msg->skeletons[i].bones[j];
         BillboardLinePtr edge = edges_[line_i];
         ShapePtr start_shape = shapes_[2 * line_i];
         ShapePtr end_shape = shapes_[2 * line_i + 1];
@@ -239,7 +239,7 @@ namespace jsk_rviz_plugins
   }
 
   void HumanSkeletonArrayDisplay::processMessage(
-    const jsk_recognition_msgs::HumanSkeletonArray::ConstPtr& msg)
+    const jsk_rviz_plugins::msg::HumanSkeletonArray::ConstPtr& msg)
   {
     // Store latest message
     latest_msg_ = msg;

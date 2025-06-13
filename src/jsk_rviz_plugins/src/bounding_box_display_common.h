@@ -37,7 +37,7 @@
 
 #ifndef Q_MOC_RUN
 #include "bounding_box_display_common.h"
-#include <jsk_recognition_msgs/BoundingBoxArray.hpp>
+#include <jsk_rviz_plugins/msg/bounding_boxArray.hpp>
 #include <jsk_topic_tools/color_utils.hpp>
 #include <rviz_common/properties/color_property.hpp>
 #include <rviz_common/properties/bool_property.hpp>
@@ -87,7 +87,7 @@ protected:
 
     QColor getColor(
       size_t index,
-      const jsk_recognition_msgs::BoundingBox& box,
+      const jsk_rviz_plugins::msg::BoundingBox& box,
       double min_value,
       double max_value)
     {
@@ -120,7 +120,7 @@ protected:
       return QColor(255.0, 255.0, 255.0, 255.0);
     }
 
-    double getAlpha(const jsk_recognition_msgs::BoundingBox& box)
+    double getAlpha(const jsk_rviz_plugins::msg::BoundingBox& box)
     {
       if (alpha_method_ == "flat") {
         return alpha_;
@@ -134,7 +134,7 @@ protected:
     }
 
     bool isValidBoundingBox(
-      const jsk_recognition_msgs::BoundingBox box_msg)
+      const jsk_rviz_plugins::msg::BoundingBox box_msg)
     {
       // Check size
       if (box_msg.dimensions.x < 1.0e-9 ||
@@ -208,16 +208,16 @@ protected:
     }
 
     void showBoxes(
-      const jsk_recognition_msgs::BoundingBoxArray::ConstPtr& msg)
+      const jsk_rviz_plugins::msg::BoundingBoxArray::ConstPtr& msg)
     {
       edges_.clear();
       float min_value = DBL_MAX;
       float max_value = -DBL_MAX;
       // filter boxes before drawing
       std::vector<int> box_indices;
-      std::vector<jsk_recognition_msgs::BoundingBox> boxes;
+      std::vector<jsk_rviz_plugins::msg::BoundingBox> boxes;
       for (size_t i = 0; i < msg->boxes.size(); i++) {
-        jsk_recognition_msgs::BoundingBox box = msg->boxes[i];
+        jsk_rviz_plugins::msg::BoundingBox box = msg->boxes[i];
         if (isValidBoundingBox(box)) {
           if (box.value < value_threshold_) {
             continue;
@@ -237,7 +237,7 @@ protected:
       // draw filtered boxes
       allocateShapes(boxes.size());
       for (size_t i = 0; i < boxes.size(); i++) {
-        jsk_recognition_msgs::BoundingBox box = boxes[i];
+        jsk_rviz_plugins::msg::BoundingBox box = boxes[i];
         ShapePtr shape = shapes_[i];
         Ogre::Vector3 position;
         Ogre::Quaternion orientation;
@@ -275,16 +275,16 @@ protected:
     }
 
     void showEdges(
-      const jsk_recognition_msgs::BoundingBoxArray::ConstPtr& msg)
+      const jsk_rviz_plugins::msg::BoundingBoxArray::ConstPtr& msg)
     {
       shapes_.clear();
       float min_value = DBL_MAX;
       float max_value = -DBL_MAX;
       // filter boxes before drawing
       std::vector<int> box_indices;
-      std::vector<jsk_recognition_msgs::BoundingBox> boxes;
+      std::vector<jsk_rviz_plugins::msg::BoundingBox> boxes;
       for (size_t i = 0; i < msg->boxes.size(); i++) {
-        jsk_recognition_msgs::BoundingBox box = msg->boxes[i];
+        jsk_rviz_plugins::msg::BoundingBox box = msg->boxes[i];
         if (isValidBoundingBox(box)) {
           if (box.value < value_threshold_) {
             continue;
@@ -304,7 +304,7 @@ protected:
       // draw filtered boxes
       allocateBillboardLines(boxes.size());
       for (size_t i = 0; i < boxes.size(); i++) {
-        jsk_recognition_msgs::BoundingBox box = boxes[i];
+        jsk_rviz_plugins::msg::BoundingBox box = boxes[i];
         geometry_msgs::Vector3 dimensions = box.dimensions;
 
         BillboardLinePtr edge = edges_[i];
@@ -377,11 +377,11 @@ protected:
     }
 
     void showCoords(
-      const jsk_recognition_msgs::BoundingBoxArray::ConstPtr& msg)
+      const jsk_rviz_plugins::msg::BoundingBoxArray::ConstPtr& msg)
     {
-      std::vector<jsk_recognition_msgs::BoundingBox> boxes;
+      std::vector<jsk_rviz_plugins::msg::BoundingBox> boxes;
       for (size_t i = 0; i < msg->boxes.size(); i++) {
-        jsk_recognition_msgs::BoundingBox box = msg->boxes[i];
+        jsk_rviz_plugins::msg::BoundingBox box = msg->boxes[i];
         if (isValidBoundingBox(box)) {
           boxes.push_back(box);
         }
@@ -393,7 +393,7 @@ protected:
       }
       allocateCoords(boxes.size());
       for (size_t i = 0; i < boxes.size(); i++) {
-        jsk_recognition_msgs::BoundingBox box = boxes[i];
+        jsk_rviz_plugins::msg::BoundingBox box = boxes[i];
         std::vector<ArrowPtr> coord = coords_objects_[i];
 
         Ogre::SceneNode* scene_node = coords_nodes_[i];

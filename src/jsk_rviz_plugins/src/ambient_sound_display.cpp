@@ -43,7 +43,7 @@ namespace jsk_rviz_plugins
         // callback with them when they can be matched up with valid tf
         // transform data.
         tf_filter_ =
-            new tf::MessageFilter<jsk_hark_msgs::HarkPower>( *vis_manager_->getTFClient(),
+            new tf::MessageFilter<jsk_rviz_plugins::msg::HarkPower>( *vis_manager_->getTFClient(),
                     "", 100, update_nh_ );
         tf_filter_->connectInput( sub_ );
         tf_filter_->registerCallback( boost::bind( &AmbientSoundDisplay::incomingMessage,
@@ -257,7 +257,7 @@ namespace jsk_rviz_plugins
     }/*}}}*/
 
     // This is our callback to handle an incoming message.
-    void AmbientSoundDisplay::incomingMessage( const jsk_hark_msgs::HarkPower::ConstPtr& msg )/*{{{*/
+    void AmbientSoundDisplay::incomingMessage( const jsk_rviz_plugins::msg::HarkPower::ConstPtr& msg )/*{{{*/
     {
         ++messages_received_;
 
@@ -321,9 +321,9 @@ namespace jsk_rviz_plugins
                     boost::bind( &AmbientSoundDisplay::setTopic, this, _1 ),
                     parent_category_,
                     this );
-        setPropertyHelpText( topic_property_, "jsk_hark_msgs::HarkPower topic to subscribe to." );
+        setPropertyHelpText( topic_property_, "jsk_rviz_plugins::msg::HarkPower topic to subscribe to." );
         rviz_common::properties::RosTopicPropertyPtr topic_prop = topic_property_.lock();
-        topic_prop->setMessageType( rosidl_generator_traits::data_type<jsk_hark_msgs::HarkPower>() );
+        topic_prop->setMessageType( rosidl_generator_traits::data_type<jsk_rviz_plugins::msg::HarkPower>() );
 
         color_property_ =
             property_manager_->createProperty<rviz_common::properties::ColorProperty>( "Color",

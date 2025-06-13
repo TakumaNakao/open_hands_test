@@ -37,7 +37,7 @@
 #define JSK_RVIZ_PLUGINS_SIMPLE_OCCUPANCY_GRID_ARRAY_DISPLAY_H_
 
 #ifndef Q_MOC_RUN
-#include <jsk_recognition_msgs/SimpleOccupancyGridArray.hpp>
+#include <jsk_rviz_plugins/msg/simple_occupancy_grid_array.hpp>
 #include <rviz/message_filter_display.hpp>
 #include <rviz_common/properties/float_property.hpp>
 #include <rviz_common/properties/bool_property.hpp>
@@ -50,7 +50,7 @@ namespace jsk_rviz_plugins
 {
   class SimpleOccupancyGridArrayDisplay:
     public rviz_common::MessageFilterDisplay<
-    jsk_recognition_msgs::SimpleOccupancyGridArray>
+    jsk_rviz_plugins::msg::SimpleOccupancyGridArray>
   {
     Q_OBJECT
   public:
@@ -73,7 +73,7 @@ namespace jsk_rviz_plugins
     bool auto_color_;
   private:
     void processMessage(
-      const jsk_recognition_msgs::SimpleOccupancyGridArray::ConstPtr& msg);
+      const jsk_rviz_plugins::msg::SimpleOccupancyGridArray::ConstPtr& msg);
   private Q_SLOTS:
     void updateAlpha();
     void updateAutoColor();

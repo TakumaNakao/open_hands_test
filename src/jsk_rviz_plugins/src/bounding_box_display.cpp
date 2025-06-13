@@ -248,15 +248,15 @@ namespace jsk_rviz_plugins
   }
 
   void BoundingBoxDisplay::processMessage(
-    const jsk_recognition_msgs::BoundingBox::ConstPtr& msg)
+    const jsk_rviz_plugins::msg::BoundingBox::ConstPtr& msg)
   {
     // Store latest message
     latest_msg_ = msg;
 
     // Convert bbox to bbox_array to show it
-    jsk_recognition_msgs::BoundingBoxArrayPtr bbox_array_msg(new jsk_recognition_msgs::BoundingBoxArray);
+    jsk_rviz_plugins::msg::BoundingBoxArrayPtr bbox_array_msg(new jsk_rviz_plugins::msg::BoundingBoxArray);
     bbox_array_msg->header = msg->header;
-    std::vector<jsk_recognition_msgs::BoundingBox> boxes;
+    std::vector<jsk_rviz_plugins::msg::BoundingBox> boxes;
     boxes.push_back(*msg);
     bbox_array_msg->boxes = boxes;
 

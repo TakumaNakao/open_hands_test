@@ -42,9 +42,19 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/PictogramArray.msg"
   "msg/RecordCommand.msg"
   "msg/StringStamped.msg"
+  "msg/HarkPower.msg"
+  "msg/BoundingBox.msg"
+  "msg/BoundingBoxArray.msg"
+  "msg/SegmentArray.msg"
+  "msg/SimpleOccupancyGrid.msg"
+  "msg/SimpleOccupancyGridArray.msg"
+  "msg/PolygonArray.msg"
+  "msg/TorusArray.msg"
+  "msg/HumanSkeletonArray.msg"
   "srv/RequestMarkerOperate.srv"
   "srv/EusCommand.srv"
   "srv/Screenshot.srv"
+  "srv/YesNo.srv"
   DEPENDENCIES std_msgs geometry_msgs
 )
 

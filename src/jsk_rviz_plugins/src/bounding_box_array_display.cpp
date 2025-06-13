@@ -258,7 +258,7 @@ namespace jsk_rviz_plugins
   }
 
   void BoundingBoxArrayDisplay::processMessage(
-    const jsk_recognition_msgs::BoundingBoxArray::ConstPtr& msg)
+    const jsk_rviz_plugins::msg::BoundingBoxArray::ConstPtr& msg)
   {
     // Store latest message
     latest_msg_ = msg;

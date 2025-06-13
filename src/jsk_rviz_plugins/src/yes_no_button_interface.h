@@ -12,7 +12,7 @@
 #endif
 #endif
 
-#include <jsk_gui_msgs/YesNo.hpp>
+#include <jsk_rviz_plugins/srv/yes_no.hpp>
 
 
 namespace jsk_rviz_plugins
@@ -33,8 +33,8 @@ namespace jsk_rviz_plugins
     void respondNo();
   protected:
     virtual bool requested(
-      jsk_gui_msgs::YesNo::Request& req,
-      jsk_gui_msgs::YesNo::Response& res);
+      jsk_rviz_plugins::srv::YesNo::Request::SharedPtr req,
+      jsk_rviz_plugins::srv::YesNo::Response::SharedPtr res);
     QHBoxLayout* layout_;
     QPushButton* yes_button_;
     QPushButton* no_button_;

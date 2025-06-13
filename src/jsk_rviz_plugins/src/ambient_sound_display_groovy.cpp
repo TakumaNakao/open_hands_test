@@ -62,7 +62,7 @@ namespace jsk_rviz_plugins
         // callback with them when they can be matched up with valid tf
         // transform data.
 //        tf_filter_ =
-//            new tf::MessageFilter<jsk_hark_msgs::HarkPower>( *context_->getTFClient(),
+//            new tf::MessageFilter<jsk_rviz_plugins::msg::HarkPower>( *context_->getTFClient(),
 //                    "", 100, update_nh_ );
 //        tf_filter_->connectInput( sub_ );
 //        tf_filter_->registerCallback( boost::bind( &AmbientSoundDisplay::incomingMessage,
@@ -144,7 +144,7 @@ namespace jsk_rviz_plugins
         visuals_.rset_capacity(history_length_property_->getInt());
     }/*}}}*/
 
-    bool AmbientSoundDisplay::validateFloats( const jsk_hark_msgs::HarkPower& msg )
+    bool AmbientSoundDisplay::validateFloats( const jsk_rviz_plugins::msg::HarkPower& msg )
     {
         std::vector<float>::const_iterator it = msg.powers.begin();
         for (; it < msg.powers.end(); ++it) {
@@ -210,7 +210,7 @@ namespace jsk_rviz_plugins
     //}[>}}}<]
 
     // This is our callback to handle an incoming message.
-    void AmbientSoundDisplay::processMessage( const jsk_hark_msgs::HarkPower::ConstPtr& msg )/*{{{*/
+    void AmbientSoundDisplay::processMessage( const jsk_rviz_plugins::msg::HarkPower::ConstPtr& msg )/*{{{*/
     {
         if( !validateFloats( *msg ))
         {

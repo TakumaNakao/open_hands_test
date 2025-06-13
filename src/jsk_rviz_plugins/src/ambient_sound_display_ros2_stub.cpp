@@ -14,7 +14,7 @@ namespace jsk_rviz_plugins
   public:
     AmbientSoundDisplayStub() {
       RCLCPP_WARN(rclcpp::get_logger("ambient_sound_display"), 
-                  "AmbientSoundDisplay requires jsk_hark_msgs which is not available in ROS2");
+                  "AmbientSoundDisplay now uses jsk_rviz_plugins::msg::HarkPower (migrated from jsk_hark_msgs)");
     }
     
   protected:

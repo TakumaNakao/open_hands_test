@@ -106,14 +106,14 @@ namespace jsk_rviz_plugins
   }
 
   void SimpleOccupancyGridArrayDisplay::processMessage(
-    const jsk_recognition_msgs::SimpleOccupancyGridArray::ConstPtr& msg)
+    const jsk_rviz_plugins::msg::SimpleOccupancyGridArray::ConstPtr& msg)
   {
     Ogre::ColourValue white(1, 1, 1, 1);
     allocateCloudsAndNodes(msg->grids.size()); // not enough
     for (size_t i = 0; i < msg->grids.size(); i++) {
       Ogre::SceneNode* node = nodes_[i];
       rviz_rendering::PointCloud* cloud = clouds_[i];
-      const jsk_recognition_msgs::SimpleOccupancyGrid grid = msg->grids[i];
+      const jsk_rviz_plugins::msg::SimpleOccupancyGrid grid = msg->grids[i];
       Ogre::Vector3 position;
       Ogre::Quaternion quaternion;
       

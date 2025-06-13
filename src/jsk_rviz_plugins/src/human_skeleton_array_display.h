@@ -37,7 +37,7 @@
 #define JSK_RVIZ_PLUGINS_HUMAN_SKELETON_ARRAY_DISPLAY_H_
 
 #ifndef Q_MOC_RUN
-#include <jsk_recognition_msgs/HumanSkeletonArray.hpp>
+#include <jsk_rviz_plugins/msg/human_skeleton_array.hpp>
 #include <rviz_common/properties/color_property.hpp>
 #include <rviz_common/properties/bool_property.hpp>
 #include <rviz_common/properties/float_property.hpp>
@@ -53,7 +53,7 @@
 namespace jsk_rviz_plugins
 {
   class HumanSkeletonArrayDisplay:
-    public rviz_common::MessageFilterDisplay<jsk_recognition_msgs::HumanSkeletonArray>
+    public rviz_common::MessageFilterDisplay<jsk_rviz_plugins::msg::HumanSkeletonArray>
   {
     Q_OBJECT
   public:
@@ -73,7 +73,7 @@ namespace jsk_rviz_plugins
     void allocateBillboardLines(int num);
     QColor getColor(size_t index);
     virtual void showEdges(
-      const jsk_recognition_msgs::HumanSkeletonArray::ConstPtr& msg);
+      const jsk_rviz_plugins::msg::HumanSkeletonArray::ConstPtr& msg);
 
     rviz_common::properties::EnumProperty* coloring_property_;
     rviz_common::properties::ColorProperty* color_property_;
@@ -86,7 +86,7 @@ namespace jsk_rviz_plugins
     std::vector<BillboardLinePtr> edges_;
     std::vector<ShapePtr> shapes_;
 
-    jsk_recognition_msgs::HumanSkeletonArray::ConstPtr latest_msg_;
+    jsk_rviz_plugins::msg::HumanSkeletonArray::ConstPtr latest_msg_;
   private Q_SLOTS:
     void updateColor();
     void updateAlpha();
@@ -94,7 +94,7 @@ namespace jsk_rviz_plugins
     void updateLineWidth();
   private:
     void processMessage(
-      const jsk_recognition_msgs::HumanSkeletonArray::ConstPtr& msg);
+      const jsk_rviz_plugins::msg::HumanSkeletonArray::ConstPtr& msg);
   };
 
 }

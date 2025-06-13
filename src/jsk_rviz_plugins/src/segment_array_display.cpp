@@ -155,11 +155,11 @@ namespace jsk_rviz_plugins
   }
 
   void SegmentArrayDisplay::showEdges(
-    const jsk_recognition_msgs::SegmentArray::ConstPtr& msg)
+    const jsk_rviz_plugins::msg::SegmentArray::ConstPtr& msg)
   {
     allocateBillboardLines(msg->segments.size());
     for (size_t i = 0; i < msg->segments.size(); i++) {
-      jsk_recognition_msgs::Segment edge_msg = msg->segments[i];
+      jsk_rviz_plugins::msg::Segment edge_msg = msg->segments[i];
 
       BillboardLinePtr edge = edges_[i];
       edge->clear();
@@ -197,7 +197,7 @@ namespace jsk_rviz_plugins
   }
 
   void SegmentArrayDisplay::processMessage(
-    const jsk_recognition_msgs::SegmentArray::ConstPtr& msg)
+    const jsk_rviz_plugins::msg::SegmentArray::ConstPtr& msg)
   {
     // Store latest message
     latest_msg_ = msg;

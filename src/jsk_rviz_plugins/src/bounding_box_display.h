@@ -38,7 +38,7 @@
 
 #ifndef Q_MOC_RUN
 #include "bounding_box_display_common.h"
-#include <jsk_recognition_msgs/BoundingBoxArray.hpp>
+#include <jsk_rviz_plugins/msg/bounding_boxArray.hpp>
 #include <rviz_common/properties/color_property.hpp>
 #include <rviz_common/properties/bool_property.hpp>
 #include <rviz_common/properties/float_property.hpp>
@@ -53,7 +53,7 @@
 namespace jsk_rviz_plugins
 {
 
-  class BoundingBoxDisplay: public BoundingBoxDisplayCommon<jsk_recognition_msgs::BoundingBox>
+  class BoundingBoxDisplay: public BoundingBoxDisplayCommon<jsk_rviz_plugins::msg::BoundingBox>
   {
     Q_OBJECT
   public:
@@ -77,7 +77,7 @@ namespace jsk_rviz_plugins
     rviz_common::properties::BoolProperty* show_coords_property_;
     rviz_common::properties::FloatProperty* value_threshold_property_;
 
-    jsk_recognition_msgs::BoundingBox::ConstPtr latest_msg_;
+    jsk_rviz_plugins::msg::BoundingBox::ConstPtr latest_msg_;
   protected Q_SLOTS:
     void updateColor();
     void updateAlpha();
@@ -91,7 +91,7 @@ namespace jsk_rviz_plugins
     void updateValueThreshold();
   private:
     void processMessage(
-      const jsk_recognition_msgs::BoundingBox::ConstPtr& msg);
+      const jsk_rviz_plugins::msg::BoundingBox::ConstPtr& msg);
   };
 
 }  // namespace jsk_rviz_plugins

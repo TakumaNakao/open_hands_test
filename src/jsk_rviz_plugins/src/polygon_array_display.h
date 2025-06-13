@@ -37,7 +37,7 @@
 #define POLYGON_ARRAY_DISPLAY_H
 
 #ifndef Q_MOC_RUN
-#include <jsk_recognition_msgs/PolygonArray.hpp>
+#include <jsk_rviz_plugins/msg/polygon_array.hpp>
 #include <rviz/message_filter_display.hpp>
 #include <rviz_common/properties/float_property.hpp>
 #include <rviz/ogre_helpers/billboard_line.hpp>
@@ -61,7 +61,7 @@ namespace jsk_rviz_plugins
 {
   
   class PolygonArrayDisplay:
-    public rviz_common::MessageFilterDisplay<jsk_recognition_msgs::PolygonArray>
+    public rviz_common::MessageFilterDisplay<jsk_rviz_plugins::msg::PolygonArray>
   {
     Q_OBJECT
   public:
@@ -76,7 +76,7 @@ namespace jsk_rviz_plugins
     virtual void onInitialize();
     virtual void reset();
     virtual void updateSceneNodes(
-      const jsk_recognition_msgs::PolygonArray::ConstPtr& msg);
+      const jsk_rviz_plugins::msg::PolygonArray::ConstPtr& msg);
     virtual void allocateMaterials(int num);
     virtual void updateLines(int num);
     virtual Ogre::ColourValue getColor(size_t index);
@@ -88,7 +88,7 @@ namespace jsk_rviz_plugins
       const size_t i, const geometry_msgs::PolygonStamped& polygon);
     virtual void processPolygonMaterial(const size_t i);
     virtual void processMessage(
-      const jsk_recognition_msgs::PolygonArray::ConstPtr& msg);
+      const jsk_rviz_plugins::msg::PolygonArray::ConstPtr& msg);
     virtual bool getTransform(
       const std_msgs::Header &header,
       Ogre::Vector3& position, Ogre::Quaternion& orientation);
@@ -105,7 +105,7 @@ namespace jsk_rviz_plugins
     std::string coloring_method_;
     bool show_normal_;
     double normal_length_;
-    jsk_recognition_msgs::PolygonArray::ConstPtr latest_msg_;
+    jsk_rviz_plugins::msg::PolygonArray::ConstPtr latest_msg_;
     std::vector<Ogre::ManualObject*> manual_objects_;
     std::vector<Ogre::SceneNode*> scene_nodes_;
     std::vector<Ogre::SceneNode*> arrow_nodes_;

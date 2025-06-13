@@ -156,7 +156,7 @@ namespace jsk_rviz_plugins
     }
   }
 
-  void TorusArrayDisplay::allocateShapes(const jsk_recognition_msgs::TorusArray::ConstPtr& msg)
+  void TorusArrayDisplay::allocateShapes(const jsk_rviz_plugins::msg::TorusArray::ConstPtr& msg)
   {
     size_t num = 0;
     for (size_t i = 0; i < msg->toruses.size(); i++) {
@@ -249,11 +249,11 @@ namespace jsk_rviz_plugins
   }
 
 
-  void TorusArrayDisplay::processMessage(const jsk_recognition_msgs::TorusArray::ConstPtr& msg)
+  void TorusArrayDisplay::processMessage(const jsk_rviz_plugins::msg::TorusArray::ConstPtr& msg)
   {
     allocateShapes(msg);
     for (size_t i = 0; i < msg->toruses.size(); i++) {
-      jsk_recognition_msgs::Torus torus = msg->toruses[i];
+      jsk_rviz_plugins::msg::Torus torus = msg->toruses[i];
       if (torus.failure) {
         continue;
       }

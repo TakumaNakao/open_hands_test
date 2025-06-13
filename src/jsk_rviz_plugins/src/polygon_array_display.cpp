@@ -139,7 +139,7 @@ namespace jsk_rviz_plugins
     }
   }
   
-  bool validateFloats(const jsk_recognition_msgs::PolygonArray& msg)
+  bool validateFloats(const jsk_rviz_plugins::msg::PolygonArray& msg)
   {
     for (size_t i = 0; i < msg.polygons.size(); i++) {
       if (!std::isfinite(msg.polygons[i].polygon.points))
@@ -157,7 +157,7 @@ namespace jsk_rviz_plugins
   }
 
   void PolygonArrayDisplay::updateSceneNodes(
-    const jsk_recognition_msgs::PolygonArray::ConstPtr& msg)
+    const jsk_rviz_plugins::msg::PolygonArray::ConstPtr& msg)
   {
     int scale_factor = 2;
     if (only_border_) {
@@ -413,7 +413,7 @@ namespace jsk_rviz_plugins
   }
   
   void PolygonArrayDisplay::processMessage(
-    const jsk_recognition_msgs::PolygonArray::ConstPtr& msg)
+    const jsk_rviz_plugins::msg::PolygonArray::ConstPtr& msg)
   {
     if (!validateFloats(*msg)) {
       setStatus(rviz_common::properties::StatusProperty::Error,

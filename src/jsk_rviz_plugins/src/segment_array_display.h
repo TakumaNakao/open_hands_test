@@ -37,7 +37,7 @@
 #define JSK_RVIZ_PLUGINS_SEGMENT_ARRAY_DISPLAY_H_
 
 #ifndef Q_MOC_RUN
-#include <jsk_recognition_msgs/SegmentArray.hpp>
+#include <jsk_rviz_plugins/msg/segment_array.hpp>
 #include <rviz_common/properties/color_property.hpp>
 #include <rviz_common/properties/bool_property.hpp>
 #include <rviz_common/properties/float_property.hpp>
@@ -53,7 +53,7 @@
 namespace jsk_rviz_plugins
 {
   class SegmentArrayDisplay:
-    public rviz_common::MessageFilterDisplay<jsk_recognition_msgs::SegmentArray>
+    public rviz_common::MessageFilterDisplay<jsk_rviz_plugins::msg::SegmentArray>
   {
     Q_OBJECT
   public:
@@ -70,7 +70,7 @@ namespace jsk_rviz_plugins
     void allocateBillboardLines(int num);
     QColor getColor(size_t index);
     virtual void showEdges(
-      const jsk_recognition_msgs::SegmentArray::ConstPtr& msg);
+      const jsk_rviz_plugins::msg::SegmentArray::ConstPtr& msg);
 
     rviz_common::properties::EnumProperty* coloring_property_;
     rviz_common::properties::ColorProperty* color_property_;
@@ -82,7 +82,7 @@ namespace jsk_rviz_plugins
     double line_width_;
     std::vector<BillboardLinePtr> edges_;
 
-    jsk_recognition_msgs::SegmentArray::ConstPtr latest_msg_;
+    jsk_rviz_plugins::msg::SegmentArray::ConstPtr latest_msg_;
   private Q_SLOTS:
     void updateColor();
     void updateAlpha();
@@ -90,7 +90,7 @@ namespace jsk_rviz_plugins
     void updateLineWidth();
   private:
     void processMessage(
-      const jsk_recognition_msgs::SegmentArray::ConstPtr& msg);
+      const jsk_rviz_plugins::msg::SegmentArray::ConstPtr& msg);
   };
 
 }

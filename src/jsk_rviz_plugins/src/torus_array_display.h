@@ -37,7 +37,7 @@
 #define JSK_RVIZ_PLUGINS_TORUS_ARRAY_DISPLAY_H_
 
 #ifndef Q_MOC_RUN
-#include <jsk_recognition_msgs/TorusArray.hpp>
+#include <jsk_rviz_plugins/msg/torus_array.hpp>
 #include <rviz_common/properties/color_property.hpp>
 #include <rviz_common/properties/bool_property.hpp>
 #include <rviz_common/properties/float_property.hpp>
@@ -57,7 +57,7 @@ namespace jsk_rviz_plugins
     unsigned v1, v2, v3; // index for the 3 vertices that make up a triangle
   };
 
-  class TorusArrayDisplay: public rviz_common::MessageFilterDisplay<jsk_recognition_msgs::TorusArray>
+  class TorusArrayDisplay: public rviz_common::MessageFilterDisplay<jsk_rviz_plugins::msg::TorusArray>
   {
     Q_OBJECT
   public:
@@ -73,7 +73,7 @@ namespace jsk_rviz_plugins
   protected:
     virtual void onInitialize();
     virtual void reset();
-    void allocateShapes(const jsk_recognition_msgs::TorusArray::ConstPtr& msg);
+    void allocateShapes(const jsk_rviz_plugins::msg::TorusArray::ConstPtr& msg);
     void allocateShapes(const size_t num);
     QColor getColor(size_t index);
     rviz_common::properties::ColorProperty* color_property_;
@@ -108,7 +108,7 @@ namespace jsk_rviz_plugins
                                std::vector<Ogre::Vector3> &normals
                                );
   private:
-    void processMessage(const jsk_recognition_msgs::TorusArray::ConstPtr& msg);
+    void processMessage(const jsk_rviz_plugins::msg::TorusArray::ConstPtr& msg);
   };
 
 }
