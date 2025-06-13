@@ -1,15 +1,15 @@
-#include "rviz/config.h"
+#include "rviz_common/config.hpp"
 #include "empty_service_call_interface.h"
-#include <ros/package.h>
+#include <ament_index_cpp/get_package_share_directory.hpp>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QSignalMapper>
 
-using namespace rviz;
+using namespace rviz_common;
 namespace jsk_rviz_plugins
 {
   EmptyServiceCallInterfaceAction::EmptyServiceCallInterfaceAction( QWidget* parent )
-    : rviz::Panel( parent )
+    : rviz_common::Panel( parent )
   {
     parseROSParameters();
 

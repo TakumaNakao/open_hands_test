@@ -2,7 +2,7 @@
 #include <fstream>
 
 using namespace jsk_interactive_marker;
-YamlMenuHandler::YamlMenuHandler(ros::NodeHandle* node_ptr, std::string file_name) {
+YamlMenuHandler::YamlMenuHandler(rclcpp::Node::SharedPtr node_ptr, std::string file_name) {
   _node_ptr = node_ptr;
   initMenu(file_name);
 }
@@ -11,22 +11,22 @@ bool YamlMenuHandler::initMenu(std::string file_name) {
   YAML::Node doc;
 #ifdef USE_OLD_YAML
   std::ifstream fin(file_name.c_str());
-  ROS_INFO("opening yaml file  %s", file_name.c_str());
+  RCLCPP_INFO(_node_ptr->get_logger(),("opening yaml file  %s", file_name.c_str());
   if (!fin.good()){
-    ROS_INFO("Unable to open yaml file %s", file_name.c_str());
+    RCLCPP_INFO(_node_ptr->get_logger(),("Unable to open yaml file %s", file_name.c_str());
     return false;
   }
   YAML::Parser parser(fin);
   if (!parser) {
-    ROS_INFO("Unable to create YAML parser for marker_set");
+    RCLCPP_INFO(_node_ptr->get_logger(),("Unable to create YAML parser for marker_set");
     return false;
   }
   parser.GetNextDocument(doc);
 #else
   // yaml-cpp is greater than 0.5.0
-  ROS_INFO("opening yaml file with new yaml-cpp %s", file_name.c_str());
+  RCLCPP_INFO(_node_ptr->get_logger(),("opening yaml file with new yaml-cpp %s", file_name.c_str());
   if ( !(access(file_name.c_str(), F_OK) != -1)) {
-    ROS_INFO("file not exists :%s", file_name.c_str());
+    RCLCPP_INFO(_node_ptr->get_logger(),("file not exists :%s", file_name.c_str());
     return false;
   }
   doc = YAML::LoadFile(file_name);
@@ -41,7 +41,7 @@ bool YamlMenuHandler::initMenu(std::string file_name) {
     text = single_menu["text"].as<std::string>();
     topic_name = single_menu["topic"].as<std::string>();
 #endif
-    ROS_INFO("Regist %s, %s", text.c_str(), topic_name.c_str());
+    RCLCPP_INFO(_node_ptr->get_logger(),("Regist %s, %s", text.c_str(), topic_name.c_str());
     _publisher_map[topic_name] = _node_ptr->advertise<std_msgs::String>(topic_name, 1);
     _menu_handler.insert(text, boost::bind(&YamlMenuHandler::pubTopic, this, _1, topic_name));
   }

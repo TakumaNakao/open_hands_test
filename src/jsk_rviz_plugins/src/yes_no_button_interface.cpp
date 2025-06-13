@@ -1,7 +1,7 @@
 #include "yes_no_button_interface.h"
 #include <boost/thread.hpp>
-#include <rviz/config.h>
-#include <ros/package.h>
+#include <rviz_common/config.hpp>
+#include <ament_index_cpp/get_package_share_directory.hpp>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QSignalMapper>
@@ -13,7 +13,7 @@ namespace jsk_rviz_plugins
 {
 
   YesNoButtonInterface::YesNoButtonInterface(QWidget* parent)
-    : rviz::Panel(parent)
+    : rviz_common::Panel(parent)
   {
     layout_ = new QHBoxLayout;
 
