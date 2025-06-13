@@ -1,0 +1,87 @@
+name: Docker Build Test
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  docker_build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Create Dockerfile
+      run: |
+        cat > Dockerfile << 'EOF'
+        FROM ros:jazzy
+
+        # Install system dependencies
+        RUN apt-get update && apt-get install -y \
+            python3-colcon-common-extensions \
+            python3-rosdep \
+            build-essential \
+            cmake \
+            git \
+            libeigen3-dev \
+            libboost-all-dev \
+            libqt5core5a \
+            libqt5gui5 \
+            libqt5widgets5 \
+            qtbase5-dev \
+            qttools5-dev \
+            libqt5opengl5-dev \
+            libyaml-cpp-dev \
+            libconsole-bridge-dev \
+            liburdfdom-headers-dev \
+            liburdfdom-dev \
+            && rm -rf /var/lib/apt/lists/*
+
+        # Initialize rosdep
+        RUN rosdep init && rosdep update
+
+        # Create workspace
+        WORKDIR /ros2_ws
+        COPY . src/jsk_visualization/
+
+        # Install dependencies
+        RUN rosdep install --from-paths src --ignore-src -r -y \
+            --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
+
+        # Build workspace
+        RUN . /opt/ros/jazzy/setup.sh && \
+            colcon build --packages-select jsk_rviz_plugins \
+            --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+        # Source workspace in bashrc
+        RUN echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc && \
+            echo "source /ros2_ws/install/setup.bash" >> ~/.bashrc
+
+        # Set entrypoint
+        ENTRYPOINT ["/bin/bash", "-c", "source /opt/ros/jazzy/setup.bash && source /ros2_ws/install/setup.bash && exec \"$@\"", "--"]
+        CMD ["bash"]
+        EOF
+
+    - name: Build Docker image
+      run: |
+        docker build -t jsk-visualization-ros2:jazzy .
+
+    - name: Test Docker image
+      run: |
+        docker run --rm jsk-visualization-ros2:jazzy \
+          bash -c "source /opt/ros/jazzy/setup.bash && \
+                   source /ros2_ws/install/setup.bash && \
+                   ros2 pkg list | grep jsk_rviz_plugins"
+
+    - name: Test RViz plugins loading
+      run: |
+        docker run --rm jsk-visualization-ros2:jazzy \
+          bash -c "source /opt/ros/jazzy/setup.bash && \
+                   source /ros2_ws/install/setup.bash && \
+                   ros2 run rviz2 rviz2 --help"

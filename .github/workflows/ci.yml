@@ -1,0 +1,193 @@
+name: JSK Visualization ROS2 CI
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main, develop ]
+
+env:
+  DEBIAN_FRONTEND: noninteractive
+
+jobs:
+  build_and_test:
+    strategy:
+      matrix:
+        ros_distro: [humble, jazzy]
+        include:
+          - ros_distro: humble
+            ubuntu_version: ubuntu:22.04
+          - ros_distro: jazzy
+            ubuntu_version: ubuntu:24.04
+    
+    runs-on: ubuntu-latest
+    container:
+      image: ros:${{ matrix.ros_distro }}
+    
+    steps:
+    - name: Setup environment
+      run: |
+        apt-get update
+        apt-get install -y \
+          curl \
+          gnupg2 \
+          lsb-release \
+          sudo
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        path: src/jsk_visualization
+
+    - name: Install build dependencies
+      run: |
+        apt-get update
+        apt-get install -y \
+          python3-pip \
+          python3-colcon-common-extensions \
+          python3-rosdep \
+          python3-vcstool \
+          build-essential \
+          cmake \
+          git \
+          libeigen3-dev \
+          libboost-all-dev \
+          libqt5core5a \
+          libqt5gui5 \
+          libqt5widgets5 \
+          qtbase5-dev \
+          qttools5-dev \
+          libqt5opengl5-dev \
+          libyaml-cpp-dev \
+          libconsole-bridge-dev \
+          liburdfdom-headers-dev \
+          liburdfdom-dev
+
+    - name: Initialize rosdep
+      run: |
+        if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
+          rosdep init
+        fi
+        rosdep update
+
+    - name: Install ROS dependencies
+      run: |
+        cd /github/workspace
+        rosdep install --from-paths src --ignore-src -r -y \
+          --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
+
+    - name: Build workspace
+      run: |
+        cd /github/workspace
+        source /opt/ros/${{ matrix.ros_distro }}/setup.bash
+        colcon build \
+          --packages-select jsk_rviz_plugins \
+          --cmake-args \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+          --event-handlers console_direct+
+
+    - name: Source workspace
+      run: |
+        cd /github/workspace
+        source /opt/ros/${{ matrix.ros_distro }}/setup.bash
+        source install/setup.bash
+
+    - name: Run tests
+      run: |
+        cd /github/workspace
+        source /opt/ros/${{ matrix.ros_distro }}/setup.bash
+        source install/setup.bash
+        colcon test \
+          --packages-select jsk_rviz_plugins \
+          --event-handlers console_direct+
+
+    - name: Show test results
+      if: always()
+      run: |
+        cd /github/workspace
+        colcon test-result --verbose
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results-${{ matrix.ros_distro }}
+        path: |
+          /github/workspace/log/
+          /github/workspace/build/*/test_results/
+        retention-days: 7
+
+  static_analysis:
+    runs-on: ubuntu-latest
+    container:
+      image: ros:jazzy
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install analysis tools
+      run: |
+        apt-get update
+        apt-get install -y \
+          python3-pip \
+          cppcheck \
+          clang-format \
+          clang-tidy
+
+    - name: Run cppcheck
+      run: |
+        cppcheck --enable=all --xml --xml-version=2 \
+          src/jsk_rviz_plugins/src/ \
+          2> cppcheck-results.xml || true
+
+    - name: Check code formatting
+      run: |
+        find src/jsk_rviz_plugins/src -name "*.cpp" -o -name "*.h" | \
+        xargs clang-format --dry-run --Werror
+
+    - name: Upload analysis results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: static-analysis-results
+        path: |
+          cppcheck-results.xml
+        retention-days: 7
+
+  documentation:
+    runs-on: ubuntu-latest
+    container:
+      image: ros:jazzy
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install documentation tools
+      run: |
+        apt-get update
+        apt-get install -y \
+          doxygen \
+          graphviz \
+          python3-sphinx \
+          python3-sphinx-rtd-theme
+
+    - name: Generate documentation
+      run: |
+        cd src/jsk_rviz_plugins
+        if [ -f Doxyfile ]; then
+          doxygen Doxyfile
+        else
+          echo "No Doxyfile found, skipping documentation generation"
+        fi
+
+    - name: Upload documentation
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: documentation
+        path: |
+          src/jsk_rviz_plugins/doc/
+        retention-days: 30

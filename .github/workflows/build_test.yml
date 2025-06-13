@@ -1,0 +1,67 @@
+name: ROS2 Jazzy Build Test
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build_test:
+    runs-on: ubuntu-latest
+    container:
+      image: ros:jazzy
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        path: src/jsk_visualization
+
+    - name: Install system dependencies
+      run: |
+        apt-get update
+        apt-get install -y \
+          python3-pip \
+          python3-colcon-common-extensions \
+          python3-rosdep \
+          python3-vcstool \
+          build-essential \
+          cmake \
+          git
+
+    - name: Initialize rosdep
+      run: |
+        rosdep init || echo "rosdep already initialized"
+        rosdep update
+
+    - name: Install package dependencies
+      run: |
+        cd /github/workspace
+        rosdep install --from-paths src --ignore-src -r -y
+
+    - name: Source ROS2 environment
+      run: |
+        echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
+        source /opt/ros/jazzy/setup.bash
+
+    - name: Build packages
+      run: |
+        cd /github/workspace
+        source /opt/ros/jazzy/setup.bash
+        colcon build --packages-select jsk_rviz_plugins \
+          --cmake-args -DCMAKE_BUILD_TYPE=Release \
+          --event-handlers console_direct+
+
+    - name: Run tests
+      run: |
+        cd /github/workspace
+        source /opt/ros/jazzy/setup.bash
+        source install/setup.bash
+        colcon test --packages-select jsk_rviz_plugins \
+          --event-handlers console_direct+
+
+    - name: Test results
+      run: |
+        cd /github/workspace
+        colcon test-result --verbose
