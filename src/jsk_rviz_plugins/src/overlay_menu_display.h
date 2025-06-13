@@ -82,7 +82,7 @@ namespace jsk_rviz_plugins
   protected:
     boost::mutex mutex_;
     OverlayObject::Ptr overlay_;
-    ros::Subscriber sub_;
+    rclcpp::Subscription<.*>::SharedPtr sub_;
     rviz_common::properties::RosTopicProperty* update_topic_property_;
     rviz_common::properties::IntProperty* left_property_;
     rviz_common::properties::IntProperty* top_property_;

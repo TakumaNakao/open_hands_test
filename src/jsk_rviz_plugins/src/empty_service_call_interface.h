@@ -34,7 +34,7 @@ namespace jsk_rviz_plugins
     void callRequestEmptyCommand(int button_id);
     void parseROSParameters();
   protected:
-    ros::NodeHandle nh_;
+    rclcpp::Node::SharedPtr nh_;
     std::vector<ServiceCallButtonInfo> service_call_button_infos_;
     QVBoxLayout* layout;
     QHBoxLayout* h_layout;

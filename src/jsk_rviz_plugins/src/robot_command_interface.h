@@ -27,7 +27,7 @@ namespace jsk_rviz_plugins
   protected:
     void popupDialog(const std::string& text);
     // The ROS node handle.
-    ros::NodeHandle nh_;
+    rclcpp::Node::SharedPtr nh_;
     QSignalMapper* signal_mapper_;
     std::map<int, std::string> euscommand_mapping_;
     std::map<int, std::string> emptyservice_mapping_;

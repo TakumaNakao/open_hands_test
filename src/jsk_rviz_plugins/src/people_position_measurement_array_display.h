@@ -82,7 +82,7 @@ namespace jsk_rviz_plugins
     std::string text_;
     std::vector<people_msgs::PositionMeasurement> faces_;
     std::vector<GISCircleVisualizer::Ptr> visualizers_;
-    ros::Time latest_time_;
+    rclcpp::Time latest_time_;
   private Q_SLOTS:
     void updateSize();
     void updateTimeout();

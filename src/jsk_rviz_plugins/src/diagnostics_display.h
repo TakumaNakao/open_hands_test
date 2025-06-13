@@ -79,7 +79,7 @@ namespace jsk_rviz_plugins
     rviz_common::properties::FloatProperty* line_width_property_;
     rviz_common::properties::FloatProperty* font_size_property_;
     rviz_common::properties::EnumProperty* axis_property_;
-    ros::Subscriber sub_;
+    rclcpp::Subscription<.*>::SharedPtr sub_;
     
     double radius_;
     double line_width_;

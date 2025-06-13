@@ -139,7 +139,7 @@ namespace jsk_rviz_plugins
     // ROS variables
     ////////////////////////////////////////////////////////
     boost::mutex mutex_;
-    ros::Subscriber sub_;
+    rclcpp::Subscription<.*>::SharedPtr sub_;
                         
   protected Q_SLOTS:
     void updateTopic();

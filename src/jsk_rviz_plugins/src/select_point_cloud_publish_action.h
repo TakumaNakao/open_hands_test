@@ -41,10 +41,10 @@ Q_OBJECT
       QVBoxLayout* layout;
 
       // The ROS publisher for the command velocity.
-      ros::Publisher select_pointcloud_publisher_;
+      rclcpp::Publisher<.*>::SharedPtr select_pointcloud_publisher_;
 
       // The ROS node handle.
-      ros::NodeHandle nh_;
+      rclcpp::Node::SharedPtr nh_;
 
     };
 

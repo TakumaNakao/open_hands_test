@@ -65,16 +65,16 @@ Q_OBJECT
 	QHBoxLayout* layout_;
 	QPushButton* remove_button_;
 	QLabel* topic_name_;
-	ros::Publisher publisher_;
+	rclcpp::Publisher<.*>::SharedPtr publisher_;
       };
 
       std::vector<topicListLayout> topic_list_layouts_;
 
       // The ROS publisher for the command velocity.
-      ros::Publisher velocity_publisher_;
+      rclcpp::Publisher<.*>::SharedPtr velocity_publisher_;
 
       // The ROS node handle.
-      ros::NodeHandle nh_;
+      rclcpp::Node::SharedPtr nh_;
 
     };
 

@@ -40,9 +40,9 @@ Q_OBJECT
 
       QPushButton* send_topic_button_;
 
-      ros::Publisher velocity_publisher_;
+      rclcpp::Publisher<.*>::SharedPtr velocity_publisher_;
 
-      ros::NodeHandle nh_;
+      rclcpp::Node::SharedPtr nh_;
     };
 
 }

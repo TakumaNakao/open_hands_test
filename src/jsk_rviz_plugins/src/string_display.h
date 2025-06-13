@@ -84,7 +84,7 @@ class StringDisplay : public rviz_common::Display
     int left_;
     int top_;
 
-    ros::Subscriber sub_;
+    rclcpp::Subscription<.*>::SharedPtr sub_;
 
     virtual void onInitialize();
     virtual void subscribe();

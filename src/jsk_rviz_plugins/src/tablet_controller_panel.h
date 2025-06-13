@@ -70,7 +70,7 @@ namespace jsk_rviz_plugins
   {
     Q_OBJECT
   public:
-    TabletCmdVelArea(QWidget* parent, ros::Publisher& pub_cmd_vel);
+    TabletCmdVelArea(QWidget* parent, rclcpp::Publisher<.*>::SharedPtr& pub_cmd_vel);
     virtual QSize minimumSizeHint() const;
     virtual QSize sizeHint() const;
   protected:
@@ -82,7 +82,7 @@ namespace jsk_rviz_plugins
     virtual void publishCmdVel(double x, double y, double theta);
     int mouse_x_;
     int mouse_y_;
-    ros::Publisher pub_cmd_vel_;
+    rclcpp::Publisher<.*>::SharedPtr pub_cmd_vel_;
   };
   
   class TabletControllerPanel: public rviz::Panel
@@ -130,10 +130,10 @@ namespace jsk_rviz_plugins
     ////////////////////////////////////////////////////////
     // ROS variables
     ////////////////////////////////////////////////////////
-    ros::Publisher pub_cmd_vel_;
-    ros::Publisher pub_spot_;
-    ros::Publisher pub_start_demo_;
-    ros::Subscriber sub_spots_;
+    rclcpp::Publisher<.*>::SharedPtr pub_cmd_vel_;
+    rclcpp::Publisher<.*>::SharedPtr pub_spot_;
+    rclcpp::Publisher<.*>::SharedPtr pub_start_demo_;
+    rclcpp::Subscription<.*>::SharedPtr sub_spots_;
     boost::mutex mutex_;
     
     

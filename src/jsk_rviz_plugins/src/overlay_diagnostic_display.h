@@ -142,7 +142,7 @@ namespace jsk_rviz_plugins
     rviz_common::properties::IntProperty* size_property_;
     rviz_common::properties::FloatProperty* stall_duration_property_;
     
-    ros::Subscriber sub_;
+    rclcpp::Subscription<.*>::SharedPtr sub_;
   protected Q_SLOTS:
     virtual void updateType();
     virtual void updateRosTopic();

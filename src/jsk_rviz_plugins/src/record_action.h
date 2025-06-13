@@ -72,8 +72,8 @@ namespace jsk_rviz_plugins
 
     std::vector<motionListLayout> motion_list_layouts_;
 
-    ros::Publisher pub_;
-    ros::NodeHandle nh_;
+    rclcpp::Publisher<.*>::SharedPtr pub_;
+    rclcpp::Node::SharedPtr nh_;
     RecordState rstate_;
   };
 

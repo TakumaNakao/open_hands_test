@@ -97,7 +97,7 @@ namespace jsk_rviz_plugins
     rviz_common::properties::FloatProperty* med_color_threshold_property_;
     rviz_common::properties::BoolProperty* clockwise_rotate_property_;
 
-    ros::Subscriber sub_;
+    rclcpp::Subscription<.*>::SharedPtr sub_;
     int left_;
     int top_;
     uint16_t texture_size_;

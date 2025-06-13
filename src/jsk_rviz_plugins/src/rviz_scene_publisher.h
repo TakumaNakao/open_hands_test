@@ -68,7 +68,7 @@ namespace jsk_rviz_plugins
     rviz_common::properties::StringProperty* topic_name_property_;
     std::string topic_name_;
     int image_id_;
-    ros::NodeHandle nh_;
+    rclcpp::Node::SharedPtr nh_;
     image_transport::ImageTransport it_;
     image_transport::Publisher publisher_;
   protected Q_SLOTS:
