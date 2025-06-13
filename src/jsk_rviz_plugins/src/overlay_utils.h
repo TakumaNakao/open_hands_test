@@ -60,7 +60,7 @@
 #include <QImage>
 #include <QColor>
 
-#include <ros/ros.h>
+#include <rclcpp/rclcpp.hpp>
 
 namespace jsk_rviz_plugins
 {
@@ -89,11 +89,7 @@ namespace jsk_rviz_plugins
   class OverlayObject
   {
   public:
-#if ROS_VERSION_MINIMUM(1,12,0)
     typedef std::shared_ptr<OverlayObject> Ptr;
-#else
-    typedef boost::shared_ptr<OverlayObject> Ptr;
-#endif
     
     OverlayObject(const std::string& name);
     virtual ~OverlayObject();
