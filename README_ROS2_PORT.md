@@ -79,15 +79,17 @@ This is a ROS2 port of the JSK Visualization package suite from ROS1. The origin
 - [x] Message definitions (already ROS2 compatible)
 
 ### 🔄 In Progress
-- [ ] C++ source code migration (implementation files)
-- [ ] Plugin configurations for RViz2
-- [ ] Launch files (XML → Python)
+- [x] C++ source code migration (6 files completed, more pending)
+- [x] Plugin configurations for RViz2 (base classes updated)
+- [x] Launch files (1 sample converted, more pending)
+- [ ] Complex C++ files with external dependencies
 
 ### ⏳ Pending
 - [ ] Build testing (requires proper ROS2 environment)
 - [ ] Runtime testing
 - [ ] Documentation updates
-- [ ] Missing dependency resolution (jsk_gui_msgs, etc.)
+- [ ] Missing dependency resolution (jsk_hark_msgs, jsk_gui_msgs, etc.)
+- [ ] Complete remaining C++ implementation files
 
 ### Python Scripts Migrated
 1. `overlay_sample.py` - Basic overlay text publishing
@@ -101,6 +103,19 @@ This is a ROS2 port of the JSK Visualization package suite from ROS1. The origin
 ### C++ Headers Migrated
 1. `overlay_utils.h` - Basic ROS2 includes and smart pointers
 2. `overlay_text_display.h` - RViz2 display plugin headers
+
+### C++ Implementation Files Migrated
+1. `overlay_text_display.cpp` - Complete ROS2 migration with subscription patterns
+2. `pie_chart_display.cpp` - Property types and subscription methods updated
+3. `close_all_tool.cpp` - Complete migration to rviz_common::Tool
+4. `open_all_tool.cpp` - Complete migration to rviz_common::Tool
+5. `image_transport_hints_property.cpp` - Property types and transport hints API
+6. `object_fit_operator.cpp` - Partial migration (includes, constructor, package path)
+
+### Plugin System Updates
+- Plugin description XML files updated for RViz2 base classes
+- Message definitions updated (Header references)
+- Sample launch file converted to Python format
 
 ### Migration Patterns Applied
 
