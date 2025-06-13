@@ -8,8 +8,8 @@
 #include <QLabel>
 #include <QTimer>
 
-#include <std_msgs/Empty.h>
-#include <actionlib_msgs/GoalID.h>
+#include <std_msgs/msg/empty.hpp>
+#include <action_msgs/msg/goal_info.hpp>
 
 #include "cancel_action.h"
 
@@ -17,7 +17,7 @@ namespace jsk_rviz_plugins
 {
 
   CancelAction::CancelAction( QWidget* parent )
-    : rviz::Panel( parent )
+    : rviz_common::Panel( parent )
   {
     layout = new QVBoxLayout;
 

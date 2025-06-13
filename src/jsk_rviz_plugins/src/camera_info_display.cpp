@@ -33,15 +33,15 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-#include <rviz/uniform_string_stream.h>
-#include <image_transport/image_transport.h>
+#include <rviz_rendering/uniform_string_stream.hpp>
+#include <image_transport/image_transport.hpp>
 #include "camera_info_display.h"
 #include <OGRE/OgreMaterialManager.h>
 #include <OGRE/OgreMaterial.h>
 #include <OGRE/OgreBlendMode.h>
 #include <QImage>
 #include <OGRE/OgreHardwarePixelBuffer.h>
-#include <sensor_msgs/image_encodings.h>
+#include <sensor_msgs/image_encodings.hpp>
 
 namespace enc = sensor_msgs::image_encodings;
 
