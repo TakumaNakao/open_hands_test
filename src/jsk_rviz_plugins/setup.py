@@ -26,8 +26,10 @@ setup(
         'console_scripts': [
             'overlay_sample = jsk_rviz_plugins.samples.overlay_sample:main',
             'piechart_sample = jsk_rviz_plugins.samples.piechart_sample:main',
+            'pictogram_sample = jsk_rviz_plugins.samples.pictogram:main',
             'static_overlay_text = jsk_rviz_plugins.scripts.static_overlay_text:main',
             'rosconsole_overlay_text = jsk_rviz_plugins.scripts.rosconsole_overlay_text:main',
+            'float32_to_overlay_text = jsk_rviz_plugins.scripts.float32_to_overlay_text:main',
         ],
     },
 )

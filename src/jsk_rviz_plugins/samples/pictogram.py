@@ -1,14 +1,23 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import rospy
+import rclpy
+from rclpy.node import Node
 from jsk_rviz_plugins.msg import Pictogram
 from random import random
-rospy.init_node("pictogram_sample")
-p = rospy.Publisher("/pictogram", Pictogram)
 
-r = rospy.Rate(0.1)
 
-pictograms = ["phone",
+class PictogramSampleNode(Node):
+    def __init__(self):
+        super().__init__('pictogram_sample')
+        
+        self.publisher = self.create_publisher(Pictogram, '/pictogram', 10)
+        self.timer = self.create_timer(10.0, self.publish_pictogram)  # 0.1 Hz = 10 seconds
+        
+        self.counter = 0
+        
+        self.get_logger().info('Pictogram sample node started')
+
+        self.pictograms = ["phone",
               "mobile",
               "mouse",
               "address",
@@ -1696,28 +1705,45 @@ pictograms = ["phone",
 "fa-trailer",
 "fa-unity"]
 
-counter = 0
-while not rospy.is_shutdown():
-    msg = Pictogram()
-    msg.action = Pictogram.JUMP_ONCE
-    msg.header.frame_id = "/base_link"
-    msg.header.stamp = rospy.Time.now()
-    msg.pose.position.z = 1.6
-    msg.pose.orientation.w = 0.7
-    msg.pose.orientation.x = 0
-    msg.pose.orientation.y = -0.7
-    msg.pose.orientation.z = 0
-    msg.mode = Pictogram.PICTOGRAM_MODE
-    msg.speed = 1.0
-    # msg.ttl = 5.0
-    msg.size = 1
-    msg.color.r = 25 / 255.0
-    msg.color.g = 255 / 255.0
-    msg.color.b = 240 / 255.0
-    msg.color.a = 1.0
-    msg.character = pictograms[counter]
-    p.publish(msg)
-    r.sleep()
-    counter = counter + 1
-    if len(pictograms) == counter:
-        counter = 0
+    def publish_pictogram(self):
+        msg = Pictogram()
+        msg.action = Pictogram.JUMP_ONCE
+        msg.header.frame_id = "/base_link"
+        msg.header.stamp = self.get_clock().now().to_msg()
+        msg.pose.position.z = 1.6
+        msg.pose.orientation.w = 0.7
+        msg.pose.orientation.x = 0.0
+        msg.pose.orientation.y = -0.7
+        msg.pose.orientation.z = 0.0
+        msg.mode = Pictogram.PICTOGRAM_MODE
+        msg.speed = 1.0
+        # msg.ttl = 5.0
+        msg.size = 1.0
+        msg.color.r = 25 / 255.0
+        msg.color.g = 255 / 255.0
+        msg.color.b = 240 / 255.0
+        msg.color.a = 1.0
+        msg.character = self.pictograms[self.counter]
+        self.publisher.publish(msg)
+        
+        self.counter = self.counter + 1
+        if len(self.pictograms) == self.counter:
+            self.counter = 0
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    
+    node = PictogramSampleNode()
+    
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == "__main__":
+    main()
