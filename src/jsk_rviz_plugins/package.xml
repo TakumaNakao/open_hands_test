@@ -29,7 +29,7 @@
   <build_depend>rviz_ogre_vendor</build_depend>
   <build_depend>rviz_rendering</build_depend>
   <build_depend>std_msgs</build_depend>
-  <build_depend>urdfdom_py</build_depend>
+  <!-- urdfdom_py not available as ros-jazzy-urdfdom-py -->
   <!-- view_controller_msgs not available in ROS2 Jazzy -->
   <build_depend>rclcpp</build_depend>
   <build_depend>rclpy</build_depend>
@@ -42,7 +42,7 @@
   <exec_depend>diagnostic_msgs</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
   <exec_depend>image_geometry</exec_depend>
-  <exec_depend>image_publisher</exec_depend>
+  <!-- image_publisher not available as ros-jazzy-image-publisher -->
   <!-- jsk_* packages replaced with local message definitions -->
   <exec_depend>rosidl_default_runtime</exec_depend>
   <!-- people_msgs and posedetection_msgs not available in ROS2 Jazzy -->
@@ -52,7 +52,7 @@
   <exec_depend>rviz_ogre_vendor</exec_depend>
   <exec_depend>rviz_rendering</exec_depend>
   <exec_depend>std_msgs</exec_depend>
-  <exec_depend>urdfdom_py</exec_depend>
+  <!-- urdfdom_py not available as ros-jazzy-urdfdom-py -->
   <!-- view_controller_msgs not available in ROS2 Jazzy -->
   <exec_depend>rclcpp</exec_depend>
   <exec_depend>rclpy</exec_depend>
@@ -61,11 +61,12 @@
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
   <test_depend>launch_testing</test_depend>
-  <test_depend>pr2_description</test_depend>
-  <test_depend>joint_state_publisher</test_depend>
+  <!-- pr2_description and joint_state_publisher not available in ROS2 Jazzy -->
   <test_depend>robot_state_publisher</test_depend>
   <!-- jsk_data and jsk_tools not available in ROS2 Jazzy -->
   <test_depend>image_transport</test_depend>
+
+  <member_of_group>rosidl_interface_packages</member_of_group>
 
   <export>
     <build_type>ament_cmake</build_type>
