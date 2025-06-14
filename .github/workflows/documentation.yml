@@ -1,0 +1,135 @@
+name: Documentation Generation
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    container:
+      image: ros:jazzy
+    defaults:
+      run:
+        shell: bash
+    
+    steps:
+    - name: Setup environment
+      shell: bash
+      run: |
+        apt-get update
+        apt-get install -y \
+          curl \
+          gnupg2 \
+          lsb-release \
+          sudo
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        path: src/jsk_rviz_plugins
+
+    - name: Install documentation tools
+      shell: bash
+      run: |
+        apt-get update
+        apt-get install -y \
+          doxygen \
+          graphviz \
+          python3-pip \
+          python3-sphinx \
+          python3-sphinx-rtd-theme \
+          python3-breathe
+
+    - name: Generate Doxygen documentation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/src/jsk_rviz_plugins
+        if [ -f Doxyfile ]; then
+          doxygen Doxyfile
+        else
+          echo "No Doxyfile found, skipping documentation generation"
+        fi
+
+    - name: Check generated documentation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/src/jsk_rviz_plugins
+        echo "=== Documentation Generation Report ==="
+        if [ -d doc/html ]; then
+          echo "✅ HTML documentation generated successfully"
+          echo "📄 Generated files:"
+          find doc/html -name "*.html" | wc -l | xargs echo "  HTML files:"
+          echo "📊 Documentation size:"
+          du -sh doc/html | cut -f1 | xargs echo "  Total size:"
+          
+          echo ""
+          echo "📋 Main documentation files:"
+          ls -la doc/html/index.html 2>/dev/null && echo "  ✅ Main index page" || echo "  ❌ Main index page missing"
+          ls -la doc/html/annotated.html 2>/dev/null && echo "  ✅ Class index" || echo "  ❌ Class index missing"
+          ls -la doc/html/files.html 2>/dev/null && echo "  ✅ File index" || echo "  ❌ File index missing"
+        else
+          echo "❌ Documentation generation failed"
+          exit 1
+        fi
+
+    - name: Upload documentation artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: documentation
+        path: |
+          ${{ github.workspace }}/src/jsk_rviz_plugins/doc/html/
+        retention-days: 30
+
+    - name: Deploy to GitHub Pages (on main branch)
+      if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ${{ github.workspace }}/src/jsk_rviz_plugins/doc/html
+        destination_dir: docs
+        enable_jekyll: false
+        force_orphan: true
+        commit_message: 'Deploy documentation for ${{ github.sha }}'
+
+    - name: Generate documentation summary
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/src/jsk_rviz_plugins
+        echo "=== JSK RViz Plugins Documentation Summary ===" > doc_summary.txt
+        echo "Generated on: $(date)" >> doc_summary.txt
+        echo "Commit: ${{ github.sha }}" >> doc_summary.txt
+        echo "" >> doc_summary.txt
+        
+        if [ -d doc/html ]; then
+          echo "📊 Documentation Statistics:" >> doc_summary.txt
+          echo "- HTML files: $(find doc/html -name "*.html" | wc -l)" >> doc_summary.txt
+          echo "- CSS files: $(find doc/html -name "*.css" | wc -l)" >> doc_summary.txt
+          echo "- JavaScript files: $(find doc/html -name "*.js" | wc -l)" >> doc_summary.txt
+          echo "- Image files: $(find doc/html -name "*.png" -o -name "*.gif" -o -name "*.svg" | wc -l)" >> doc_summary.txt
+          echo "- Total size: $(du -sh doc/html | cut -f1)" >> doc_summary.txt
+          echo "" >> doc_summary.txt
+          
+          echo "🔗 Key Documentation Pages:" >> doc_summary.txt
+          echo "- Main Index: index.html" >> doc_summary.txt
+          echo "- Class List: annotated.html" >> doc_summary.txt
+          echo "- File List: files.html" >> doc_summary.txt
+          echo "- Namespace List: namespaces.html" >> doc_summary.txt
+        else
+          echo "❌ Documentation generation failed" >> doc_summary.txt
+        fi
+        
+        cat doc_summary.txt
+
+    - name: Upload documentation summary
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: documentation-summary
+        path: |
+          ${{ github.workspace }}/src/jsk_rviz_plugins/doc_summary.txt
+        retention-days: 30
