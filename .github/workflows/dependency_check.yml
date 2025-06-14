@@ -22,6 +22,7 @@ jobs:
         path: src/jsk_rviz_plugins
 
     - name: Install analysis tools
+      shell: bash
       run: |
         apt-get update
         apt-get install -y \
@@ -33,6 +34,7 @@ jobs:
           git
 
     - name: Initialize rosdep
+      shell: bash
       run: |
         if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
           rosdep init
@@ -40,29 +42,32 @@ jobs:
         rosdep update
 
     - name: Check package dependencies
+      shell: bash
       run: |
         cd $GITHUB_WORKSPACE
         echo "=== Checking package.xml dependencies ==="
-        cat src/jsk_rviz_plugins/package.xml
+        cat src/jsk_rviz_plugins/src/jsk_rviz_plugins/package.xml
         
         echo -e "\n=== Checking rosdep dependencies ==="
-        rosdep check --from-paths src/jsk_rviz_plugins --ignore-src || true
+        rosdep check --from-paths src/jsk_rviz_plugins/src --ignore-src || true
         
         echo -e "\n=== Listing missing dependencies ==="
-        rosdep install --from-paths src/jsk_rviz_plugins --ignore-src -r -y --simulate \
+        rosdep install --from-paths src/jsk_rviz_plugins/src --ignore-src -r -y --simulate \
           --skip-keys "jsk_gui_msgs jsk_recognition_utils jsk_tools view_controller_msgs people_msgs jsk_footstep_msgs jsk_hark_msgs jsk_recognition_msgs jsk_topic_tools posedetection_msgs jsk_data"
 
     - name: Analyze CMakeLists.txt
+      shell: bash
       run: |
         cd $GITHUB_WORKSPACE
         echo "=== CMakeLists.txt Analysis ==="
         echo "find_package calls:"
-        grep -n "find_package" src/jsk_rviz_plugins/CMakeLists.txt || true
+        grep -n "find_package" src/jsk_rviz_plugins/src/jsk_rviz_plugins/CMakeLists.txt || true
         
         echo -e "\nament_target_dependencies calls:"
-        grep -n "ament_target_dependencies" src/jsk_rviz_plugins/CMakeLists.txt || true
+        grep -n "ament_target_dependencies" src/jsk_rviz_plugins/src/jsk_rviz_plugins/CMakeLists.txt || true
 
     - name: Check for external dependencies
+      shell: bash
       run: |
         cd $GITHUB_WORKSPACE
         echo "=== Checking for external JSK dependencies ==="
@@ -76,6 +81,7 @@ jobs:
         grep -r "jsk_hark_msgs" src/jsk_rviz_plugins/ || echo "None found"
 
     - name: Validate message definitions
+      shell: bash
       run: |
         cd $GITHUB_WORKSPACE
         echo "=== Message Definition Validation ==="
@@ -86,6 +92,7 @@ jobs:
         find src/jsk_rviz_plugins/ -name "*.srv" -exec echo "  {}" \; -exec cat {} \; -exec echo "" \;
 
     - name: Test minimal build
+      shell: bash
       run: |
         cd $GITHUB_WORKSPACE
         source /opt/ros/jazzy/setup.bash
@@ -96,6 +103,7 @@ jobs:
           --event-handlers console_direct+ || true
 
     - name: Generate dependency report
+      shell: bash
       run: |
         cd $GITHUB_WORKSPACE
         echo "=== Dependency Report ===" > dependency_report.txt
