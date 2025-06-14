@@ -15,12 +15,9 @@ find_package(geometry_msgs REQUIRED)
 find_package(diagnostic_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(image_geometry REQUIRED)
-find_package(view_controller_msgs REQUIRED)
-find_package(jsk_recognition_msgs REQUIRED)
-find_package(jsk_gui_msgs REQUIRED)
-find_package(jsk_footstep_msgs REQUIRED)
-find_package(jsk_hark_msgs REQUIRED)
-find_package(people_msgs REQUIRED)
+# Note: view_controller_msgs not available in ROS2 Jazzy
+# Note: jsk_* packages replaced with local message definitions
+# Note: people_msgs not available in ROS2 Jazzy
 find_package(rosidl_default_generators REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rviz_common REQUIRED)

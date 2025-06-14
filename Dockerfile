@@ -56,7 +56,7 @@ RUN apt-get update && apt-get install -y \
 
 # Install dependencies for jsk_rviz_plugins only
 RUN rosdep install --from-paths src/jsk_rviz_plugins --ignore-src -r -y \
-    --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers jsk_gui_msgs jsk_recognition_utils jsk_tools" || \
+    --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers jsk_gui_msgs jsk_recognition_utils jsk_tools view_controller_msgs people_msgs jsk_footstep_msgs jsk_hark_msgs jsk_recognition_msgs jsk_topic_tools posedetection_msgs jsk_data" || \
     echo "Some dependencies could not be installed, continuing..."
 
 # Build workspace
