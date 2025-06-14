@@ -22,6 +22,7 @@ jobs:
         path: src/jsk_rviz_plugins
 
     - name: Install system dependencies
+      shell: bash
       run: |
         apt-get update
         apt-get install -y \
@@ -34,6 +35,7 @@ jobs:
           git
 
     - name: Initialize rosdep
+      shell: bash
       run: |
         if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
           rosdep init
@@ -41,6 +43,7 @@ jobs:
         rosdep update
 
     - name: Install package dependencies
+      shell: bash
       run: |
         cd $GITHUB_WORKSPACE
         # Install ROS2 packages manually
@@ -60,6 +63,7 @@ jobs:
           echo "Some dependencies could not be installed"
 
     - name: Build packages
+      shell: bash
       run: |
         cd $GITHUB_WORKSPACE
         source /opt/ros/jazzy/setup.bash
@@ -68,6 +72,7 @@ jobs:
           --event-handlers console_direct+
 
     - name: Run tests
+      shell: bash
       run: |
         cd $GITHUB_WORKSPACE
         source /opt/ros/jazzy/setup.bash
@@ -76,6 +81,7 @@ jobs:
           --event-handlers console_direct+
 
     - name: Test results
+      shell: bash
       run: |
         cd $GITHUB_WORKSPACE
         colcon test-result --verbose
