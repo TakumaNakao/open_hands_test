@@ -77,7 +77,7 @@ jobs:
             echo "Some dependencies could not be installed"
 
         # Build workspace
-        RUN source /opt/ros/jazzy/setup.sh && \
+        RUN . /opt/ros/jazzy/setup.sh && \
             colcon build --packages-select jsk_rviz_plugins \
             --cmake-args -DCMAKE_BUILD_TYPE=Release
 
