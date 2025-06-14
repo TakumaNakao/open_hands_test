@@ -60,6 +60,8 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   DEPENDENCIES std_msgs geometry_msgs
 )
 
+pluginlib_export_plugin_description_file(rviz_common plugin_description.xml)
+
 # Python package installation is handled by setup.py
 # Note: ament_python_install_package conflicts with setup.py approach
 
