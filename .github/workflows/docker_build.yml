@@ -51,11 +51,30 @@ jobs:
 
         # Create workspace
         WORKDIR /ros2_ws
-        COPY . src/jsk_visualization/
+        
+        # Copy only the jsk_rviz_plugins package
+        COPY src/jsk_rviz_plugins/ src/jsk_rviz_plugins/
 
-        # Install dependencies
-        RUN rosdep install --from-paths src --ignore-src -r -y \
-            --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
+        # Install ROS2 packages manually
+        RUN apt-get update && apt-get install -y \
+            ros-jazzy-rviz2 \
+            ros-jazzy-rviz-common \
+            ros-jazzy-rviz-default-plugins \
+            ros-jazzy-rviz-rendering \
+            ros-jazzy-rviz-ogre-vendor \
+            ros-jazzy-interactive-markers \
+            ros-jazzy-image-transport \
+            ros-jazzy-cv-bridge \
+            ros-jazzy-image-geometry \
+            ros-jazzy-resource-retriever \
+            python3-scipy \
+            python3-sklearn \
+            && rm -rf /var/lib/apt/lists/* || echo "Some packages not available"
+
+        # Install remaining dependencies
+        RUN rosdep install --from-paths src/jsk_rviz_plugins --ignore-src -r -y \
+            --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers jsk_gui_msgs jsk_recognition_utils jsk_tools" || \
+            echo "Some dependencies could not be installed"
 
         # Build workspace
         RUN . /opt/ros/jazzy/setup.sh && \

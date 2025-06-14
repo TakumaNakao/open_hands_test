@@ -14,7 +14,7 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
-      - .:/ros2_ws/src/jsk_visualization:rw
+      - ./src/jsk_rviz_plugins:/ros2_ws/src/jsk_rviz_plugins:rw
     network_mode: host
     stdin_open: true
     tty: true
@@ -27,7 +27,7 @@ services:
     image: jsk-visualization-ros2:jazzy
     container_name: jsk-visualization-test
     volumes:
-      - .:/ros2_ws/src/jsk_visualization:ro
+      - ./src/jsk_rviz_plugins:/ros2_ws/src/jsk_rviz_plugins:ro
     command: >
       bash -c "
         source /opt/ros/jazzy/setup.bash &&

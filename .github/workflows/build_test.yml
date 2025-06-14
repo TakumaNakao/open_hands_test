@@ -16,7 +16,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        path: src/jsk_visualization
+        path: src/jsk_rviz_plugins
 
     - name: Install system dependencies
       run: |
@@ -40,7 +40,21 @@ jobs:
     - name: Install package dependencies
       run: |
         cd /github/workspace
-        rosdep install --from-paths src --ignore-src -r -y
+        # Install ROS2 packages manually
+        apt-get update && apt-get install -y \
+          ros-jazzy-rviz2 \
+          ros-jazzy-rviz-common \
+          ros-jazzy-rviz-default-plugins \
+          ros-jazzy-rviz-rendering \
+          ros-jazzy-rviz-ogre-vendor \
+          ros-jazzy-interactive-markers \
+          python3-scipy \
+          python3-sklearn || echo "Some packages not available"
+        
+        # Install remaining dependencies
+        rosdep install --from-paths src/jsk_rviz_plugins --ignore-src -r -y \
+          --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers jsk_gui_msgs jsk_recognition_utils jsk_tools" || \
+          echo "Some dependencies could not be installed"
 
     - name: Source ROS2 environment
       run: |

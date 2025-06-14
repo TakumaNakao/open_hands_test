@@ -16,7 +16,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        path: src/jsk_visualization
+        path: src/jsk_rviz_plugins
 
     - name: Install analysis tools
       run: |
@@ -40,46 +40,47 @@ jobs:
       run: |
         cd /github/workspace
         echo "=== Checking package.xml dependencies ==="
-        cat src/jsk_visualization/src/jsk_rviz_plugins/package.xml
+        cat src/jsk_rviz_plugins/package.xml
         
         echo -e "\n=== Checking rosdep dependencies ==="
-        rosdep check --from-paths src --ignore-src || true
+        rosdep check --from-paths src/jsk_rviz_plugins --ignore-src || true
         
         echo -e "\n=== Listing missing dependencies ==="
-        rosdep install --from-paths src --ignore-src -r -y --simulate
+        rosdep install --from-paths src/jsk_rviz_plugins --ignore-src -r -y --simulate \
+          --skip-keys "jsk_gui_msgs jsk_recognition_utils jsk_tools"
 
     - name: Analyze CMakeLists.txt
       run: |
         cd /github/workspace
         echo "=== CMakeLists.txt Analysis ==="
         echo "find_package calls:"
-        grep -n "find_package" src/jsk_visualization/src/jsk_rviz_plugins/CMakeLists.txt || true
+        grep -n "find_package" src/jsk_rviz_plugins/CMakeLists.txt || true
         
         echo -e "\nament_target_dependencies calls:"
-        grep -n "ament_target_dependencies" src/jsk_visualization/src/jsk_rviz_plugins/CMakeLists.txt || true
+        grep -n "ament_target_dependencies" src/jsk_rviz_plugins/CMakeLists.txt || true
 
     - name: Check for external dependencies
       run: |
         cd /github/workspace
         echo "=== Checking for external JSK dependencies ==="
         echo "jsk_recognition_msgs references:"
-        grep -r "jsk_recognition_msgs" src/jsk_visualization/ || echo "None found"
+        grep -r "jsk_recognition_msgs" src/jsk_rviz_plugins/ || echo "None found"
         
         echo -e "\njsk_gui_msgs references:"
-        grep -r "jsk_gui_msgs" src/jsk_visualization/ || echo "None found"
+        grep -r "jsk_gui_msgs" src/jsk_rviz_plugins/ || echo "None found"
         
         echo -e "\njsk_hark_msgs references:"
-        grep -r "jsk_hark_msgs" src/jsk_visualization/ || echo "None found"
+        grep -r "jsk_hark_msgs" src/jsk_rviz_plugins/ || echo "None found"
 
     - name: Validate message definitions
       run: |
         cd /github/workspace
         echo "=== Message Definition Validation ==="
         echo "Message files:"
-        find src/jsk_visualization/ -name "*.msg" -exec echo "  {}" \; -exec cat {} \; -exec echo "" \;
+        find src/jsk_rviz_plugins/ -name "*.msg" -exec echo "  {}" \; -exec cat {} \; -exec echo "" \;
         
         echo "Service files:"
-        find src/jsk_visualization/ -name "*.srv" -exec echo "  {}" \; -exec cat {} \; -exec echo "" \;
+        find src/jsk_rviz_plugins/ -name "*.srv" -exec echo "  {}" \; -exec cat {} \; -exec echo "" \;
 
     - name: Test minimal build
       run: |

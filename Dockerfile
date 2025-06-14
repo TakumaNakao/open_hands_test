@@ -33,11 +33,30 @@ RUN if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then \
 
 # Create workspace
 WORKDIR /ros2_ws
-COPY . src/jsk_visualization/
 
-# Install dependencies (with error handling)
-RUN rosdep install --from-paths src --ignore-src -r -y \
-    --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers" || \
+# Copy only the jsk_rviz_plugins package
+COPY src/jsk_rviz_plugins/ src/jsk_rviz_plugins/
+
+# Install ROS2 packages manually (since rosdep may not find jazzy packages)
+RUN apt-get update && apt-get install -y \
+    ros-${ROS_DISTRO}-rviz2 \
+    ros-${ROS_DISTRO}-rviz-common \
+    ros-${ROS_DISTRO}-rviz-default-plugins \
+    ros-${ROS_DISTRO}-rviz-rendering \
+    ros-${ROS_DISTRO}-rviz-ogre-vendor \
+    ros-${ROS_DISTRO}-interactive-markers \
+    ros-${ROS_DISTRO}-image-transport \
+    ros-${ROS_DISTRO}-cv-bridge \
+    ros-${ROS_DISTRO}-image-geometry \
+    ros-${ROS_DISTRO}-resource-retriever \
+    python3-scipy \
+    python3-sklearn \
+    && rm -rf /var/lib/apt/lists/* || \
+    echo "Some ROS packages could not be installed, continuing..."
+
+# Install dependencies for jsk_rviz_plugins only
+RUN rosdep install --from-paths src/jsk_rviz_plugins --ignore-src -r -y \
+    --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers jsk_gui_msgs jsk_recognition_utils jsk_tools" || \
     echo "Some dependencies could not be installed, continuing..."
 
 # Build workspace

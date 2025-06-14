@@ -5,7 +5,7 @@
 [![Docker Build Test](https://github.com/your-username/jsk_visualization_ros2/actions/workflows/docker_build.yml/badge.svg)](https://github.com/your-username/jsk_visualization_ros2/actions/workflows/docker_build.yml)
 [![Dependency Check](https://github.com/your-username/jsk_visualization_ros2/actions/workflows/dependency_check.yml/badge.svg)](https://github.com/your-username/jsk_visualization_ros2/actions/workflows/dependency_check.yml)
 
-Complete migration of JSK Visualization package from ROS1 to ROS2 Jazzy.
+Complete migration of JSK RViz Plugins from ROS1 to ROS2 Jazzy. This repository focuses on the core `jsk_rviz_plugins` package, providing essential visualization components for RViz2.
 
 ## 🎯 Migration Status: **100% COMPLETE**
 
