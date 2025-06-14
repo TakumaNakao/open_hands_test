@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ros:jazzy
+    defaults:
+      run:
+        shell: bash
     
     steps:
     - name: Checkout repository
@@ -59,7 +62,7 @@ jobs:
     - name: Build packages
       run: |
         cd $GITHUB_WORKSPACE
-        . /opt/ros/jazzy/setup.bash
+        source /opt/ros/jazzy/setup.bash
         colcon build --packages-select jsk_rviz_plugins \
           --cmake-args -DCMAKE_BUILD_TYPE=Release \
           --event-handlers console_direct+
@@ -67,8 +70,8 @@ jobs:
     - name: Run tests
       run: |
         cd $GITHUB_WORKSPACE
-        . /opt/ros/jazzy/setup.bash
-        . install/setup.bash
+        source /opt/ros/jazzy/setup.bash
+        source install/setup.bash
         colcon test --packages-select jsk_rviz_plugins \
           --event-handlers console_direct+
 

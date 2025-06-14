@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ros:jazzy
+    defaults:
+      run:
+        shell: bash
     
     steps:
     - name: Checkout repository
@@ -85,7 +88,7 @@ jobs:
     - name: Test minimal build
       run: |
         cd $GITHUB_WORKSPACE
-        . /opt/ros/jazzy/setup.bash
+        source /opt/ros/jazzy/setup.bash
         echo "=== Testing message generation only ==="
         colcon build --packages-select jsk_rviz_plugins \
           --cmake-args -DCMAKE_BUILD_TYPE=Release \

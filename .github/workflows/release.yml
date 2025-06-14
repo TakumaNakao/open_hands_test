@@ -72,6 +72,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ros:${{ matrix.ros_distro }}
+    defaults:
+      run:
+        shell: bash
     
     steps:
     - name: Checkout repository
@@ -130,7 +133,7 @@ jobs:
     - name: Build release
       run: |
         cd $GITHUB_WORKSPACE
-        . /opt/ros/${{ matrix.ros_distro }}/setup.bash
+        source /opt/ros/${{ matrix.ros_distro }}/setup.bash
         colcon build \
           --packages-select jsk_rviz_plugins \
           --cmake-args -DCMAKE_BUILD_TYPE=Release \
