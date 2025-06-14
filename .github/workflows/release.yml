@@ -130,7 +130,7 @@ jobs:
     - name: Build release
       run: |
         cd $GITHUB_WORKSPACE
-        source /opt/ros/${{ matrix.ros_distro }}/setup.bash
+        . /opt/ros/${{ matrix.ros_distro }}/setup.bash
         colcon build \
           --packages-select jsk_rviz_plugins \
           --cmake-args -DCMAKE_BUILD_TYPE=Release \

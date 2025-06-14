@@ -85,7 +85,7 @@ jobs:
     - name: Test minimal build
       run: |
         cd $GITHUB_WORKSPACE
-        source /opt/ros/jazzy/setup.bash
+        . /opt/ros/jazzy/setup.bash
         echo "=== Testing message generation only ==="
         colcon build --packages-select jsk_rviz_plugins \
           --cmake-args -DCMAKE_BUILD_TYPE=Release \
