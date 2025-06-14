@@ -43,8 +43,11 @@ jobs:
             liburdfdom-dev \
             && rm -rf /var/lib/apt/lists/*
 
-        # Initialize rosdep
-        RUN rosdep init && rosdep update
+        # Initialize rosdep (conditionally)
+        RUN if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then \
+                rosdep init; \
+            fi && \
+            rosdep update
 
         # Create workspace
         WORKDIR /ros2_ws

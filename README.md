@@ -58,15 +58,49 @@ source install/setup.bash
 
 ### Docker Installation
 
+#### Quick Start with Docker Compose
+
+```bash
+# Setup X11 forwarding (for GUI applications)
+./scripts/setup_docker_display.sh
+
+# Build and run development environment
+docker-compose up jsk-visualization-dev
+
+# Run tests
+docker-compose up jsk-visualization-test
+
+# Launch RViz2 with JSK plugins
+docker-compose up jsk-visualization-rviz
+```
+
+#### Manual Docker Build
+
 ```bash
 # Build Docker image
 docker build -t jsk-visualization-ros2:jazzy .
 
-# Run container
+# Setup X11 forwarding
+./scripts/setup_docker_display.sh
+
+# Run container with GUI support
 docker run -it --rm \
   -e DISPLAY=$DISPLAY \
+  -e QT_X11_NO_MITSHM=1 \
   -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  -v /tmp/.docker.xauth:/tmp/.docker.xauth:rw \
+  --network host \
   jsk-visualization-ros2:jazzy
+
+# Launch RViz2 in container
+docker run -it --rm \
+  -e DISPLAY=$DISPLAY \
+  -e QT_X11_NO_MITSHM=1 \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  -v /tmp/.docker.xauth:/tmp/.docker.xauth:rw \
+  --network host \
+  jsk-visualization-ros2:jazzy \
+  bash -c "source /opt/ros/jazzy/setup.bash && source /ros2_ws/install/setup.bash && ros2 run rviz2 rviz2"
 ```
 
 ## 🎮 Usage
@@ -102,20 +136,33 @@ The following RViz2 plugins are available:
 
 ## 🏗️ Development
 
-### Building with Debug Information
+### Quick Build and Test
 
 ```bash
+# Use the provided script for easy building and testing
+./scripts/build_and_test.sh
+
+# Clean build (removes previous build artifacts)
+./scripts/build_and_test.sh --clean
+```
+
+### Manual Building
+
+```bash
+# Debug build
 colcon build --packages-select jsk_rviz_plugins \
   --cmake-args -DCMAKE_BUILD_TYPE=Debug
+
+# Release build
+colcon build --packages-select jsk_rviz_plugins \
+  --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 
 ### Running Tests
 
 ```bash
-# Build tests
+# Build and run tests
 colcon build --packages-select jsk_rviz_plugins
-
-# Run tests
 colcon test --packages-select jsk_rviz_plugins
 
 # View test results

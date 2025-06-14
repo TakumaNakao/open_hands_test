@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  jsk-visualization-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jsk-visualization-ros2:jazzy
+    container_name: jsk-visualization-dev
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.docker.xauth
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+      - .:/ros2_ws/src/jsk_visualization:rw
+    network_mode: host
+    stdin_open: true
+    tty: true
+    command: bash
+
+  jsk-visualization-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jsk-visualization-ros2:jazzy
+    container_name: jsk-visualization-test
+    volumes:
+      - .:/ros2_ws/src/jsk_visualization:ro
+    command: >
+      bash -c "
+        source /opt/ros/jazzy/setup.bash &&
+        cd /ros2_ws &&
+        colcon build --packages-select jsk_rviz_plugins &&
+        colcon test --packages-select jsk_rviz_plugins &&
+        colcon test-result --verbose
+      "
+
+  jsk-visualization-rviz:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jsk-visualization-ros2:jazzy
+    container_name: jsk-visualization-rviz
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.docker.xauth
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+    network_mode: host
+    command: >
+      bash -c "
+        source /opt/ros/jazzy/setup.bash &&
+        source /ros2_ws/install/setup.bash &&
+        ros2 run rviz2 rviz2
+      "
