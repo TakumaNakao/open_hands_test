@@ -1,4 +1,6 @@
 from setuptools import setup
+import os
+from glob import glob
 
 package_name = 'jsk_rviz_plugins'
 
@@ -11,9 +13,13 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        ('share/' + package_name + '/launch', ['launch/*.launch.py']),
-        ('share/' + package_name + '/config', ['config/*']),
-        ('share/' + package_name + '/samples', ['samples/*']),
+        ('share/' + package_name + '/launch', glob('launch_py/*.launch.py')),
+        ('share/' + package_name + '/config', glob('config/*')),
+        ('share/' + package_name + '/samples', glob('samples/*')),
+        ('share/' + package_name + '/scripts', glob('scripts/*')),
+        ('share/' + package_name + '/icons', glob('icons/*')),
+        ('share/' + package_name + '/resources', glob('resources/**/*', recursive=True)),
+        ('lib/' + package_name, glob('scripts/*')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -24,12 +30,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'overlay_sample = jsk_rviz_plugins.samples.overlay_sample:main',
-            'piechart_sample = jsk_rviz_plugins.samples.piechart_sample:main',
-            'pictogram_sample = jsk_rviz_plugins.samples.pictogram:main',
-            'static_overlay_text = jsk_rviz_plugins.scripts.static_overlay_text:main',
-            'rosconsole_overlay_text = jsk_rviz_plugins.scripts.rosconsole_overlay_text:main',
-            'float32_to_overlay_text = jsk_rviz_plugins.scripts.float32_to_overlay_text:main',
+            # Note: Entry points would need main() functions in the respective files
+            # For now, scripts are installed directly via CMakeLists.txt
         ],
     },
 )

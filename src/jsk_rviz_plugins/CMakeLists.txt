@@ -55,16 +55,10 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   DEPENDENCIES std_msgs geometry_msgs
 )
 
-# Install Python modules
-ament_python_install_package(${PROJECT_NAME}
-  PACKAGE_DIR python/${PROJECT_NAME}
-)
+# Python package installation is handled by setup.py
+# Note: ament_python_install_package conflicts with setup.py approach
 
-# Install Python scripts
-file(GLOB PYTHON_SCRIPTS scripts/*)
-install(PROGRAMS ${PYTHON_SCRIPTS}
-  DESTINATION lib/${PROJECT_NAME}
-)
+# Python scripts installation is handled by setup.py
 
 # Install plugin configuration
 install(FILES plugin_description.xml
