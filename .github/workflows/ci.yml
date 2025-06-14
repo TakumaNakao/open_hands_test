@@ -72,7 +72,7 @@ jobs:
 
     - name: Install ROS dependencies
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         # Install ROS2 packages manually
         apt-get update && apt-get install -y \
           ros-${ROS_DISTRO}-rviz2 \
@@ -91,7 +91,7 @@ jobs:
 
     - name: Build workspace
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         source /opt/ros/${{ matrix.ros_distro }}/setup.bash
         colcon build \
           --packages-select jsk_rviz_plugins \
@@ -102,13 +102,13 @@ jobs:
 
     - name: Source workspace
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         source /opt/ros/${{ matrix.ros_distro }}/setup.bash
         source install/setup.bash
 
     - name: Run tests
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         source /opt/ros/${{ matrix.ros_distro }}/setup.bash
         source install/setup.bash
         colcon test \
@@ -118,7 +118,7 @@ jobs:
     - name: Show test results
       if: always()
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         colcon test-result --verbose
 
     - name: Upload test results
@@ -127,8 +127,8 @@ jobs:
       with:
         name: test-results-${{ matrix.ros_distro }}
         path: |
-          /github/workspace/log/
-          /github/workspace/build/*/test_results/
+          $GITHUB_WORKSPACE/log/
+          $GITHUB_WORKSPACE/build/*/test_results/
         retention-days: 7
 
   static_analysis:

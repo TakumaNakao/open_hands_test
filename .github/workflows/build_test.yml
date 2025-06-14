@@ -39,7 +39,7 @@ jobs:
 
     - name: Install package dependencies
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         # Install ROS2 packages manually
         apt-get update && apt-get install -y \
           ros-jazzy-rviz2 \
@@ -63,7 +63,7 @@ jobs:
 
     - name: Build packages
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         source /opt/ros/jazzy/setup.bash
         colcon build --packages-select jsk_rviz_plugins \
           --cmake-args -DCMAKE_BUILD_TYPE=Release \
@@ -71,7 +71,7 @@ jobs:
 
     - name: Run tests
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         source /opt/ros/jazzy/setup.bash
         source install/setup.bash
         colcon test --packages-select jsk_rviz_plugins \
@@ -79,5 +79,5 @@ jobs:
 
     - name: Test results
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         colcon test-result --verbose

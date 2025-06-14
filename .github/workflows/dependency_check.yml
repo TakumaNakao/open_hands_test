@@ -38,7 +38,7 @@ jobs:
 
     - name: Check package dependencies
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         echo "=== Checking package.xml dependencies ==="
         cat src/jsk_rviz_plugins/package.xml
         
@@ -51,7 +51,7 @@ jobs:
 
     - name: Analyze CMakeLists.txt
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         echo "=== CMakeLists.txt Analysis ==="
         echo "find_package calls:"
         grep -n "find_package" src/jsk_rviz_plugins/CMakeLists.txt || true
@@ -61,7 +61,7 @@ jobs:
 
     - name: Check for external dependencies
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         echo "=== Checking for external JSK dependencies ==="
         echo "jsk_recognition_msgs references:"
         grep -r "jsk_recognition_msgs" src/jsk_rviz_plugins/ || echo "None found"
@@ -74,7 +74,7 @@ jobs:
 
     - name: Validate message definitions
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         echo "=== Message Definition Validation ==="
         echo "Message files:"
         find src/jsk_rviz_plugins/ -name "*.msg" -exec echo "  {}" \; -exec cat {} \; -exec echo "" \;
@@ -84,7 +84,7 @@ jobs:
 
     - name: Test minimal build
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         source /opt/ros/jazzy/setup.bash
         echo "=== Testing message generation only ==="
         colcon build --packages-select jsk_rviz_plugins \
@@ -94,7 +94,7 @@ jobs:
 
     - name: Generate dependency report
       run: |
-        cd /github/workspace
+        cd $GITHUB_WORKSPACE
         echo "=== Dependency Report ===" > dependency_report.txt
         echo "Generated on: $(date)" >> dependency_report.txt
         echo "" >> dependency_report.txt
@@ -115,5 +115,5 @@ jobs:
       with:
         name: dependency-report
         path: |
-          /github/workspace/dependency_report.txt
+          $GITHUB_WORKSPACE/dependency_report.txt
         retention-days: 30
