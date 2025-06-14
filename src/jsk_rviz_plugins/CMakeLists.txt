@@ -56,7 +56,9 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 )
 
 # Install Python modules
-ament_python_install_package(${PROJECT_NAME})
+ament_python_install_package(${PROJECT_NAME}
+  PACKAGE_DIR python/${PROJECT_NAME}
+)
 
 # Install Python scripts
 file(GLOB PYTHON_SCRIPTS scripts/*)
